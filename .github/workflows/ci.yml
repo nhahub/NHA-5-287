@@ -1,0 +1,31 @@
+name: ci
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 5 * * 1"        # weekly: full evaluation run (see eval job)
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "${{ matrix.python }}"}
+      - run: pip install -r requirements.txt
+      - run: python scripts/check_secrets.py
+      - run: python -m unittest discover -s tests -v
+  eval:
+    # Deterministic benchmark with the stub LLM (no network, no secrets). Fails if quality regresses.
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt
+      - run: python -m nexusml.evaluation.harness --out eval_results.json --markdown EVAL_RESULTS.md --check
+      - uses: actions/upload-artifact@v4
+        with: {name: eval-results, path: "eval_results.json\nEVAL_RESULTS.md"}

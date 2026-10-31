@@ -1,0 +1,2501 @@
+customer_id,signup_date,tenure_months,monthly_charges,contract,support_calls,region,account_closed_flag,churn
+C00000,2021-03-20,45,94.89,One year,1,North,0,No
+C00001,2023-08-29,48,85.49,Month-to-month,0,East,0,No
+C00002,2023-07-17,65,23.17,Month-to-month,1,North,0,No
+C00003,2023-07-02,68,74.18,Month-to-month,0,East,0,No
+C00004,2023-11-05,68,97.84,Month-to-month,1,North,0,No
+C00005,2022-12-01,10,115.16,Month-to-month,1,South,1,Yes
+C00006,2020-09-04,22,71.85,Month-to-month,0,West,1,Yes
+C00007,2021-01-27,37,91.98,,4,North,0,No
+C00008,2023-06-09,71,67.7,Month-to-month,0,South,0,No
+C00009,2021-06-21,13,114.67,One year,3,West,1,Yes
+C00010,2022-07-17,59,,Month-to-month,2,South,1,Yes
+C00011,2021-06-13,66,,Month-to-month,0,North,0,No
+C00012,2021-12-26,40,94.65,One year,0,North,0,No
+C00013,2020-12-30,47,56.72,Two year,1,South,0,No
+C00014,2021-12-07,38,117.76,Month-to-month,2,North,0,No
+C00015,2020-01-13,26,82.55,Two year,0,South,1,Yes
+C00016,2021-04-29,10,84.58,Month-to-month,1,East,1,Yes
+C00017,2022-10-21,21,95.99,Month-to-month,6,East,1,Yes
+C00018,2023-05-04,70,44.74,One year,2,East,0,No
+C00019,2023-01-29,48,64.78,Month-to-month,1,South,1,Yes
+C00020,2022-08-16,65,92.44,Month-to-month,0,North,0,No
+C00021,2023-02-15,50,74.53,Month-to-month,1,West,0,No
+C00022,2021-05-21,30,90.67,Month-to-month,3,West,1,Yes
+C00023,2020-07-12,20,65.92,One year,1,North,1,Yes
+C00024,2023-09-13,20,129.55,Two year,1,West,0,No
+C00025,2022-08-26,15,71.74,Month-to-month,1,East,1,Yes
+C00026,2022-09-15,40,75.93,Month-to-month,2,West,0,No
+C00027,2023-08-09,33,100.58,Month-to-month,0,West,0,No
+C00028,2022-10-20,66,90.56,Month-to-month,1,East,0,No
+C00029,2022-09-08,10,45.18,Month-to-month,3,South,1,Yes
+C00030,2021-09-29,58,20.0,One year,0,West,0,No
+C00031,2021-05-03,33,90.72,One year,2,East,1,Yes
+C00032,2020-05-22,32,90.43,Month-to-month,2,North,1,Yes
+C00033,2020-07-01,24,46.46,One year,1,East,0,No
+C00034,2020-02-04,36,73.0,One year,3,South,1,Yes
+C00035,2021-11-18,56,100.06,Month-to-month,2,West,0,No
+C00036,2022-01-01,29,28.04,Two year,0,South,0,No
+C00037,2020-05-20,35,55.18,Month-to-month,0,North,0,No
+C00038,2020-08-11,1,96.27,Two year,4,West,1,Yes
+C00039,2021-07-29,1,70.11,Month-to-month,1,West,1,Yes
+C00040,2024-01-27,37,70.11,Month-to-month,2,West,0,No
+C00041,2023-01-04,54,25.32,Month-to-month,0,East,0,No
+C00042,2023-06-14,6,52.01,Two year,0,South,0,No
+C00043,2020-06-26,39,40.67,One year,2,East,0,No
+C00044,2021-01-04,18,110.54,Month-to-month,2,North,1,Yes
+C00045,2023-12-11,5,82.45,Month-to-month,1,North,1,Yes
+C00046,2023-09-20,43,63.56,Month-to-month,2,East,1,Yes
+C00047,2021-04-26,59,50.67,One year,3,West,0,No
+C00048,2020-08-07,32,80.18,Two year,0,West,0,No
+C00049,2022-04-07,2,42.86,One year,1,West,0,No
+C00050,2021-08-20,66,96.96,Month-to-month,5,East,0,No
+C00051,2020-09-08,42,79.79,Month-to-month,1,South,0,No
+C00052,2020-12-19,58,58.03,Month-to-month,1,West,0,No
+C00053,2023-06-12,36,30.3,Month-to-month,0,North,0,No
+C00054,2020-01-20,12,67.33,Month-to-month,1,North,1,Yes
+C00055,2023-11-20,47,31.33,One year,0,South,0,No
+C00056,2022-02-16,1,83.37,One year,2,North,0,No
+C00057,2022-03-06,15,61.18,One year,1,South,0,No
+C00058,2022-04-27,54,83.42,Month-to-month,2,South,0,No
+C00059,2021-12-06,13,64.45,Two year,2,North,0,No
+C00060,2022-05-17,43,,Month-to-month,1,South,0,No
+C00061,2020-01-01,69,80.69,Month-to-month,1,South,0,No
+C00062,2023-09-22,7,51.4,One year,2,South,1,Yes
+C00063,2023-07-21,69,45.63,One year,2,North,0,No
+C00064,2022-01-12,48,51.63,One year,2,West,0,No
+C00065,2020-02-20,4,92.4,Month-to-month,1,East,1,Yes
+C00066,2023-07-04,53,59.49,Two year,2,West,1,Yes
+C00067,2020-10-06,16,20.0,Month-to-month,3,South,1,Yes
+C00068,2021-07-11,21,53.14,Month-to-month,2,East,1,Yes
+C00069,2020-12-03,59,39.19,Two year,1,North,0,No
+C00070,2021-09-17,24,50.45,One year,1,East,0,No
+C00071,2023-05-09,14,36.62,Month-to-month,1,North,0,No
+C00072,2022-10-30,49,63.23,One year,2,North,0,No
+C00073,2023-10-03,50,50.72,Two year,3,North,0,No
+C00074,2022-04-21,70,61.55,Two year,0,East,0,No
+C00075,2023-10-26,42,86.28,Month-to-month,1,West,0,No
+C00076,2020-06-27,36,83.4,Two year,1,South,0,No
+C00077,2023-08-04,65,66.14,Month-to-month,1,South,0,No
+C00078,2021-01-26,70,73.23,Month-to-month,2,East,0,No
+C00079,2022-10-18,1,114.07,Two year,0,South,0,No
+C00080,2024-01-22,51,59.61,Month-to-month,0,South,0,No
+C00081,2023-06-15,37,77.65,Month-to-month,1,East,0,No
+C00082,2020-07-17,35,44.35,Two year,1,North,0,No
+C00083,2020-05-07,49,67.61,Month-to-month,3,North,0,No
+C00084,2023-05-07,4,56.48,Month-to-month,1,North,0,No
+C00085,2022-06-10,43,59.95,Month-to-month,1,South,1,Yes
+C00086,2021-07-17,22,37.3,One year,1,East,0,No
+C00087,2021-04-11,1,31.82,Month-to-month,1,South,0,No
+C00088,2021-03-03,11,104.13,Two year,3,West,1,Yes
+C00089,2023-10-07,44,66.98,Two year,1,South,0,No
+C00090,2022-09-12,59,84.44,Month-to-month,1,North,1,Yes
+C00091,2021-07-14,24,88.21,Month-to-month,1,West,0,No
+C00092,2022-03-16,60,68.9,Month-to-month,0,South,0,No
+C00093,2021-03-08,3,23.73,Month-to-month,4,North,1,Yes
+C00094,2023-05-25,63,57.65,Month-to-month,0,East,0,No
+C00095,2024-01-15,36,57.57,Month-to-month,3,South,0,No
+C00096,2022-06-13,68,110.54,Two year,1,South,0,No
+C00097,2021-05-05,47,59.1,One year,3,North,0,No
+C00098,2024-01-20,21,95.17,One year,1,East,0,No
+C00099,2021-10-23,51,71.73,One year,2,North,0,No
+C00100,2023-07-01,28,119.34,Month-to-month,0,North,1,Yes
+C00101,2020-12-09,15,100.92,Month-to-month,2,East,0,No
+C00102,2021-01-04,42,34.1,One year,1,South,0,No
+C00103,2021-01-12,59,73.78,One year,1,West,0,No
+C00104,2023-05-02,66,72.96,Two year,2,East,0,No
+C00105,2021-01-05,37,54.9,One year,4,South,0,No
+C00106,2021-01-26,11,87.96,One year,2,North,1,Yes
+C00107,2020-11-25,44,87.81,Month-to-month,1,East,0,No
+C00108,2022-03-18,12,67.98,Two year,2,East,0,No
+C00109,2022-10-07,3,59.8,,3,North,1,Yes
+C00110,2020-08-25,52,55.69,Month-to-month,2,West,1,Yes
+C00111,2023-08-01,33,54.57,Month-to-month,1,South,1,Yes
+C00112,2020-09-17,55,38.63,Month-to-month,0,East,0,No
+C00113,2023-12-14,1,47.33,One year,1,East,0,No
+C00114,2022-04-07,39,67.37,One year,0,South,0,No
+C00115,2020-08-21,20,78.24,Month-to-month,1,East,1,Yes
+C00116,2021-04-08,47,65.47,Month-to-month,1,South,0,No
+C00117,2021-09-14,43,69.66,Two year,0,North,0,No
+C00118,2020-12-21,57,54.06,Two year,1,North,0,No
+C00119,2023-09-18,61,100.93,Month-to-month,3,East,0,No
+C00120,2023-05-15,31,,Two year,3,North,0,No
+C00121,2023-04-17,25,83.45,Month-to-month,1,South,1,Yes
+C00122,2021-01-24,3,48.72,Month-to-month,1,West,0,No
+C00123,2022-07-16,4,65.21,Month-to-month,2,North,0,No
+C00124,2020-02-20,14,65.69,One year,0,West,0,No
+C00125,2020-03-17,41,71.44,Two year,1,East,0,No
+C00126,2021-12-05,20,119.85,Month-to-month,4,West,1,Yes
+C00127,2020-01-27,27,65.89,One year,2,East,1,Yes
+C00128,2023-01-16,67,61.68,One year,3,East,0,No
+C00129,2022-11-04,53,77.64,Month-to-month,2,North,0,No
+C00130,2022-03-04,68,90.62,One year,2,South,0,No
+C00131,2021-08-07,62,93.92,Month-to-month,1,East,0,No
+C00132,2021-10-29,15,121.32,Month-to-month,1,North,1,Yes
+C00133,2020-06-12,5,106.11,Month-to-month,2,South,1,Yes
+C00134,2022-06-12,68,74.95,Month-to-month,3,South,1,Yes
+C00135,2020-10-06,12,49.85,Month-to-month,0,East,1,Yes
+C00136,2021-12-16,57,94.18,Month-to-month,1,West,0,No
+C00137,2020-04-17,17,62.21,Two year,3,East,0,No
+C00138,2022-06-20,25,88.05,Month-to-month,1,South,0,No
+C00139,2022-02-09,30,25.95,One year,1,West,1,Yes
+C00140,2023-04-19,22,95.29,Month-to-month,2,North,0,No
+C00141,2023-07-21,26,65.06,One year,2,West,1,Yes
+C00142,2023-06-06,61,63.22,One year,2,North,0,No
+C00143,2023-04-06,62,66.04,One year,1,West,0,No
+C00144,2022-08-25,34,56.77,Month-to-month,0,South,0,No
+C00145,2020-04-07,33,107.77,Month-to-month,2,West,0,No
+C00146,2021-11-02,71,60.57,Two year,1,West,0,No
+C00147,2022-06-26,32,71.77,Two year,2,North,0,No
+C00148,2020-07-07,14,67.44,Two year,3,West,1,Yes
+C00149,2022-06-03,57,70.66,Month-to-month,2,South,0,No
+C00150,2020-10-11,25,75.28,One year,1,North,0,No
+C00151,2021-10-29,42,68.65,Month-to-month,2,West,0,No
+C00152,2020-03-28,19,47.4,One year,0,South,0,No
+C00153,2021-05-10,41,82.09,One year,0,East,0,No
+C00154,2023-05-21,55,82.73,Month-to-month,2,East,1,Yes
+C00155,2021-03-22,12,68.93,One year,1,West,1,Yes
+C00156,2021-09-03,39,59.09,One year,2,North,0,No
+C00157,2023-06-28,2,70.8,One year,1,North,1,Yes
+C00158,2022-01-06,45,33.99,Month-to-month,0,East,0,No
+C00159,2021-01-15,25,88.85,Two year,3,East,0,No
+C00160,2023-07-07,68,64.85,One year,2,South,0,No
+C00161,2021-12-17,4,48.72,,0,West,0,No
+C00162,2023-02-17,36,61.79,One year,1,East,0,No
+C00163,2023-03-31,62,71.0,One year,0,East,0,No
+C00164,2021-05-01,70,83.57,Two year,2,North,0,No
+C00165,2020-11-11,44,141.5,One year,1,North,0,No
+C00166,2020-03-03,33,61.11,Month-to-month,0,West,0,No
+C00167,2021-06-24,12,,Month-to-month,1,North,0,No
+C00168,2020-04-25,11,110.9,One year,2,South,0,No
+C00169,2022-04-29,55,79.03,One year,3,West,0,No
+C00170,2020-07-05,38,63.75,Two year,1,West,0,No
+C00171,2021-06-22,29,90.68,Month-to-month,2,South,1,Yes
+C00172,2024-02-08,3,110.21,Two year,0,West,0,No
+C00173,2022-12-26,28,91.0,One year,2,North,0,No
+C00174,2023-08-31,24,107.82,One year,3,West,0,No
+C00175,2022-06-11,54,42.77,Two year,1,East,0,No
+C00176,2023-10-08,52,116.84,Two year,0,North,0,No
+C00177,2021-12-30,47,63.44,Month-to-month,1,West,1,Yes
+C00178,2022-09-14,21,,Month-to-month,2,West,1,Yes
+C00179,2021-06-08,54,85.3,Two year,1,North,0,No
+C00180,2023-09-10,30,92.98,Two year,0,North,1,Yes
+C00181,2022-10-26,68,80.61,Month-to-month,2,North,1,Yes
+C00182,2021-07-20,36,89.2,Month-to-month,2,South,1,Yes
+C00183,2023-11-29,40,50.33,One year,1,North,0,No
+C00184,2023-11-12,10,81.0,Month-to-month,4,North,1,Yes
+C00185,2020-07-11,42,73.23,Month-to-month,1,West,0,No
+C00186,2020-04-08,24,52.93,Month-to-month,2,South,1,Yes
+C00187,2021-01-04,4,58.16,Month-to-month,0,South,1,Yes
+C00188,2024-01-21,47,42.36,One year,0,South,0,No
+C00189,2021-11-08,51,48.55,Month-to-month,0,South,0,No
+C00190,2020-01-02,4,90.32,Two year,0,East,0,No
+C00191,2023-12-24,32,92.39,Month-to-month,3,East,0,No
+C00192,2021-04-19,10,42.39,One year,0,South,0,No
+C00193,2021-06-20,11,86.52,Month-to-month,2,South,1,Yes
+C00194,2023-03-21,28,123.28,Month-to-month,3,North,1,Yes
+C00195,2022-05-15,46,81.27,Two year,0,North,0,No
+C00196,2022-07-15,40,24.25,One year,0,West,0,No
+C00197,2020-05-16,62,70.15,Month-to-month,1,North,0,No
+C00198,2020-06-08,45,45.26,Month-to-month,0,North,0,No
+C00199,2021-03-28,35,41.65,Month-to-month,1,North,0,No
+C00200,2022-09-01,35,66.96,Two year,2,West,0,No
+C00201,2022-01-03,34,98.44,One year,0,South,0,No
+C00202,2023-02-03,6,84.05,One year,3,South,0,No
+C00203,2021-03-28,37,65.75,Month-to-month,2,West,0,No
+C00204,2021-01-31,1,77.15,,0,East,0,No
+C00205,2021-10-08,35,32.93,Month-to-month,2,East,0,No
+C00206,2022-06-28,70,111.1,Month-to-month,2,South,0,No
+C00207,2021-01-06,54,96.36,Two year,0,East,0,No
+C00208,2023-12-25,63,95.79,Month-to-month,1,North,0,No
+C00209,2020-09-20,9,,Month-to-month,1,North,1,Yes
+C00210,2021-05-08,62,101.38,Two year,0,West,0,No
+C00211,2021-08-21,2,66.72,Month-to-month,0,South,1,Yes
+C00212,2023-02-02,36,78.98,One year,3,East,0,No
+C00213,2023-02-05,41,51.4,One year,2,East,0,No
+C00214,2020-03-07,37,36.94,Month-to-month,3,South,0,No
+C00215,2021-11-26,49,71.88,One year,3,South,0,No
+C00216,2022-07-09,26,69.65,Month-to-month,0,East,0,No
+C00217,2023-11-19,68,71.02,One year,2,North,0,No
+C00218,2020-09-02,36,93.12,,4,South,1,Yes
+C00219,2023-01-23,31,77.05,Month-to-month,1,South,0,No
+C00220,2022-10-30,30,44.43,Two year,2,East,0,No
+C00221,2022-02-06,34,70.44,Month-to-month,0,East,0,No
+C00222,2022-03-29,19,57.55,Month-to-month,1,North,1,Yes
+C00223,2023-02-16,18,,Month-to-month,1,North,1,Yes
+C00224,2023-06-15,3,,Month-to-month,1,East,1,Yes
+C00225,2022-04-22,70,94.08,One year,2,South,0,No
+C00226,2022-07-29,13,20.0,Two year,1,North,0,No
+C00227,2022-08-02,45,123.3,Two year,2,South,0,No
+C00228,2021-12-06,67,59.57,Month-to-month,1,West,0,No
+C00229,2023-06-30,40,84.81,One year,4,East,0,No
+C00230,2023-12-13,40,70.18,One year,2,North,0,No
+C00231,2022-07-25,23,20.14,One year,2,South,0,No
+C00232,2023-05-03,31,30.64,One year,2,West,0,No
+C00233,2023-08-24,18,57.0,Two year,4,West,0,No
+C00234,2023-12-22,71,42.68,One year,1,North,0,No
+C00235,2023-02-02,19,20.0,Month-to-month,3,West,1,Yes
+C00236,2023-01-02,44,70.38,Two year,1,West,1,Yes
+C00237,2021-10-21,50,49.11,Two year,1,East,0,No
+C00238,2020-04-18,42,59.46,Month-to-month,1,South,0,No
+C00239,2023-05-07,47,43.59,Month-to-month,5,South,1,Yes
+C00240,2022-06-03,22,57.84,Two year,2,North,0,No
+C00241,2021-04-26,29,109.21,Two year,3,South,0,No
+C00242,2021-08-21,59,85.43,Month-to-month,4,West,1,Yes
+C00243,2023-09-18,1,91.64,One year,2,South,1,Yes
+C00244,2023-09-13,64,71.32,Month-to-month,0,South,0,No
+C00245,2023-09-14,17,87.16,Month-to-month,2,West,1,Yes
+C00246,2022-10-08,37,54.91,One year,1,West,0,No
+C00247,2022-02-10,25,95.74,Two year,3,East,0,No
+C00248,2021-05-27,64,42.87,Month-to-month,0,North,0,No
+C00249,2022-04-30,68,27.94,Month-to-month,1,East,0,No
+C00250,2020-07-27,52,47.82,One year,3,South,0,No
+C00251,2020-09-13,9,65.02,Two year,1,West,0,No
+C00252,2023-07-31,57,46.89,Month-to-month,2,West,0,No
+C00253,2020-07-31,33,71.09,One year,3,East,0,No
+C00254,2020-02-22,20,26.02,Month-to-month,2,North,1,Yes
+C00255,2021-06-15,14,59.72,Month-to-month,1,South,1,Yes
+C00256,2020-12-05,59,80.65,One year,2,West,0,No
+C00257,2020-12-04,56,57.05,One year,2,East,0,No
+C00258,2021-05-11,65,51.45,Month-to-month,2,West,0,No
+C00259,2022-04-17,37,81.26,One year,0,South,0,No
+C00260,2021-05-13,26,100.28,Month-to-month,1,West,0,No
+C00261,2021-06-17,33,83.74,Month-to-month,1,West,1,Yes
+C00262,2020-04-13,43,64.36,Month-to-month,1,South,0,No
+C00263,2022-03-13,15,,Month-to-month,1,South,0,No
+C00264,2022-03-21,29,98.46,Month-to-month,1,North,1,Yes
+C00265,2020-08-07,21,94.44,Two year,1,North,0,No
+C00266,2023-07-02,69,70.63,Two year,0,West,0,No
+C00267,2021-07-04,23,98.38,Month-to-month,0,East,1,Yes
+C00268,2021-10-27,8,83.07,Month-to-month,2,South,1,Yes
+C00269,2022-05-25,62,68.91,Month-to-month,1,North,1,Yes
+C00270,2020-07-24,14,76.89,Two year,2,East,0,No
+C00271,2020-10-29,6,104.8,Two year,0,West,0,No
+C00272,2023-01-24,1,93.0,Month-to-month,2,East,1,Yes
+C00273,2022-04-23,9,58.72,Month-to-month,2,North,1,Yes
+C00274,2020-11-29,54,47.82,Month-to-month,1,South,0,No
+C00275,2023-09-04,12,67.57,Month-to-month,1,East,1,Yes
+C00276,2021-07-05,5,96.66,Month-to-month,0,East,1,Yes
+C00277,2021-10-05,40,66.77,Month-to-month,2,West,1,Yes
+C00278,2022-11-18,46,62.38,Two year,3,West,1,Yes
+C00279,2024-02-06,27,69.19,Two year,1,West,1,Yes
+C00280,2022-02-13,53,80.84,One year,1,West,0,No
+C00281,2021-03-29,50,99.32,Month-to-month,1,East,0,No
+C00282,2023-07-17,52,,Two year,3,West,0,No
+C00283,2021-07-16,19,69.03,Two year,1,East,0,No
+C00284,2022-05-14,35,87.77,Two year,1,North,0,No
+C00285,2023-12-22,52,81.86,Month-to-month,5,East,0,No
+C00286,2021-12-26,31,119.48,Two year,1,South,1,Yes
+C00287,2023-01-21,54,53.85,Month-to-month,1,South,0,No
+C00288,2020-02-11,59,75.84,Month-to-month,3,East,0,No
+C00289,2021-02-10,44,109.1,One year,3,South,1,Yes
+C00290,2020-07-24,56,62.45,Two year,0,West,0,No
+C00291,2020-02-14,19,41.51,Two year,1,East,1,Yes
+C00292,2021-07-03,46,75.62,Month-to-month,3,South,1,Yes
+C00293,2021-06-18,66,57.44,Month-to-month,1,West,0,No
+C00294,2021-07-30,71,104.39,Month-to-month,2,South,0,No
+C00295,2021-08-04,54,25.03,Month-to-month,2,South,0,No
+C00296,2023-02-02,49,79.82,One year,0,North,1,Yes
+C00297,2021-05-10,60,23.16,Month-to-month,2,West,0,No
+C00298,2022-11-18,27,96.46,Month-to-month,2,North,1,Yes
+C00299,2021-10-23,36,47.87,Month-to-month,2,South,0,No
+C00300,2021-09-16,59,56.6,Two year,1,East,0,No
+C00301,2022-03-22,50,75.03,Month-to-month,3,South,0,No
+C00302,2022-08-16,45,52.48,Month-to-month,0,South,1,Yes
+C00303,2022-11-06,14,43.87,Month-to-month,0,West,0,No
+C00304,2022-03-06,71,71.57,Month-to-month,1,West,1,Yes
+C00305,2022-03-19,39,124.53,Month-to-month,3,South,1,Yes
+C00306,2022-09-06,40,23.24,Month-to-month,3,West,0,No
+C00307,2024-02-07,9,84.8,Month-to-month,0,North,0,No
+C00308,2020-07-22,14,37.49,One year,1,West,0,No
+C00309,2022-03-03,8,116.17,Month-to-month,2,West,1,Yes
+C00310,2023-04-12,23,84.39,Month-to-month,3,East,0,No
+C00311,2021-01-18,9,42.36,Two year,1,South,0,No
+C00312,2023-04-13,7,101.43,One year,2,West,0,No
+C00313,2020-02-17,67,56.09,Two year,1,North,0,No
+C00314,2021-09-25,61,76.48,Month-to-month,1,West,0,No
+C00315,2020-09-22,17,20.0,One year,1,East,0,No
+C00316,2023-10-19,57,63.46,Month-to-month,2,West,0,No
+C00317,2021-09-05,24,106.06,Month-to-month,2,West,1,Yes
+C00318,2020-03-21,25,103.26,Two year,3,West,0,No
+C00319,2022-02-15,5,23.84,One year,1,North,1,Yes
+C00320,2023-12-03,50,96.99,One year,4,North,0,No
+C00321,2020-09-07,31,100.12,Month-to-month,2,West,1,Yes
+C00322,2022-12-19,55,69.78,Month-to-month,3,South,0,No
+C00323,2023-11-10,26,70.46,Month-to-month,1,East,0,No
+C00324,2023-03-23,21,81.66,Month-to-month,1,South,1,Yes
+C00325,2020-11-19,58,64.18,Month-to-month,1,South,0,No
+C00326,2020-07-23,24,55.44,Month-to-month,0,South,1,Yes
+C00327,2020-11-03,28,84.69,Month-to-month,0,West,1,Yes
+C00328,2021-04-11,30,109.39,One year,3,North,0,No
+C00329,2021-07-23,34,81.23,Month-to-month,2,South,0,No
+C00330,2021-12-29,54,48.3,Month-to-month,3,South,0,No
+C00331,2023-08-27,52,21.39,Two year,6,East,0,No
+C00332,2020-11-05,8,43.14,Month-to-month,0,West,0,No
+C00333,2021-02-03,10,131.57,Month-to-month,0,South,1,Yes
+C00334,2022-01-04,55,22.48,One year,0,East,0,No
+C00335,2021-06-14,1,50.88,Month-to-month,4,West,1,Yes
+C00336,2023-12-31,37,103.58,One year,1,North,0,No
+C00337,2022-11-04,21,83.28,Month-to-month,1,South,1,Yes
+C00338,2023-03-06,4,100.34,Month-to-month,1,North,0,No
+C00339,2024-01-30,43,91.01,Month-to-month,1,East,0,No
+C00340,2023-09-19,66,76.71,Month-to-month,1,North,0,No
+C00341,2021-05-17,21,71.22,Month-to-month,3,North,1,Yes
+C00342,2021-12-31,37,41.79,Two year,3,South,0,No
+C00343,2021-07-23,69,69.96,Month-to-month,1,North,0,No
+C00344,2023-01-23,48,92.23,Two year,2,South,0,No
+C00345,2023-11-02,11,110.57,Month-to-month,4,East,1,Yes
+C00346,2022-07-27,44,98.57,Two year,0,East,0,No
+C00347,2023-06-03,64,126.33,One year,3,North,0,No
+C00348,2021-02-28,32,83.38,Month-to-month,0,West,0,No
+C00349,2023-07-26,21,33.28,Month-to-month,2,West,1,Yes
+C00350,2020-04-07,71,35.99,Month-to-month,1,East,0,No
+C00351,2020-11-10,10,84.3,Month-to-month,3,West,1,Yes
+C00352,2023-02-07,61,,Month-to-month,1,East,1,Yes
+C00353,2022-11-18,36,24.14,One year,1,South,0,No
+C00354,2020-02-23,19,104.49,One year,0,East,0,No
+C00355,2021-05-23,44,64.67,Month-to-month,2,South,1,Yes
+C00356,2023-11-18,4,110.2,Month-to-month,1,West,1,Yes
+C00357,2020-07-01,13,65.6,Two year,1,North,1,Yes
+C00358,2020-06-18,59,73.02,Month-to-month,0,South,0,No
+C00359,2022-07-09,2,38.51,One year,1,West,1,Yes
+C00360,2022-03-19,1,59.44,Month-to-month,2,East,1,Yes
+C00361,2023-07-10,40,80.62,Two year,3,West,0,No
+C00362,2020-08-13,25,127.78,Month-to-month,2,West,1,Yes
+C00363,2021-01-11,59,51.42,Two year,1,North,0,No
+C00364,2022-12-21,37,84.36,Month-to-month,1,East,1,Yes
+C00365,2024-01-23,70,52.37,Two year,0,North,0,No
+C00366,2020-08-19,7,20.0,Month-to-month,2,South,1,Yes
+C00367,2022-04-05,4,60.03,Month-to-month,0,West,0,No
+C00368,2020-04-27,41,65.66,Two year,1,West,0,No
+C00369,2023-10-29,61,45.34,One year,2,South,0,No
+C00370,2020-06-18,34,52.76,Month-to-month,3,South,0,No
+C00371,2022-05-14,29,76.79,Month-to-month,1,South,1,Yes
+C00372,2020-01-10,69,91.83,Month-to-month,2,East,0,No
+C00373,2021-02-16,27,57.41,Two year,2,West,1,Yes
+C00374,2022-07-25,52,40.94,One year,4,North,0,No
+C00375,2020-11-25,54,84.47,Two year,2,East,0,No
+C00376,2021-10-13,70,48.69,Two year,3,South,0,No
+C00377,2020-10-09,34,55.84,Month-to-month,1,West,0,No
+C00378,2021-05-07,8,67.31,One year,1,East,0,No
+C00379,2020-05-30,8,43.59,Two year,2,East,0,No
+C00380,2023-05-09,68,,Month-to-month,1,South,0,No
+C00381,2020-04-14,68,67.09,,1,East,0,No
+C00382,2020-02-23,1,40.81,One year,1,North,1,Yes
+C00383,2020-05-23,6,65.77,Two year,2,South,0,No
+C00384,2021-02-14,31,93.53,Month-to-month,1,South,1,Yes
+C00385,2023-04-13,8,128.68,Month-to-month,2,North,1,Yes
+C00386,2022-06-26,22,80.85,One year,1,North,0,No
+C00387,2024-01-06,9,38.25,One year,2,North,0,No
+C00388,2020-07-06,44,40.15,Two year,4,East,0,No
+C00389,2020-09-30,47,51.77,Month-to-month,1,South,1,Yes
+C00390,2022-01-23,1,23.31,Month-to-month,0,North,1,Yes
+C00391,2023-08-19,52,72.33,One year,2,North,0,No
+C00392,2023-04-06,39,79.95,Two year,1,North,0,No
+C00393,2023-04-27,27,62.72,Two year,2,West,0,No
+C00394,2020-05-15,33,57.9,Month-to-month,0,East,1,Yes
+C00395,2021-12-10,71,51.01,One year,2,South,0,No
+C00396,2023-06-28,45,33.17,Month-to-month,0,East,0,No
+C00397,2021-06-13,60,51.48,One year,2,South,1,Yes
+C00398,2020-09-21,58,86.47,Month-to-month,2,North,1,Yes
+C00399,2023-12-09,51,52.43,One year,1,West,0,No
+C00400,2023-06-18,46,51.36,Month-to-month,1,North,0,No
+C00401,2022-06-12,5,61.78,Two year,1,West,0,No
+C00402,2023-10-10,58,43.56,Month-to-month,2,North,0,No
+C00403,2022-01-18,18,72.89,Month-to-month,2,West,1,Yes
+C00404,2020-03-02,36,91.18,Two year,0,East,0,No
+C00405,2023-03-03,67,62.1,Month-to-month,0,South,0,No
+C00406,2020-01-30,21,105.36,Two year,1,South,1,Yes
+C00407,2021-10-03,46,35.09,Month-to-month,5,North,1,Yes
+C00408,2023-02-01,58,41.68,One year,0,East,0,No
+C00409,2022-07-21,37,71.14,Two year,1,West,0,No
+C00410,2023-03-28,63,93.46,Month-to-month,2,West,1,Yes
+C00411,2020-03-19,5,79.82,Two year,2,North,0,No
+C00412,2022-02-15,31,75.43,Month-to-month,1,West,1,Yes
+C00413,2023-06-10,36,61.3,One year,1,West,0,No
+C00414,2023-01-22,56,89.4,One year,1,South,0,No
+C00415,2023-02-28,27,80.06,Month-to-month,2,West,0,No
+C00416,2023-03-22,23,62.2,Two year,0,South,0,No
+C00417,2020-10-25,52,54.1,Two year,1,South,0,No
+C00418,2024-01-14,47,86.54,Month-to-month,1,East,0,No
+C00419,2023-05-03,62,80.81,Month-to-month,4,South,0,No
+C00420,2021-12-28,61,20.0,Month-to-month,0,East,0,No
+C00421,2021-09-06,48,30.85,Month-to-month,0,West,0,No
+C00422,2020-05-04,1,60.01,Month-to-month,2,West,0,No
+C00423,2023-09-15,11,85.72,Two year,5,East,1,Yes
+C00424,2021-06-26,14,67.39,Two year,0,South,0,No
+C00425,2021-05-29,7,79.14,Two year,1,East,0,No
+C00426,2021-03-08,46,49.81,Month-to-month,0,West,0,No
+C00427,2022-07-02,31,58.23,One year,4,South,0,No
+C00428,2023-12-07,16,100.22,Month-to-month,1,North,0,No
+C00429,2021-02-07,42,44.36,Two year,0,North,1,Yes
+C00430,2021-05-12,39,51.8,Two year,1,South,0,No
+C00431,2021-06-09,54,62.41,Month-to-month,1,West,0,No
+C00432,2022-05-30,44,95.94,Month-to-month,3,North,0,No
+C00433,2022-12-28,8,20.0,Month-to-month,0,West,1,Yes
+C00434,2020-06-21,66,73.73,Month-to-month,2,South,1,Yes
+C00435,2021-10-12,42,65.59,Month-to-month,2,East,1,Yes
+C00436,2021-12-13,67,30.24,Month-to-month,1,South,0,No
+C00437,2022-10-30,32,69.61,One year,1,West,0,No
+C00438,2023-06-23,51,103.23,One year,0,East,0,No
+C00439,2020-05-18,47,80.51,Two year,2,South,0,No
+C00440,2021-01-10,34,100.26,Month-to-month,4,South,1,Yes
+C00441,2021-07-18,13,44.11,Month-to-month,0,West,0,No
+C00442,2022-08-24,67,82.37,Month-to-month,3,South,0,No
+C00443,2022-08-06,11,68.08,Month-to-month,0,South,0,No
+C00444,2022-07-14,28,53.62,Month-to-month,2,North,0,No
+C00445,2021-10-10,57,100.89,Month-to-month,0,East,0,No
+C00446,2020-08-18,66,62.96,Two year,1,East,0,No
+C00447,2022-02-13,65,64.37,Month-to-month,0,West,0,No
+C00448,2020-11-30,70,46.96,Month-to-month,3,North,0,No
+C00449,2020-11-01,35,43.25,,1,West,0,No
+C00450,2021-12-18,4,66.07,Two year,2,East,1,Yes
+C00451,2022-07-26,61,38.92,One year,0,North,0,No
+C00452,2022-09-21,38,80.23,Month-to-month,0,South,0,No
+C00453,2023-05-17,44,88.58,One year,5,South,1,Yes
+C00454,2022-10-03,71,58.98,Month-to-month,0,West,0,No
+C00455,2023-10-05,21,84.06,,1,East,1,Yes
+C00456,2020-07-12,7,79.34,Month-to-month,1,North,1,Yes
+C00457,2022-12-16,29,75.14,Month-to-month,2,West,1,Yes
+C00458,2022-01-30,7,94.25,One year,2,West,0,No
+C00459,2021-11-10,67,42.19,Month-to-month,1,East,0,No
+C00460,2021-01-25,70,30.41,Month-to-month,0,West,0,No
+C00461,2021-12-17,55,51.25,Month-to-month,1,East,0,No
+C00462,2024-01-08,22,68.23,Month-to-month,2,South,0,No
+C00463,2020-07-12,32,75.48,Month-to-month,1,South,0,No
+C00464,2022-04-10,36,63.83,Month-to-month,0,South,0,No
+C00465,2022-05-11,9,48.27,One year,1,East,0,No
+C00466,2021-04-19,26,109.87,Month-to-month,2,West,1,Yes
+C00467,2020-07-06,22,61.73,One year,0,South,0,No
+C00468,2023-01-23,46,68.89,One year,2,North,1,Yes
+C00469,2020-07-24,17,89.14,Month-to-month,2,East,1,Yes
+C00470,2020-08-27,26,45.83,Month-to-month,0,East,1,Yes
+C00471,2021-06-11,38,97.76,Month-to-month,1,North,0,No
+C00472,2021-07-16,2,65.21,Month-to-month,2,East,1,Yes
+C00473,2023-03-22,6,,Month-to-month,3,West,1,Yes
+C00474,2023-08-05,71,43.14,Month-to-month,4,West,0,No
+C00475,2021-01-05,13,93.58,Two year,3,East,0,No
+C00476,2022-04-18,55,78.59,Month-to-month,1,South,0,No
+C00477,2023-03-20,63,80.67,Month-to-month,1,South,0,No
+C00478,2020-10-01,46,55.53,Month-to-month,1,West,0,No
+C00479,2021-05-09,6,43.83,Month-to-month,3,West,1,Yes
+C00480,2020-12-02,48,56.56,One year,1,North,0,No
+C00481,2022-04-07,60,87.07,Two year,4,North,0,No
+C00482,2023-09-02,43,39.98,Month-to-month,1,East,1,Yes
+C00483,2024-01-04,68,37.78,Month-to-month,0,North,0,No
+C00484,2020-01-11,11,73.42,Month-to-month,2,North,0,No
+C00485,2022-12-04,58,51.4,Month-to-month,0,South,1,Yes
+C00486,2022-08-01,4,111.28,Two year,2,East,1,Yes
+C00487,2021-12-04,70,38.04,Month-to-month,2,North,0,No
+C00488,2020-04-09,59,80.53,Month-to-month,1,West,0,No
+C00489,2022-06-09,5,64.0,One year,1,South,0,No
+C00490,2023-05-23,18,75.09,Month-to-month,2,North,0,No
+C00491,2022-04-21,70,44.82,One year,1,East,0,No
+C00492,2022-04-21,64,89.22,Two year,1,North,0,No
+C00493,2024-01-11,25,107.73,One year,0,East,1,Yes
+C00494,2020-12-26,4,55.68,One year,1,East,1,Yes
+C00495,2020-01-22,70,115.03,One year,0,West,0,No
+C00496,2022-06-08,41,84.91,,0,South,0,No
+C00497,2020-04-20,37,65.65,Month-to-month,3,West,1,Yes
+C00498,2021-12-29,59,62.81,One year,1,East,0,No
+C00499,2024-01-17,50,67.36,Month-to-month,0,North,0,No
+C00500,2021-07-04,56,103.07,Two year,0,West,0,No
+C00501,2020-08-09,25,58.71,Two year,0,West,0,No
+C00502,2020-10-26,34,78.19,Two year,1,East,0,No
+C00503,2023-09-15,19,72.63,Month-to-month,0,West,0,No
+C00504,2022-08-25,8,58.83,One year,0,East,0,No
+C00505,2020-05-19,54,20.0,Month-to-month,1,East,0,No
+C00506,2022-11-16,47,45.52,,1,South,0,No
+C00507,2021-09-04,34,65.44,Month-to-month,0,South,0,No
+C00508,2023-10-20,30,90.71,One year,1,North,1,Yes
+C00509,2020-04-29,13,48.44,Month-to-month,2,North,0,No
+C00510,2020-10-21,47,41.9,One year,3,South,0,No
+C00511,2022-01-28,33,79.99,Month-to-month,2,South,1,Yes
+C00512,2022-04-28,35,80.63,Month-to-month,0,South,0,No
+C00513,2022-02-08,26,,One year,2,South,0,No
+C00514,2022-10-07,47,48.08,Month-to-month,0,East,1,Yes
+C00515,2023-08-10,53,58.48,One year,1,West,0,No
+C00516,2021-08-02,65,63.48,Month-to-month,5,South,0,No
+C00517,2022-12-09,19,20.0,Month-to-month,0,South,0,No
+C00518,2020-12-09,5,90.08,Month-to-month,1,East,1,Yes
+C00519,2022-07-20,8,58.65,Month-to-month,2,West,1,Yes
+C00520,2021-06-21,4,95.35,One year,2,North,1,Yes
+C00521,2023-02-12,49,82.39,Month-to-month,0,West,0,No
+C00522,2020-12-15,38,99.9,Month-to-month,1,East,1,Yes
+C00523,2022-08-25,49,88.47,Month-to-month,1,South,0,No
+C00524,2023-05-13,52,,Month-to-month,1,South,0,No
+C00525,2022-01-06,50,69.13,Two year,0,East,0,No
+C00526,2020-03-13,50,77.21,One year,1,West,0,No
+C00527,2023-05-28,30,102.93,One year,2,East,0,No
+C00528,2021-11-19,4,77.73,Month-to-month,6,West,1,Yes
+C00529,2020-03-28,66,60.86,One year,2,East,0,No
+C00530,2021-05-13,21,,Two year,2,East,0,No
+C00531,2021-09-23,43,78.63,Month-to-month,4,South,1,Yes
+C00532,2020-02-19,29,58.18,Two year,2,West,0,No
+C00533,2020-09-29,27,64.16,Month-to-month,1,West,0,No
+C00534,2023-10-26,53,77.47,Two year,1,South,0,No
+C00535,2021-07-06,49,72.68,Month-to-month,1,North,0,No
+C00536,2021-02-23,67,68.85,One year,1,West,0,No
+C00537,2022-06-13,10,41.89,Month-to-month,1,East,0,No
+C00538,2024-01-28,3,91.22,Month-to-month,1,South,1,Yes
+C00539,2021-09-11,69,79.49,One year,1,South,0,No
+C00540,2020-02-13,11,90.52,Month-to-month,3,North,1,Yes
+C00541,2023-01-20,13,61.13,Month-to-month,0,North,1,Yes
+C00542,2020-05-20,38,62.28,Month-to-month,0,West,0,No
+C00543,2023-01-02,40,58.72,Two year,2,North,0,No
+C00544,2023-10-13,33,,One year,1,South,0,No
+C00545,2023-02-22,34,93.39,Month-to-month,2,North,1,Yes
+C00546,2021-04-04,27,58.86,,2,South,0,No
+C00547,2021-08-31,51,72.61,Month-to-month,0,West,0,No
+C00548,2023-11-11,21,59.74,One year,4,East,0,No
+C00549,2020-04-03,29,94.09,Month-to-month,2,East,1,Yes
+C00550,2023-06-30,19,56.78,One year,2,West,0,No
+C00551,2023-12-05,26,99.46,One year,1,South,1,Yes
+C00552,2020-03-21,25,,One year,0,West,0,No
+C00553,2024-01-19,40,63.62,Month-to-month,2,East,0,No
+C00554,2021-05-04,29,64.18,Month-to-month,2,North,0,No
+C00555,2021-08-08,25,25.22,One year,0,West,0,No
+C00556,2022-08-21,19,,Two year,1,East,0,No
+C00557,2021-08-06,68,102.91,Month-to-month,0,South,0,No
+C00558,2020-04-27,45,71.03,,1,West,0,No
+C00559,2022-11-25,46,81.67,,1,East,0,No
+C00560,2023-11-04,55,68.35,One year,1,South,0,No
+C00561,2023-11-10,1,60.72,Month-to-month,2,South,1,Yes
+C00562,2020-08-08,11,43.35,,0,East,0,No
+C00563,2021-08-18,68,88.95,One year,3,East,0,No
+C00564,2022-10-09,7,70.89,Month-to-month,1,East,1,Yes
+C00565,2023-12-06,58,118.03,Month-to-month,0,East,0,No
+C00566,2022-01-28,71,49.6,Month-to-month,3,North,1,Yes
+C00567,2021-06-04,20,72.95,Month-to-month,2,North,1,Yes
+C00568,2021-11-15,35,24.27,Month-to-month,3,North,1,Yes
+C00569,2023-08-30,51,64.67,Month-to-month,4,West,0,No
+C00570,2021-07-09,21,60.91,Two year,1,East,0,No
+C00571,2022-02-12,44,86.05,Month-to-month,1,East,1,Yes
+C00572,2022-10-05,1,71.79,Month-to-month,1,East,1,Yes
+C00573,2021-02-16,67,87.12,Two year,1,East,0,No
+C00574,2020-10-08,13,95.0,One year,3,North,0,No
+C00575,2021-03-27,16,55.93,,2,North,1,Yes
+C00576,2022-09-21,34,51.66,Month-to-month,3,East,0,No
+C00577,2020-08-17,24,112.07,Month-to-month,0,North,0,No
+C00578,2021-06-15,13,101.63,Month-to-month,0,South,1,Yes
+C00579,2023-05-14,6,84.72,One year,1,West,0,No
+C00580,2024-01-10,39,,Month-to-month,1,South,0,No
+C00581,2021-09-13,2,78.76,Month-to-month,2,South,1,Yes
+C00582,2023-11-29,11,78.97,One year,4,South,0,No
+C00583,2022-01-03,7,60.88,One year,0,East,0,No
+C00584,2023-09-27,7,48.06,Two year,6,East,1,Yes
+C00585,2023-01-25,39,77.0,Month-to-month,2,South,0,No
+C00586,2022-10-07,51,29.89,Two year,1,West,0,No
+C00587,2022-06-15,52,91.58,Month-to-month,1,North,0,No
+C00588,2023-05-04,3,25.02,Month-to-month,2,East,1,Yes
+C00589,2021-02-13,30,52.84,Month-to-month,1,North,0,No
+C00590,2021-05-22,10,70.03,One year,0,West,0,No
+C00591,2021-01-11,6,50.56,Month-to-month,2,South,1,Yes
+C00592,2021-12-04,54,72.55,Month-to-month,3,North,0,No
+C00593,2021-08-15,66,80.57,Month-to-month,1,South,0,No
+C00594,2023-08-22,44,72.86,Month-to-month,2,West,0,No
+C00595,2021-08-02,63,68.75,Two year,3,South,0,No
+C00596,2021-01-08,48,108.81,Month-to-month,1,East,0,No
+C00597,2023-11-01,22,48.23,Month-to-month,0,West,0,No
+C00598,2022-05-17,19,81.43,Month-to-month,1,North,0,No
+C00599,2020-07-03,14,73.39,One year,2,West,1,Yes
+C00600,2023-03-15,7,69.6,Two year,2,West,0,No
+C00601,2023-07-31,49,92.95,Month-to-month,0,South,0,No
+C00602,2020-03-01,41,58.75,Month-to-month,0,West,0,No
+C00603,2021-01-13,27,74.99,Two year,3,East,0,No
+C00604,2020-10-03,31,57.17,One year,4,North,0,No
+C00605,2022-04-01,6,59.74,Month-to-month,2,South,1,Yes
+C00606,2022-11-04,16,38.2,One year,3,North,0,No
+C00607,2021-02-18,64,80.63,One year,2,East,0,No
+C00608,2022-08-03,38,66.14,One year,1,North,0,No
+C00609,2023-06-13,60,61.4,Month-to-month,1,South,0,No
+C00610,2023-03-20,33,89.59,Month-to-month,3,South,0,No
+C00611,2022-10-22,63,114.59,Month-to-month,2,West,0,No
+C00612,2022-08-11,11,94.03,Two year,1,East,1,Yes
+C00613,2022-11-19,13,57.8,Month-to-month,0,West,0,No
+C00614,2020-04-28,65,46.25,,0,East,0,No
+C00615,2021-04-30,30,47.81,One year,1,West,0,No
+C00616,2022-06-23,23,45.5,One year,1,North,1,Yes
+C00617,2020-06-06,20,,Month-to-month,1,West,0,No
+C00618,2021-02-23,6,40.31,Month-to-month,3,West,0,No
+C00619,2023-12-21,37,,Month-to-month,3,South,1,Yes
+C00620,2020-02-12,6,27.3,One year,0,North,0,No
+C00621,2022-12-01,27,70.82,Month-to-month,0,South,1,Yes
+C00622,2021-08-15,13,107.01,,2,West,1,Yes
+C00623,2020-12-09,8,52.92,Month-to-month,0,East,0,No
+C00624,2022-06-30,53,110.45,Month-to-month,1,North,0,No
+C00625,2023-01-08,30,28.97,One year,1,North,0,No
+C00626,2021-01-02,1,56.75,One year,2,South,0,No
+C00627,2021-03-01,4,108.07,Month-to-month,0,South,0,No
+C00628,2021-03-04,62,46.8,Month-to-month,4,East,0,No
+C00629,2023-01-03,68,61.11,Month-to-month,2,West,0,No
+C00630,2022-06-05,17,87.95,Month-to-month,0,South,0,No
+C00631,2020-11-27,57,82.53,One year,2,South,0,No
+C00632,2021-09-28,63,96.3,Two year,0,South,0,No
+C00633,2021-05-06,57,52.98,Month-to-month,1,North,0,No
+C00634,2021-10-16,49,102.8,Two year,2,North,1,Yes
+C00635,2020-08-05,18,82.73,Two year,0,West,0,No
+C00636,2022-08-29,58,107.73,Two year,2,West,0,No
+C00637,2023-01-06,10,56.49,Month-to-month,1,South,1,Yes
+C00638,2021-11-22,63,49.8,Two year,1,South,0,No
+C00639,2022-04-11,34,65.51,One year,0,East,0,No
+C00640,2020-11-18,5,22.69,Month-to-month,1,East,0,No
+C00641,2023-08-17,17,122.39,Two year,2,North,1,Yes
+C00642,2022-12-12,63,81.65,Month-to-month,0,West,0,No
+C00643,2023-02-08,24,62.66,One year,0,East,0,No
+C00644,2022-04-30,8,59.14,Month-to-month,2,East,1,Yes
+C00645,2023-06-21,23,,Month-to-month,3,East,1,Yes
+C00646,2022-07-12,31,39.57,Two year,0,North,0,No
+C00647,2021-06-05,28,22.49,Month-to-month,0,West,0,No
+C00648,2023-08-22,48,78.02,Month-to-month,2,East,0,No
+C00649,2022-09-08,12,79.69,Month-to-month,1,South,1,Yes
+C00650,2021-11-28,31,81.8,Two year,2,North,0,No
+C00651,2022-05-13,35,59.56,One year,1,East,0,No
+C00652,2022-11-09,55,50.86,One year,1,West,0,No
+C00653,2024-01-09,36,39.48,Month-to-month,2,South,0,No
+C00654,2023-11-02,60,83.22,Month-to-month,1,North,1,Yes
+C00655,2020-08-01,38,75.65,Month-to-month,1,South,1,Yes
+C00656,2020-06-15,69,100.55,Month-to-month,3,West,1,Yes
+C00657,2020-05-21,54,69.38,Month-to-month,2,West,0,No
+C00658,2021-12-07,14,85.37,Month-to-month,0,West,1,Yes
+C00659,2022-11-22,20,97.42,Two year,3,East,1,Yes
+C00660,2021-06-01,9,92.0,Two year,0,East,1,Yes
+C00661,2023-08-12,70,52.86,Two year,1,West,0,No
+C00662,2022-03-21,2,48.89,Month-to-month,0,West,1,Yes
+C00663,2020-02-20,30,110.47,One year,1,South,0,No
+C00664,2021-09-15,6,53.85,Month-to-month,2,South,0,No
+C00665,2020-12-20,41,89.09,Month-to-month,1,South,0,No
+C00666,2023-02-04,23,135.75,Two year,1,East,0,No
+C00667,2023-02-28,31,48.74,Month-to-month,1,West,0,No
+C00668,2023-02-10,20,79.35,Month-to-month,0,North,0,No
+C00669,2023-03-23,5,72.21,Month-to-month,1,West,1,Yes
+C00670,2021-02-22,21,57.39,One year,2,East,0,No
+C00671,2020-05-19,68,51.26,Month-to-month,2,North,0,No
+C00672,2021-11-06,61,45.27,Month-to-month,2,West,0,No
+C00673,2022-01-17,42,89.92,Month-to-month,0,South,0,No
+C00674,2023-04-26,41,61.07,Two year,1,North,0,No
+C00675,2021-05-03,61,91.61,One year,0,West,0,No
+C00676,2020-03-09,52,99.9,Month-to-month,2,East,0,No
+C00677,2021-11-04,41,78.79,One year,2,East,0,No
+C00678,2023-01-02,60,79.98,One year,2,North,0,No
+C00679,2020-09-06,30,64.59,Month-to-month,4,South,0,No
+C00680,2022-07-11,38,113.28,One year,0,South,0,No
+C00681,2020-05-11,17,116.61,Month-to-month,3,West,0,No
+C00682,2022-02-06,40,54.94,Month-to-month,0,East,0,No
+C00683,2023-04-01,30,42.92,Two year,4,South,0,No
+C00684,2022-04-24,66,54.51,Month-to-month,2,West,0,No
+C00685,2023-03-30,24,68.57,Month-to-month,2,West,0,No
+C00686,2023-07-01,1,,Month-to-month,2,South,1,Yes
+C00687,2021-06-20,38,63.77,Month-to-month,1,West,0,No
+C00688,2023-12-30,64,104.71,One year,2,East,0,No
+C00689,2020-05-01,27,53.05,Two year,2,West,0,No
+C00690,2023-01-28,7,61.55,One year,1,South,0,No
+C00691,2023-12-20,42,78.31,One year,2,West,1,Yes
+C00692,2020-06-15,18,89.77,Month-to-month,2,West,0,No
+C00693,2023-10-04,44,99.17,Month-to-month,2,West,1,Yes
+C00694,2020-09-23,70,58.07,Month-to-month,3,East,0,No
+C00695,2020-06-15,20,80.59,Two year,1,North,0,No
+C00696,2022-01-26,23,75.79,Month-to-month,3,West,0,No
+C00697,2023-09-12,12,65.37,One year,1,South,0,No
+C00698,2020-02-19,12,65.67,Month-to-month,0,North,1,Yes
+C00699,2022-04-15,34,80.46,One year,1,South,0,No
+C00700,2023-09-30,8,73.31,Two year,1,West,0,No
+C00701,2022-02-18,27,73.15,Month-to-month,1,East,0,No
+C00702,2022-03-07,49,101.33,Month-to-month,1,South,0,No
+C00703,2023-04-19,55,119.96,Month-to-month,1,West,0,No
+C00704,2020-12-15,22,26.81,Month-to-month,1,North,0,No
+C00705,2023-01-23,3,86.48,Month-to-month,2,East,0,No
+C00706,2021-03-21,9,35.74,Month-to-month,0,West,0,No
+C00707,2020-11-03,11,85.88,One year,1,East,1,Yes
+C00708,2020-03-03,6,61.72,,1,South,1,Yes
+C00709,2022-07-08,39,39.33,Two year,2,East,0,No
+C00710,2020-10-21,39,91.84,One year,1,West,0,No
+C00711,2022-03-10,66,,One year,3,East,0,No
+C00712,2022-02-08,60,72.4,One year,1,West,0,No
+C00713,2021-05-03,37,77.62,Month-to-month,0,South,0,No
+C00714,2021-05-19,6,66.04,Two year,1,South,0,No
+C00715,2020-11-11,6,65.81,,3,East,1,Yes
+C00716,2024-01-08,39,98.43,Month-to-month,1,East,1,Yes
+C00717,2021-01-10,36,78.23,One year,1,South,1,Yes
+C00718,2021-11-24,50,64.4,One year,1,North,0,No
+C00719,2020-04-25,10,92.07,Month-to-month,2,West,1,Yes
+C00720,2023-01-22,5,103.43,Two year,2,East,1,Yes
+C00721,2021-11-10,50,76.33,One year,2,South,0,No
+C00722,2020-12-28,25,91.08,Month-to-month,1,East,0,No
+C00723,2021-01-12,3,28.6,Two year,0,West,0,No
+C00724,2022-03-16,4,,Month-to-month,1,North,0,No
+C00725,2020-04-03,12,37.47,One year,1,South,0,No
+C00726,2022-11-15,14,,Month-to-month,2,North,1,Yes
+C00727,2023-02-15,27,37.87,One year,1,South,0,No
+C00728,2023-12-25,71,37.83,Month-to-month,1,South,0,No
+C00729,2023-08-25,48,20.26,Two year,1,East,0,No
+C00730,2023-08-11,22,,Month-to-month,2,North,1,Yes
+C00731,2020-04-25,21,60.19,Month-to-month,2,South,1,Yes
+C00732,2020-09-13,43,46.81,One year,1,South,1,Yes
+C00733,2023-10-22,58,50.02,Month-to-month,1,West,1,Yes
+C00734,2021-09-15,18,92.75,Month-to-month,1,East,1,Yes
+C00735,2023-02-08,56,94.56,Month-to-month,4,South,1,Yes
+C00736,2021-03-13,69,49.18,Month-to-month,2,South,0,No
+C00737,2023-09-10,12,,One year,1,East,0,No
+C00738,2020-07-21,20,50.23,Two year,5,North,0,No
+C00739,2022-04-12,12,73.11,Month-to-month,2,North,1,Yes
+C00740,2021-03-22,26,83.2,One year,0,East,0,No
+C00741,2020-10-02,46,33.81,Month-to-month,2,North,0,No
+C00742,2021-03-09,7,74.4,Month-to-month,0,South,1,Yes
+C00743,2021-12-04,39,78.58,Month-to-month,3,North,1,Yes
+C00744,2021-01-08,52,97.14,Month-to-month,2,East,0,No
+C00745,2021-04-25,17,116.81,Month-to-month,1,West,1,Yes
+C00746,2023-11-28,24,95.27,One year,3,North,0,No
+C00747,2022-03-17,4,77.04,Two year,0,North,0,No
+C00748,2023-08-26,47,101.69,One year,2,West,0,No
+C00749,2021-09-07,30,57.99,Month-to-month,2,East,0,No
+C00750,2023-12-25,3,36.95,Two year,2,North,1,Yes
+C00751,2021-09-26,6,95.75,Two year,2,East,1,Yes
+C00752,2022-01-26,16,86.99,Month-to-month,2,North,1,Yes
+C00753,2020-04-22,36,112.64,Month-to-month,1,West,0,No
+C00754,2021-08-25,53,57.84,Month-to-month,1,East,0,No
+C00755,2024-01-09,8,28.26,Month-to-month,2,North,0,No
+C00756,2020-03-13,52,,Month-to-month,2,East,1,Yes
+C00757,2022-07-13,52,,Month-to-month,4,East,1,Yes
+C00758,2020-08-14,30,21.87,One year,0,South,0,No
+C00759,2020-11-06,56,30.91,One year,3,North,0,No
+C00760,2023-09-21,12,105.03,Two year,0,East,0,No
+C00761,2022-12-31,68,138.09,One year,4,South,0,No
+C00762,2020-11-18,56,102.53,Two year,3,North,0,No
+C00763,2021-01-27,69,53.62,Month-to-month,0,North,0,No
+C00764,2020-10-30,58,92.55,Month-to-month,2,North,0,No
+C00765,2021-10-29,12,65.47,Two year,4,East,1,Yes
+C00766,2023-11-28,4,50.03,Month-to-month,3,North,0,No
+C00767,2020-08-16,38,56.44,Month-to-month,2,West,0,No
+C00768,2024-01-30,8,105.38,Two year,3,East,1,Yes
+C00769,2023-12-14,30,50.67,Two year,0,South,0,No
+C00770,2021-05-11,12,48.61,One year,3,West,0,No
+C00771,2022-07-27,12,51.07,Month-to-month,3,North,1,Yes
+C00772,2023-06-26,17,,One year,3,South,0,No
+C00773,2023-02-25,61,58.21,Month-to-month,0,East,0,No
+C00774,2020-01-08,64,100.17,Month-to-month,2,East,0,No
+C00775,2021-09-13,60,124.46,Month-to-month,3,West,0,No
+C00776,2022-05-30,2,83.29,Two year,1,West,0,No
+C00777,2023-01-24,19,87.65,Month-to-month,2,South,1,Yes
+C00778,2021-05-31,54,67.94,Month-to-month,1,West,0,No
+C00779,2021-03-29,29,39.62,Month-to-month,2,South,0,No
+C00780,2023-11-16,65,79.76,Month-to-month,1,South,0,No
+C00781,2020-10-06,9,68.29,Month-to-month,4,North,0,No
+C00782,2022-08-06,12,34.47,Month-to-month,2,South,0,No
+C00783,2020-08-08,52,47.28,Month-to-month,2,South,0,No
+C00784,2020-11-09,56,98.42,One year,3,North,0,No
+C00785,2023-09-10,16,47.37,Month-to-month,2,East,1,Yes
+C00786,2024-02-07,4,79.27,Month-to-month,3,North,1,Yes
+C00787,2023-06-14,29,62.35,Month-to-month,2,South,0,No
+C00788,2021-10-03,59,80.28,One year,1,East,0,No
+C00789,2022-12-14,66,71.98,Two year,3,West,0,No
+C00790,2022-02-01,12,62.51,Month-to-month,1,East,0,No
+C00791,2020-02-16,26,20.0,Two year,1,North,0,No
+C00792,2021-08-07,12,78.67,One year,1,West,0,No
+C00793,2020-01-06,35,94.41,Month-to-month,1,North,0,No
+C00794,2020-07-15,2,67.9,One year,3,North,1,Yes
+C00795,2021-10-14,17,108.61,Month-to-month,1,South,1,Yes
+C00796,2021-02-06,2,102.38,One year,0,East,0,No
+C00797,2022-01-07,17,90.41,Month-to-month,3,North,1,Yes
+C00798,2020-05-10,34,63.39,One year,1,West,0,No
+C00799,2023-10-05,34,50.6,Month-to-month,4,West,0,No
+C00800,2024-01-11,45,66.0,Month-to-month,1,South,0,No
+C00801,2023-08-20,41,55.01,Month-to-month,1,South,1,Yes
+C00802,2023-10-01,33,88.12,Month-to-month,3,West,1,Yes
+C00803,2021-03-18,24,65.24,One year,2,East,0,No
+C00804,2023-03-19,69,113.45,One year,1,East,0,No
+C00805,2022-06-11,32,84.12,Two year,3,West,0,No
+C00806,2022-07-11,23,66.34,Month-to-month,3,East,1,Yes
+C00807,2022-01-30,65,94.46,Two year,2,North,0,No
+C00808,2020-08-16,32,36.61,Month-to-month,3,East,0,No
+C00809,2020-04-17,16,45.94,Month-to-month,1,East,0,No
+C00810,2020-06-06,52,64.62,One year,1,East,0,No
+C00811,2021-01-15,13,85.34,Month-to-month,1,South,1,Yes
+C00812,2021-04-04,46,37.48,Month-to-month,3,West,1,Yes
+C00813,2020-08-12,11,92.54,Two year,1,South,0,No
+C00814,2020-03-28,71,70.07,,2,East,0,No
+C00815,2023-01-12,22,46.66,Two year,0,South,0,No
+C00816,2022-02-07,68,74.84,Two year,1,North,0,No
+C00817,2021-10-30,65,87.28,Two year,0,South,0,No
+C00818,2020-10-16,2,86.26,One year,0,North,1,Yes
+C00819,2023-04-21,51,44.05,Month-to-month,3,South,0,No
+C00820,2022-09-30,58,51.62,One year,2,South,0,No
+C00821,2022-02-04,23,97.51,Month-to-month,3,South,1,Yes
+C00822,2023-03-16,16,116.6,One year,3,North,1,Yes
+C00823,2020-09-13,16,,Month-to-month,2,North,1,Yes
+C00824,2020-02-08,29,79.49,One year,1,West,0,No
+C00825,2022-04-30,28,69.04,Month-to-month,1,South,1,Yes
+C00826,2022-09-13,58,68.2,Month-to-month,0,South,0,No
+C00827,2021-11-22,59,35.58,Month-to-month,0,North,0,No
+C00828,2021-12-08,14,56.79,Month-to-month,0,East,1,Yes
+C00829,2020-06-16,19,34.22,Month-to-month,2,East,1,Yes
+C00830,2023-04-11,21,94.21,Two year,1,North,0,No
+C00831,2021-02-19,56,65.69,Month-to-month,0,West,0,No
+C00832,2022-10-28,45,46.18,Month-to-month,3,East,1,Yes
+C00833,2020-06-07,45,119.3,Month-to-month,1,South,1,Yes
+C00834,2023-10-30,16,99.58,Month-to-month,2,West,1,Yes
+C00835,2021-06-24,30,42.58,Month-to-month,0,South,0,No
+C00836,2020-07-01,5,96.04,One year,2,West,0,No
+C00837,2023-08-21,29,69.71,One year,1,North,0,No
+C00838,2020-08-06,66,63.29,,2,North,0,No
+C00839,2020-05-13,50,90.05,One year,0,East,0,No
+C00840,2023-06-23,50,28.88,Month-to-month,1,West,0,No
+C00841,2022-11-25,58,80.94,Two year,3,South,0,No
+C00842,2023-12-05,42,59.25,One year,0,East,0,No
+C00843,2023-02-13,67,96.77,Month-to-month,3,East,0,No
+C00844,2020-02-22,48,31.6,Month-to-month,2,West,0,No
+C00845,2022-05-19,18,,Month-to-month,2,North,0,No
+C00846,2020-03-21,21,67.26,Month-to-month,5,East,0,No
+C00847,2021-03-17,39,20.08,One year,2,South,0,No
+C00848,2022-09-22,65,45.65,Two year,0,East,0,No
+C00849,2022-01-14,7,36.57,Month-to-month,1,West,0,No
+C00850,2021-06-08,23,63.63,Month-to-month,1,West,0,No
+C00851,2022-07-13,35,70.15,Month-to-month,1,South,1,Yes
+C00852,2022-02-12,41,109.98,Two year,2,South,0,No
+C00853,2022-02-09,39,56.29,Month-to-month,1,South,0,No
+C00854,2020-02-20,22,47.16,Month-to-month,0,North,0,No
+C00855,2020-07-03,35,42.79,Month-to-month,2,West,0,No
+C00856,2023-07-02,33,88.47,Two year,0,East,0,No
+C00857,2022-02-21,43,60.36,Two year,2,South,0,No
+C00858,2023-01-10,45,78.43,One year,1,East,0,No
+C00859,2020-03-31,42,32.98,Month-to-month,2,West,0,No
+C00860,2020-09-17,28,99.24,One year,0,North,0,No
+C00861,2020-06-23,49,51.97,Month-to-month,2,North,0,No
+C00862,2021-06-04,11,66.73,One year,1,South,0,No
+C00863,2023-05-09,69,81.73,One year,4,West,0,No
+C00864,2021-06-15,18,59.31,One year,0,East,0,No
+C00865,2020-01-16,4,75.24,Month-to-month,0,South,1,Yes
+C00866,2023-03-17,30,88.2,Two year,4,South,1,Yes
+C00867,2023-10-26,31,20.0,Two year,1,North,1,Yes
+C00868,2021-06-14,67,90.35,Month-to-month,2,East,0,No
+C00869,2021-04-30,61,37.77,One year,3,East,0,No
+C00870,2024-01-26,8,113.47,One year,1,North,0,No
+C00871,2021-10-26,52,80.89,Month-to-month,0,South,0,No
+C00872,2021-03-22,65,86.37,One year,1,West,0,No
+C00873,2023-06-30,18,20.0,One year,1,South,0,No
+C00874,2021-03-29,41,82.56,Month-to-month,2,South,1,Yes
+C00875,2020-01-10,22,82.62,Month-to-month,2,North,0,No
+C00876,2022-11-17,27,78.74,One year,1,West,0,No
+C00877,2020-03-31,16,114.67,One year,5,East,1,Yes
+C00878,2021-12-18,18,54.72,Month-to-month,1,West,0,No
+C00879,2020-04-09,11,76.41,Month-to-month,1,East,0,No
+C00880,2022-11-04,18,98.41,One year,1,South,1,Yes
+C00881,2020-08-30,4,,Month-to-month,1,South,1,Yes
+C00882,2024-01-12,30,85.0,Month-to-month,1,North,0,No
+C00883,2024-01-21,68,73.65,Two year,3,North,0,No
+C00884,2023-12-29,5,59.02,Month-to-month,1,East,1,Yes
+C00885,2023-10-21,62,63.53,Month-to-month,0,South,0,No
+C00886,2021-07-31,7,51.2,One year,1,South,0,No
+C00887,2020-07-15,33,75.82,Month-to-month,1,South,0,No
+C00888,2023-08-26,38,52.29,Month-to-month,1,North,1,Yes
+C00889,2020-11-05,28,90.54,Month-to-month,2,South,0,No
+C00890,2020-04-10,52,103.87,Month-to-month,1,East,0,No
+C00891,2023-05-20,60,74.21,One year,2,West,0,No
+C00892,2022-02-20,9,,Two year,1,West,0,No
+C00893,2024-02-05,57,107.13,One year,0,North,0,No
+C00894,2022-10-06,30,69.94,Two year,3,South,0,No
+C00895,2020-06-24,29,81.12,Month-to-month,0,North,1,Yes
+C00896,2021-01-19,35,45.93,Two year,1,West,0,No
+C00897,2022-11-30,59,43.05,Month-to-month,1,North,0,No
+C00898,2022-05-16,17,59.64,,0,North,1,Yes
+C00899,2023-04-04,60,110.12,Two year,1,North,0,No
+C00900,2020-04-20,8,61.8,Two year,2,West,0,No
+C00901,2021-07-02,13,68.61,Two year,0,South,0,No
+C00902,2021-04-27,33,89.64,Month-to-month,0,North,0,No
+C00903,2023-03-14,41,59.39,One year,1,East,0,No
+C00904,2021-09-04,1,85.63,Month-to-month,1,South,1,Yes
+C00905,2023-08-28,38,89.25,Month-to-month,1,East,0,No
+C00906,2023-10-01,48,63.4,Two year,2,North,0,No
+C00907,2021-09-17,62,21.3,One year,4,South,0,No
+C00908,2023-05-13,51,64.56,One year,1,North,0,No
+C00909,2023-08-30,69,89.31,Month-to-month,3,South,0,No
+C00910,2021-02-24,58,84.32,Month-to-month,4,North,1,Yes
+C00911,2021-04-15,5,27.43,Month-to-month,3,North,1,Yes
+C00912,2021-03-09,37,,Month-to-month,1,East,1,Yes
+C00913,2023-03-26,38,79.1,One year,1,East,0,No
+C00914,2021-01-25,36,62.9,Month-to-month,2,South,0,No
+C00915,2020-05-22,49,77.97,Month-to-month,0,North,0,No
+C00916,2021-07-13,1,73.11,Month-to-month,3,South,0,No
+C00917,2021-05-14,50,43.6,Two year,1,West,0,No
+C00918,2020-08-08,58,74.14,Month-to-month,4,West,1,Yes
+C00919,2023-02-15,10,71.79,Month-to-month,2,West,1,Yes
+C00920,2020-01-14,51,33.31,Month-to-month,0,North,0,No
+C00921,2023-09-05,49,39.29,One year,0,North,0,No
+C00922,2021-05-16,13,119.59,One year,2,South,1,Yes
+C00923,2023-09-12,71,74.25,Two year,2,West,0,No
+C00924,2022-04-04,37,111.94,One year,1,South,0,No
+C00925,2022-02-09,37,82.42,One year,1,North,0,No
+C00926,2023-07-30,31,94.7,One year,2,North,0,No
+C00927,2021-08-15,20,61.84,One year,1,South,0,No
+C00928,2022-05-19,39,56.01,One year,1,East,0,No
+C00929,2023-05-03,45,45.91,One year,4,North,1,Yes
+C00930,2022-07-30,36,52.76,Two year,1,South,0,No
+C00931,2023-01-24,15,98.71,Two year,1,East,1,Yes
+C00932,2023-10-28,30,39.31,One year,0,West,0,No
+C00933,2023-03-01,52,94.32,Month-to-month,2,West,0,No
+C00934,2022-01-11,61,55.33,Month-to-month,3,South,0,No
+C00935,2021-03-25,68,46.96,One year,1,North,0,No
+C00936,2022-05-29,30,67.48,One year,1,South,0,No
+C00937,2020-02-07,28,94.93,Month-to-month,2,West,1,Yes
+C00938,2020-05-02,4,52.27,One year,3,East,0,No
+C00939,2021-03-23,34,42.74,Month-to-month,0,South,0,No
+C00940,2020-07-16,52,82.36,Month-to-month,1,West,0,No
+C00941,2023-07-22,28,35.39,Month-to-month,1,East,1,Yes
+C00942,2021-06-29,57,82.16,One year,1,South,0,No
+C00943,2023-05-24,22,64.25,Month-to-month,1,West,1,Yes
+C00944,2021-05-15,40,70.63,Two year,1,West,0,No
+C00945,2020-03-06,30,26.85,Month-to-month,0,East,0,No
+C00946,2023-10-26,30,29.35,Two year,0,West,0,No
+C00947,2022-12-07,62,51.67,One year,2,North,0,No
+C00948,2020-12-16,59,73.97,Month-to-month,0,West,0,No
+C00949,2020-05-28,25,109.85,One year,5,North,1,Yes
+C00950,2023-03-22,17,65.87,One year,3,West,0,No
+C00951,2021-06-11,65,102.26,Month-to-month,0,East,0,No
+C00952,2024-01-12,14,55.67,Month-to-month,3,West,0,No
+C00953,2021-02-07,2,20.0,One year,0,South,0,No
+C00954,2023-07-06,3,72.17,Month-to-month,2,East,1,Yes
+C00955,2021-10-29,67,68.65,One year,3,South,0,No
+C00956,2023-02-27,20,50.17,Month-to-month,1,North,0,No
+C00957,2020-03-01,31,54.15,Two year,0,North,0,No
+C00958,2023-11-08,40,87.55,Month-to-month,1,East,1,Yes
+C00959,2020-10-18,50,55.83,One year,2,North,0,No
+C00960,2023-03-26,27,59.97,Month-to-month,1,East,1,Yes
+C00961,2022-10-01,13,106.94,Month-to-month,1,South,1,Yes
+C00962,2020-02-09,65,52.54,Month-to-month,3,South,0,No
+C00963,2022-02-23,2,98.31,Month-to-month,3,North,1,Yes
+C00964,2021-07-05,37,54.91,Month-to-month,1,West,1,Yes
+C00965,2023-02-15,11,36.92,Month-to-month,0,West,0,No
+C00966,2022-07-27,33,86.37,Month-to-month,2,North,1,Yes
+C00967,2023-08-22,29,47.87,Month-to-month,3,East,0,No
+C00968,2020-03-06,59,81.83,Two year,1,South,0,No
+C00969,2021-08-14,67,96.39,Month-to-month,2,South,0,No
+C00970,2020-12-15,66,,One year,0,South,0,No
+C00971,2020-08-06,48,129.65,Month-to-month,1,East,1,Yes
+C00972,2020-12-20,37,56.94,One year,3,South,1,Yes
+C00973,2022-01-24,54,40.28,Month-to-month,0,North,0,No
+C00974,2021-12-26,71,123.97,One year,0,North,0,No
+C00975,2023-01-13,10,86.84,One year,1,North,1,Yes
+C00976,2020-12-12,16,81.99,One year,3,South,1,Yes
+C00977,2020-12-23,19,69.41,One year,1,East,0,No
+C00978,2021-10-26,30,73.28,Month-to-month,0,South,0,No
+C00979,2022-11-19,54,60.6,Month-to-month,1,South,0,No
+C00980,2020-11-01,61,65.6,Month-to-month,3,West,0,No
+C00981,2023-04-27,43,76.83,Month-to-month,2,East,0,No
+C00982,2022-08-06,3,86.99,Month-to-month,2,North,1,Yes
+C00983,2021-08-29,30,,One year,1,West,0,No
+C00984,2022-02-06,18,76.2,One year,0,North,0,No
+C00985,2023-05-17,36,,Two year,4,West,1,Yes
+C00986,2023-05-13,20,88.6,One year,2,East,0,No
+C00987,2021-08-10,17,73.91,Month-to-month,0,East,1,Yes
+C00988,2020-05-26,24,50.38,One year,4,East,0,No
+C00989,2022-04-10,13,113.31,Month-to-month,0,West,0,No
+C00990,2021-05-01,57,63.65,Month-to-month,1,East,1,Yes
+C00991,2022-01-08,67,99.98,One year,0,West,0,No
+C00992,2021-10-21,21,83.33,Month-to-month,1,East,0,No
+C00993,2021-06-28,4,112.9,Month-to-month,1,North,1,Yes
+C00994,2020-01-13,45,79.04,One year,1,East,0,No
+C00995,2020-01-19,39,54.24,Month-to-month,0,West,0,No
+C00996,2020-11-19,43,53.72,Month-to-month,3,North,1,Yes
+C00997,2023-04-13,38,,Month-to-month,2,North,0,No
+C00998,2021-09-20,41,22.14,One year,1,West,0,No
+C00999,2022-02-18,28,88.03,Month-to-month,1,North,0,No
+C01000,2021-10-25,5,20.0,Month-to-month,0,South,0,No
+C01001,2021-11-28,52,38.96,Month-to-month,2,South,0,No
+C01002,2023-05-26,23,103.87,Month-to-month,2,East,0,No
+C01003,2022-11-16,38,62.3,Month-to-month,0,South,0,No
+C01004,2021-03-25,36,64.87,One year,1,South,1,Yes
+C01005,2023-11-15,31,62.47,One year,0,West,0,No
+C01006,2021-12-26,8,91.29,Two year,0,North,0,No
+C01007,2022-09-17,16,102.82,Month-to-month,2,South,1,Yes
+C01008,2021-04-28,11,38.85,One year,1,North,0,No
+C01009,2023-10-06,20,75.98,Month-to-month,4,North,1,Yes
+C01010,2022-04-04,57,59.44,Month-to-month,1,North,0,No
+C01011,2020-09-24,19,78.67,Two year,1,West,1,Yes
+C01012,2020-07-08,61,,Month-to-month,0,South,0,No
+C01013,2023-12-15,25,60.24,Two year,1,East,0,No
+C01014,2021-09-18,33,33.72,One year,1,South,0,No
+C01015,2020-05-10,40,44.68,Month-to-month,1,West,0,No
+C01016,2021-12-20,17,46.54,Month-to-month,1,East,0,No
+C01017,2023-09-15,53,40.34,,1,West,0,No
+C01018,2022-08-21,47,102.05,Month-to-month,0,West,0,No
+C01019,2021-10-27,24,43.98,One year,0,South,0,No
+C01020,2022-12-13,16,50.9,Month-to-month,1,West,0,No
+C01021,2023-11-09,45,41.6,Month-to-month,4,South,1,Yes
+C01022,2020-11-25,56,73.24,Month-to-month,2,East,0,No
+C01023,2021-07-16,28,72.16,Month-to-month,2,South,0,No
+C01024,2020-03-11,46,48.67,One year,0,West,0,No
+C01025,2021-10-12,28,76.09,Month-to-month,1,North,0,No
+C01026,2022-03-11,49,124.5,Month-to-month,1,South,1,Yes
+C01027,2020-04-24,6,87.74,Month-to-month,4,East,1,Yes
+C01028,2023-12-18,29,93.11,Month-to-month,3,West,1,Yes
+C01029,2021-01-17,66,56.9,Month-to-month,1,East,0,No
+C01030,2020-09-16,69,79.46,One year,0,East,0,No
+C01031,2023-05-20,34,105.43,One year,1,North,0,No
+C01032,2021-09-20,49,81.08,Month-to-month,3,East,0,No
+C01033,2022-02-15,70,50.08,Month-to-month,2,West,0,No
+C01034,2020-09-09,66,,One year,1,South,0,No
+C01035,2023-08-31,2,80.92,One year,0,North,1,Yes
+C01036,2023-08-15,2,92.17,One year,0,East,0,No
+C01037,2021-06-25,26,32.11,Month-to-month,1,North,0,No
+C01038,2021-08-28,51,54.5,Month-to-month,4,South,0,No
+C01039,2020-08-19,28,62.56,Month-to-month,2,South,0,No
+C01040,2021-05-29,44,82.82,One year,2,West,0,No
+C01041,2021-05-27,20,95.07,Two year,0,East,0,No
+C01042,2021-10-14,46,44.51,Two year,2,West,0,No
+C01043,2021-11-29,44,78.12,Month-to-month,2,East,0,No
+C01044,2021-06-08,68,92.95,Two year,0,North,0,No
+C01045,2021-06-12,9,62.53,Two year,3,West,1,Yes
+C01046,2022-01-12,47,54.92,Two year,2,North,0,No
+C01047,2022-01-03,65,51.35,One year,1,South,0,No
+C01048,2023-09-07,21,85.46,Month-to-month,3,East,0,No
+C01049,2021-05-11,6,99.61,Month-to-month,1,North,1,Yes
+C01050,2022-10-26,25,119.15,One year,1,North,0,No
+C01051,2021-08-27,3,94.67,One year,0,North,0,No
+C01052,2021-06-14,29,77.03,One year,1,South,0,No
+C01053,2020-12-14,66,46.16,Month-to-month,4,West,0,No
+C01054,2024-01-14,15,51.39,Month-to-month,0,East,0,No
+C01055,2020-05-21,22,40.41,Month-to-month,0,East,1,Yes
+C01056,2021-12-08,70,46.32,One year,4,West,1,Yes
+C01057,2021-12-17,34,64.37,One year,2,East,0,No
+C01058,2023-03-07,3,29.25,One year,1,North,0,No
+C01059,2021-04-22,28,,Month-to-month,3,West,1,Yes
+C01060,2023-02-22,20,62.55,Month-to-month,1,South,0,No
+C01061,2023-09-14,16,113.74,One year,0,East,0,No
+C01062,2022-10-28,30,104.78,Month-to-month,2,South,1,Yes
+C01063,2023-10-05,36,58.87,Month-to-month,2,East,0,No
+C01064,2020-05-17,49,122.72,Month-to-month,0,South,0,No
+C01065,2023-06-21,50,76.44,Month-to-month,2,North,0,No
+C01066,2021-11-19,57,112.98,Month-to-month,2,South,0,No
+C01067,2020-08-31,64,83.41,One year,0,South,0,No
+C01068,2021-02-19,59,64.14,Month-to-month,3,North,0,No
+C01069,2022-11-26,6,50.55,,2,North,0,No
+C01070,2022-07-14,52,57.31,Two year,3,West,0,No
+C01071,2021-09-29,62,,Month-to-month,0,East,1,Yes
+C01072,2023-07-13,18,70.4,Month-to-month,3,South,0,No
+C01073,2020-01-15,46,34.17,Month-to-month,2,South,0,No
+C01074,2020-04-04,63,53.42,Month-to-month,1,East,0,No
+C01075,2020-01-05,23,70.7,Two year,1,South,0,No
+C01076,2022-12-22,10,41.4,Month-to-month,2,West,1,Yes
+C01077,2022-11-15,6,92.53,Two year,2,West,0,No
+C01078,2020-03-03,62,67.17,Month-to-month,2,North,0,No
+C01079,2020-07-28,43,,,0,North,0,No
+C01080,2020-02-13,17,71.23,Month-to-month,4,South,0,No
+C01081,2021-04-25,60,67.62,Two year,0,North,0,No
+C01082,2020-09-11,18,87.99,One year,0,North,0,No
+C01083,2022-07-18,69,45.52,Two year,1,North,0,No
+C01084,2021-09-08,61,76.27,One year,2,North,0,No
+C01085,2023-03-21,26,41.57,Month-to-month,1,North,0,No
+C01086,2020-05-07,15,63.6,Two year,1,East,0,No
+C01087,2021-10-20,62,33.81,Month-to-month,1,South,1,Yes
+C01088,2020-07-08,54,59.92,Month-to-month,1,North,0,No
+C01089,2020-04-19,30,88.75,Month-to-month,3,East,1,Yes
+C01090,2020-04-19,71,,One year,1,West,0,No
+C01091,2022-01-07,29,115.93,Month-to-month,4,East,0,No
+C01092,2021-11-07,6,63.53,Two year,2,North,0,No
+C01093,2020-05-12,56,51.25,Two year,2,West,0,No
+C01094,2023-03-23,51,63.47,Month-to-month,0,East,0,No
+C01095,2023-09-26,54,76.67,Two year,1,West,0,No
+C01096,2024-01-04,11,95.37,One year,2,West,0,No
+C01097,2020-12-25,44,58.17,One year,4,South,0,No
+C01098,2022-08-26,60,107.21,Month-to-month,2,South,0,No
+C01099,2021-02-23,31,77.26,One year,0,North,0,No
+C01100,2023-12-17,60,,Two year,2,West,0,No
+C01101,2023-07-30,15,20.0,Two year,3,West,0,No
+C01102,2021-04-01,49,48.33,Two year,1,South,0,No
+C01103,2021-04-12,57,65.88,Month-to-month,1,West,0,No
+C01104,2021-04-25,66,92.19,Month-to-month,4,East,1,Yes
+C01105,2022-01-27,8,20.0,Month-to-month,0,South,0,No
+C01106,2024-02-04,70,62.93,Month-to-month,2,East,0,No
+C01107,2023-12-28,16,83.94,One year,1,North,0,No
+C01108,2023-11-25,53,94.44,Month-to-month,0,West,0,No
+C01109,2021-11-02,33,33.28,Month-to-month,3,North,1,Yes
+C01110,2021-05-20,35,34.76,One year,2,East,0,No
+C01111,2020-01-16,30,70.6,Month-to-month,2,East,1,Yes
+C01112,2020-08-15,52,69.14,One year,0,North,0,No
+C01113,2023-11-02,54,40.8,Month-to-month,1,South,0,No
+C01114,2022-06-19,5,87.17,Month-to-month,3,North,1,Yes
+C01115,2020-03-09,65,87.21,Month-to-month,0,West,0,No
+C01116,2021-11-03,27,68.3,Month-to-month,0,East,1,Yes
+C01117,2021-01-22,6,76.88,One year,1,South,0,No
+C01118,2022-07-24,18,81.59,Month-to-month,0,East,1,Yes
+C01119,2023-04-20,69,96.07,Two year,1,East,0,No
+C01120,2021-03-31,57,65.77,Month-to-month,0,West,0,No
+C01121,2021-07-20,33,108.84,Two year,2,South,1,Yes
+C01122,2022-07-09,32,62.93,Month-to-month,2,North,0,No
+C01123,2022-04-07,49,48.05,Month-to-month,1,South,0,No
+C01124,2022-10-15,33,34.27,Two year,1,North,0,No
+C01125,2021-11-12,15,78.42,Month-to-month,1,East,0,No
+C01126,2021-08-10,62,85.95,One year,1,East,0,No
+C01127,2022-09-05,33,74.7,Month-to-month,0,North,0,No
+C01128,2021-12-11,57,56.35,Month-to-month,2,North,0,No
+C01129,2020-01-05,29,87.58,One year,4,West,0,No
+C01130,2022-12-21,44,41.14,Two year,1,South,0,No
+C01131,2020-12-09,51,66.8,Month-to-month,0,West,0,No
+C01132,2020-08-03,47,54.39,Month-to-month,1,East,0,No
+C01133,2023-03-26,38,111.97,Month-to-month,1,North,0,No
+C01134,2021-03-26,3,78.47,Month-to-month,2,West,1,Yes
+C01135,2022-04-02,18,103.19,Month-to-month,1,North,1,Yes
+C01136,2020-01-03,16,67.15,Month-to-month,3,West,1,Yes
+C01137,2022-05-18,68,62.1,One year,1,East,0,No
+C01138,2023-02-13,23,84.83,One year,1,South,0,No
+C01139,2023-12-20,8,,Month-to-month,2,East,1,Yes
+C01140,2022-02-03,56,106.17,Month-to-month,0,West,0,No
+C01141,2020-04-10,50,,Month-to-month,1,East,1,Yes
+C01142,2023-01-24,27,110.99,Month-to-month,1,East,1,Yes
+C01143,2024-01-12,5,100.51,Month-to-month,0,West,0,No
+C01144,2023-11-06,27,85.75,Month-to-month,1,North,0,No
+C01145,2022-01-02,61,126.73,One year,1,West,0,No
+C01146,2020-02-12,19,53.27,One year,1,South,0,No
+C01147,2020-09-22,37,103.04,Month-to-month,2,East,0,No
+C01148,2021-03-07,21,20.0,One year,2,North,0,No
+C01149,2021-10-11,4,54.62,One year,2,East,0,No
+C01150,2023-06-16,19,53.84,One year,1,West,0,No
+C01151,2020-01-16,52,43.62,Month-to-month,1,North,0,No
+C01152,2023-02-23,50,66.13,Month-to-month,4,North,0,No
+C01153,2021-09-07,32,60.12,Month-to-month,2,East,0,No
+C01154,2021-01-27,19,49.99,Two year,1,West,0,No
+C01155,2023-02-19,13,64.62,Month-to-month,1,North,1,Yes
+C01156,2022-01-11,46,52.13,Two year,1,West,0,No
+C01157,2022-08-15,66,50.06,One year,1,East,0,No
+C01158,2020-04-10,17,,Month-to-month,4,South,1,Yes
+C01159,2023-07-08,46,39.8,One year,1,West,0,No
+C01160,2022-12-08,38,81.09,,0,North,1,Yes
+C01161,2022-01-28,51,52.98,Two year,1,West,0,No
+C01162,2024-01-10,25,49.33,Month-to-month,2,North,0,No
+C01163,2020-10-27,49,61.39,Month-to-month,1,East,0,No
+C01164,2022-04-13,5,39.49,Month-to-month,0,North,0,No
+C01165,2021-12-13,52,78.92,Two year,2,West,0,No
+C01166,2023-02-04,47,113.11,Month-to-month,0,West,0,No
+C01167,2021-05-21,41,52.18,One year,1,South,0,No
+C01168,2020-05-23,15,,One year,1,West,0,No
+C01169,2023-03-12,11,97.48,Two year,1,South,1,Yes
+C01170,2020-03-23,28,63.8,Two year,2,East,1,Yes
+C01171,2021-04-25,14,68.63,Month-to-month,1,North,0,No
+C01172,2023-08-03,5,58.0,Month-to-month,2,East,0,No
+C01173,2023-11-06,16,82.13,One year,2,South,0,No
+C01174,2022-09-12,30,40.31,Month-to-month,0,West,1,Yes
+C01175,2020-01-12,43,,Two year,2,South,0,No
+C01176,2022-04-13,26,92.69,Month-to-month,4,South,1,Yes
+C01177,2023-06-07,23,75.52,Month-to-month,0,North,0,No
+C01178,2021-04-11,44,92.34,One year,2,West,0,No
+C01179,2021-07-16,56,56.9,Month-to-month,2,West,1,Yes
+C01180,2023-12-27,3,66.41,Month-to-month,3,East,1,Yes
+C01181,2022-07-23,26,85.12,Month-to-month,1,West,0,No
+C01182,2022-01-01,1,63.04,One year,2,East,0,No
+C01183,2020-06-09,57,87.06,One year,4,North,0,No
+C01184,2023-03-25,71,58.5,One year,2,East,0,No
+C01185,2022-11-17,63,94.61,Month-to-month,2,South,0,No
+C01186,2023-06-08,47,73.95,One year,0,North,0,No
+C01187,2022-05-28,13,91.7,,1,North,1,Yes
+C01188,2022-09-06,63,46.9,Two year,2,South,0,No
+C01189,2023-06-17,38,54.28,Month-to-month,0,East,0,No
+C01190,2021-03-16,32,120.74,Month-to-month,1,East,0,No
+C01191,2022-03-23,29,78.24,Month-to-month,2,West,0,No
+C01192,2020-03-17,60,51.91,One year,6,North,0,No
+C01193,2022-10-03,41,,Two year,1,South,0,No
+C01194,2023-06-05,30,20.0,One year,4,East,0,No
+C01195,2022-10-25,29,103.93,One year,3,East,0,No
+C01196,2022-11-29,53,76.45,Month-to-month,1,North,0,No
+C01197,2022-10-11,43,34.44,Month-to-month,0,East,0,No
+C01198,2021-10-28,11,76.87,Month-to-month,0,East,1,Yes
+C01199,2023-05-04,18,26.08,Month-to-month,3,East,1,Yes
+C01200,2022-06-11,1,70.6,Month-to-month,1,North,0,No
+C01201,2022-11-20,40,69.55,One year,2,South,0,No
+C01202,2023-02-09,39,97.26,Month-to-month,3,East,0,No
+C01203,2021-10-08,66,30.01,One year,3,East,0,No
+C01204,2023-04-10,49,77.69,Month-to-month,1,South,0,No
+C01205,2022-04-12,46,47.64,Two year,1,North,0,No
+C01206,2023-09-03,50,108.99,Month-to-month,2,East,0,No
+C01207,2020-11-01,23,31.58,Month-to-month,2,North,0,No
+C01208,2021-03-09,66,81.38,Month-to-month,3,East,0,No
+C01209,2023-04-22,67,61.05,Two year,2,East,0,No
+C01210,2020-09-18,33,54.57,One year,0,North,0,No
+C01211,2023-08-31,51,88.46,Month-to-month,0,South,0,No
+C01212,2022-06-25,71,63.27,Month-to-month,1,West,1,Yes
+C01213,2023-07-21,36,110.34,One year,1,South,1,Yes
+C01214,2023-06-27,24,66.79,Month-to-month,0,North,0,No
+C01215,2023-04-24,28,101.21,Month-to-month,2,East,1,Yes
+C01216,2023-02-20,2,80.02,Month-to-month,4,South,1,Yes
+C01217,2024-01-14,10,,One year,0,East,0,No
+C01218,2021-05-29,12,65.82,Month-to-month,2,North,0,No
+C01219,2020-06-01,65,68.13,One year,0,East,0,No
+C01220,2022-10-01,68,104.99,One year,2,South,0,No
+C01221,2021-05-04,62,72.25,Month-to-month,1,North,0,No
+C01222,2020-11-07,55,44.87,Month-to-month,1,West,0,No
+C01223,2021-05-18,37,82.49,One year,2,West,1,Yes
+C01224,2023-05-27,20,81.12,Month-to-month,4,East,1,Yes
+C01225,2022-01-25,70,61.52,Month-to-month,0,East,0,No
+C01226,2022-01-06,63,54.17,Month-to-month,1,East,0,No
+C01227,2022-08-11,69,20.72,,2,West,0,No
+C01228,2024-01-06,42,56.16,Two year,3,North,0,No
+C01229,2023-12-25,17,66.64,Month-to-month,1,North,1,Yes
+C01230,2021-06-14,58,78.99,Month-to-month,1,North,0,No
+C01231,2020-05-23,6,115.89,Month-to-month,1,South,1,Yes
+C01232,2023-09-09,23,40.48,One year,2,North,0,No
+C01233,2021-12-10,4,93.45,One year,0,North,0,No
+C01234,2024-01-22,9,38.16,Month-to-month,2,South,1,Yes
+C01235,2020-08-13,63,60.36,Month-to-month,0,East,0,No
+C01236,2022-05-31,42,115.61,Month-to-month,0,North,0,No
+C01237,2023-03-30,12,46.13,Month-to-month,3,East,1,Yes
+C01238,2021-04-18,35,74.0,Month-to-month,2,North,0,No
+C01239,2023-06-23,50,80.89,Month-to-month,1,South,0,No
+C01240,2021-06-20,40,20.0,Month-to-month,2,West,0,No
+C01241,2022-01-03,59,89.03,Month-to-month,2,East,0,No
+C01242,2022-10-15,6,68.59,Month-to-month,1,West,1,Yes
+C01243,2023-04-20,13,45.78,Month-to-month,0,South,0,No
+C01244,2020-09-22,60,76.8,One year,3,East,1,Yes
+C01245,2022-01-07,16,41.48,Month-to-month,1,South,1,Yes
+C01246,2020-08-03,5,49.94,One year,1,South,0,No
+C01247,2022-11-07,23,,One year,3,South,0,No
+C01248,2020-07-27,53,74.44,Month-to-month,4,West,1,Yes
+C01249,2020-03-05,67,66.27,Month-to-month,4,West,0,No
+C01250,2023-11-22,6,83.04,Two year,3,North,1,Yes
+C01251,2023-09-01,40,85.37,Month-to-month,2,West,0,No
+C01252,2021-07-19,42,,Month-to-month,0,South,0,No
+C01253,2022-08-28,23,53.29,Month-to-month,1,West,0,No
+C01254,2023-07-29,20,58.71,Two year,1,North,0,No
+C01255,2022-12-25,63,62.13,Month-to-month,2,West,0,No
+C01256,2020-06-16,30,53.4,One year,0,West,0,No
+C01257,2023-06-29,10,86.21,Month-to-month,0,East,1,Yes
+C01258,2020-07-17,12,150.0,Month-to-month,1,West,1,Yes
+C01259,2023-03-27,27,72.67,Month-to-month,1,South,0,No
+C01260,2021-02-15,2,68.99,Two year,1,West,1,Yes
+C01261,2022-01-11,47,32.74,Month-to-month,0,North,1,Yes
+C01262,2022-04-12,56,64.59,Month-to-month,3,East,0,No
+C01263,2023-12-04,11,94.38,One year,1,North,0,No
+C01264,2022-05-10,25,69.79,Month-to-month,2,West,1,Yes
+C01265,2023-09-29,44,92.62,Month-to-month,0,North,1,Yes
+C01266,2023-02-28,14,26.53,Month-to-month,3,East,1,Yes
+C01267,2022-09-02,56,55.33,One year,2,North,0,No
+C01268,2020-10-10,6,63.99,Month-to-month,1,North,0,No
+C01269,2020-11-22,24,56.78,Month-to-month,1,West,0,No
+C01270,2023-01-02,43,,Two year,0,East,0,No
+C01271,2020-06-18,50,84.33,Month-to-month,2,South,1,Yes
+C01272,2020-07-11,57,,Two year,2,North,0,No
+C01273,2023-10-03,44,76.29,Month-to-month,1,East,0,No
+C01274,2022-10-10,25,76.99,Month-to-month,1,North,0,No
+C01275,2020-03-18,22,41.24,Month-to-month,2,West,0,No
+C01276,2023-05-18,19,63.33,Month-to-month,2,South,1,Yes
+C01277,2022-07-11,64,79.05,One year,1,South,0,No
+C01278,2023-02-28,30,88.6,Two year,0,South,0,No
+C01279,2022-10-01,38,49.61,Month-to-month,4,East,1,Yes
+C01280,2023-12-07,50,,Month-to-month,2,North,1,Yes
+C01281,2023-09-06,41,88.27,One year,1,West,0,No
+C01282,2024-02-01,12,98.39,One year,1,West,0,No
+C01283,2022-06-15,57,33.71,One year,0,South,0,No
+C01284,2022-11-11,64,111.26,Month-to-month,0,East,0,No
+C01285,2020-06-11,15,36.21,One year,0,North,0,No
+C01286,2021-07-27,33,108.81,One year,2,West,0,No
+C01287,2023-06-30,66,69.49,One year,2,East,0,No
+C01288,2021-11-01,66,108.08,Month-to-month,1,East,0,No
+C01289,2023-03-17,37,107.72,Month-to-month,2,North,1,Yes
+C01290,2022-04-01,26,58.75,Two year,2,South,0,No
+C01291,2022-10-08,51,68.8,,5,West,1,Yes
+C01292,2022-04-29,13,60.89,One year,2,North,1,Yes
+C01293,2020-08-24,25,65.81,Month-to-month,0,South,0,No
+C01294,2020-05-26,20,98.81,Month-to-month,1,South,0,No
+C01295,2024-01-04,68,64.87,Month-to-month,5,West,0,No
+C01296,2021-10-16,11,111.86,Month-to-month,4,North,1,Yes
+C01297,2022-09-06,8,93.08,Month-to-month,1,West,1,Yes
+C01298,2021-01-02,53,55.07,Two year,0,West,0,No
+C01299,2022-01-29,15,50.44,One year,1,North,1,Yes
+C01300,2021-06-04,47,77.1,One year,3,South,0,No
+C01301,2020-06-16,36,63.02,Two year,1,East,0,No
+C01302,2023-06-18,24,82.08,Month-to-month,0,East,0,No
+C01303,2023-03-08,62,27.42,One year,1,North,0,No
+C01304,2023-04-04,54,37.05,Month-to-month,0,South,0,No
+C01305,2021-08-22,13,40.39,One year,1,West,0,No
+C01306,2022-09-10,46,94.4,Month-to-month,2,South,0,No
+C01307,2023-04-24,8,28.63,Month-to-month,1,North,0,No
+C01308,2020-07-08,48,97.01,Month-to-month,2,East,0,No
+C01309,2021-05-22,40,51.51,Month-to-month,3,West,0,No
+C01310,2020-06-24,20,63.3,Two year,3,West,1,Yes
+C01311,2023-11-08,51,54.35,One year,1,East,0,No
+C01312,2020-03-06,66,,Month-to-month,0,West,0,No
+C01313,2022-01-02,44,111.11,Two year,2,South,0,No
+C01314,2021-08-28,57,65.99,One year,1,East,0,No
+C01315,2021-06-05,51,44.79,Month-to-month,3,East,0,No
+C01316,2020-12-02,35,94.92,,5,East,1,Yes
+C01317,2022-06-29,12,33.95,One year,3,North,0,No
+C01318,2021-04-20,12,79.46,Month-to-month,0,East,0,No
+C01319,2020-09-09,37,49.47,Two year,0,West,0,No
+C01320,2022-02-06,50,26.25,Month-to-month,2,North,0,No
+C01321,2023-04-22,49,62.97,Month-to-month,0,East,1,Yes
+C01322,2021-07-28,12,51.31,Month-to-month,1,South,1,Yes
+C01323,2021-12-07,35,84.81,Two year,1,South,0,No
+C01324,2022-09-03,40,69.4,Month-to-month,3,East,0,No
+C01325,2022-09-28,11,98.48,Two year,1,West,0,No
+C01326,2021-02-28,3,44.54,Month-to-month,2,South,1,Yes
+C01327,2020-10-30,47,71.1,Month-to-month,0,East,0,No
+C01328,2022-05-08,52,62.19,One year,0,North,0,No
+C01329,2023-04-10,42,,Month-to-month,2,South,1,Yes
+C01330,2022-11-14,4,117.51,One year,3,North,1,Yes
+C01331,2022-07-14,17,73.84,,0,South,0,No
+C01332,2020-05-25,64,102.05,Month-to-month,2,South,0,No
+C01333,2021-04-29,65,69.93,One year,5,West,0,No
+C01334,2023-06-09,14,62.32,Month-to-month,1,South,0,No
+C01335,2022-03-16,39,68.01,Month-to-month,1,North,0,No
+C01336,2024-01-31,5,49.66,Two year,1,East,1,Yes
+C01337,2022-08-13,4,66.38,One year,0,South,0,No
+C01338,2021-03-14,20,59.77,One year,2,North,0,No
+C01339,2020-05-01,17,83.87,One year,1,West,1,Yes
+C01340,2024-01-09,25,42.77,Two year,4,East,1,Yes
+C01341,2022-11-28,12,20.93,Month-to-month,2,North,0,No
+C01342,2022-04-06,23,39.94,Month-to-month,2,North,0,No
+C01343,2023-11-18,61,115.14,Month-to-month,4,North,1,Yes
+C01344,2024-02-05,3,58.3,Month-to-month,2,North,1,Yes
+C01345,2020-09-29,9,88.9,Month-to-month,4,South,1,Yes
+C01346,2022-01-21,39,116.88,Two year,2,North,0,No
+C01347,2023-02-24,53,67.56,Month-to-month,1,East,0,No
+C01348,2022-07-28,64,22.08,Month-to-month,5,North,0,No
+C01349,2023-12-01,22,81.82,Two year,2,North,0,No
+C01350,2021-06-20,5,73.47,,0,West,1,Yes
+C01351,2022-06-26,32,40.32,Month-to-month,2,South,0,No
+C01352,2020-12-05,38,37.72,Month-to-month,2,South,0,No
+C01353,2023-10-05,8,73.96,Two year,1,East,1,Yes
+C01354,2020-06-24,23,56.38,Month-to-month,0,West,1,Yes
+C01355,2021-01-15,43,77.58,Two year,1,West,0,No
+C01356,2020-12-10,60,63.99,Two year,1,South,0,No
+C01357,2020-07-01,55,,Month-to-month,1,East,0,No
+C01358,2020-04-08,52,70.06,Month-to-month,2,North,1,Yes
+C01359,2020-03-15,24,85.84,Two year,1,North,0,No
+C01360,2021-02-18,26,47.58,Month-to-month,5,North,1,Yes
+C01361,2022-09-30,58,70.17,Month-to-month,4,North,0,No
+C01362,2022-01-23,70,43.86,Month-to-month,1,South,0,No
+C01363,2023-12-29,46,71.29,Month-to-month,2,East,0,No
+C01364,2020-11-19,52,63.43,Month-to-month,0,South,0,No
+C01365,2020-06-18,60,38.61,Month-to-month,3,East,0,No
+C01366,2020-08-31,45,91.36,One year,3,South,0,No
+C01367,2023-09-15,27,20.0,Month-to-month,1,West,1,Yes
+C01368,2020-11-02,44,57.92,Month-to-month,4,North,0,No
+C01369,2021-07-20,33,70.28,Month-to-month,0,West,0,No
+C01370,2021-08-26,31,65.97,Month-to-month,1,West,1,Yes
+C01371,2022-06-13,15,,Month-to-month,6,West,0,No
+C01372,2022-10-25,62,66.03,Two year,2,North,0,No
+C01373,2020-05-09,2,54.79,One year,0,South,0,No
+C01374,2022-09-17,48,52.33,Two year,1,North,0,No
+C01375,2023-02-11,44,55.39,Month-to-month,0,East,0,No
+C01376,2021-12-30,16,46.06,Month-to-month,4,South,1,Yes
+C01377,2022-07-11,69,64.0,Month-to-month,0,South,0,No
+C01378,2020-12-06,40,49.01,One year,1,North,0,No
+C01379,2023-09-11,1,21.54,Month-to-month,0,North,1,Yes
+C01380,2020-09-25,59,42.24,Two year,1,South,0,No
+C01381,2023-06-14,13,44.35,One year,1,North,1,Yes
+C01382,2022-11-05,44,42.85,Month-to-month,0,West,0,No
+C01383,2021-02-18,55,74.98,Two year,3,West,0,No
+C01384,2020-11-03,48,58.49,,3,East,0,No
+C01385,2022-01-07,23,66.13,Month-to-month,1,East,0,No
+C01386,2023-12-05,32,48.02,Two year,0,South,0,No
+C01387,2020-04-20,35,63.11,One year,1,South,0,No
+C01388,2023-05-13,43,119.66,Month-to-month,0,North,1,Yes
+C01389,2023-10-27,69,91.68,One year,4,East,1,Yes
+C01390,2021-07-13,63,77.84,Month-to-month,0,East,0,No
+C01391,2020-03-07,37,94.64,Month-to-month,2,North,1,Yes
+C01392,2023-02-10,45,59.28,One year,3,West,0,No
+C01393,2020-05-12,71,,One year,1,South,0,No
+C01394,2021-10-16,7,71.37,Two year,0,North,0,No
+C01395,2023-08-08,49,28.64,Two year,1,East,0,No
+C01396,2020-09-20,10,75.13,Two year,0,West,0,No
+C01397,2023-11-22,29,82.32,Month-to-month,3,West,0,No
+C01398,2024-01-12,57,88.06,Two year,0,West,0,No
+C01399,2023-08-12,10,118.5,Month-to-month,3,East,1,Yes
+C01400,2023-06-27,67,23.35,Month-to-month,0,South,0,No
+C01401,2020-11-15,10,57.01,One year,4,North,0,No
+C01402,2023-11-11,37,87.61,One year,0,West,0,No
+C01403,2020-05-18,29,107.37,Two year,1,East,1,Yes
+C01404,2023-12-25,65,37.72,One year,1,South,0,No
+C01405,2020-05-16,14,44.05,Month-to-month,2,North,0,No
+C01406,2022-04-04,3,72.66,One year,2,South,0,No
+C01407,2021-10-02,38,128.67,One year,0,North,0,No
+C01408,2020-04-05,4,55.02,One year,3,South,0,No
+C01409,2023-05-07,51,49.99,One year,0,East,0,No
+C01410,2022-05-19,62,61.26,Month-to-month,2,East,0,No
+C01411,2020-01-17,29,82.69,One year,0,East,0,No
+C01412,2023-04-30,36,84.47,Month-to-month,2,North,1,Yes
+C01413,2022-05-12,54,60.29,Month-to-month,2,East,0,No
+C01414,2020-01-22,27,29.56,Month-to-month,2,South,0,No
+C01415,2021-03-22,43,57.22,Two year,4,South,0,No
+C01416,2023-10-04,47,62.97,Month-to-month,1,West,0,No
+C01417,2022-11-23,70,73.02,Month-to-month,2,North,0,No
+C01418,2023-07-11,29,69.76,Two year,1,West,0,No
+C01419,2021-02-02,44,84.2,One year,2,East,0,No
+C01420,2022-10-05,63,115.71,Month-to-month,0,South,0,No
+C01421,2023-03-13,10,87.32,Two year,4,West,0,No
+C01422,2023-12-05,39,90.74,,2,South,0,No
+C01423,2021-06-07,32,37.67,Month-to-month,2,East,0,No
+C01424,2020-11-08,23,20.0,Month-to-month,2,South,0,No
+C01425,2023-07-28,58,53.57,One year,2,North,0,No
+C01426,2021-01-21,22,72.8,Month-to-month,1,South,0,No
+C01427,2020-02-13,62,57.97,Month-to-month,2,West,0,No
+C01428,2023-02-13,42,96.1,Month-to-month,2,West,1,Yes
+C01429,2021-10-11,42,101.29,One year,1,East,0,No
+C01430,2023-04-26,24,56.71,Month-to-month,2,North,1,Yes
+C01431,2020-10-16,53,29.26,Two year,2,East,0,No
+C01432,2023-07-31,24,,Month-to-month,0,North,1,Yes
+C01433,2021-01-05,42,107.28,Month-to-month,1,North,0,No
+C01434,2020-08-10,61,63.96,Month-to-month,2,North,1,Yes
+C01435,2022-10-03,48,35.16,One year,1,North,0,No
+C01436,2022-04-09,16,62.71,Month-to-month,1,East,1,Yes
+C01437,2020-06-03,37,69.58,Two year,3,East,0,No
+C01438,2022-03-11,66,78.67,Month-to-month,1,South,0,No
+C01439,2020-03-22,43,45.08,Month-to-month,1,South,0,No
+C01440,2022-01-18,1,72.26,One year,0,East,0,No
+C01441,2021-03-16,7,67.33,Two year,2,South,0,No
+C01442,2023-08-11,68,49.67,Month-to-month,1,South,0,No
+C01443,2023-06-10,32,,One year,1,East,0,No
+C01444,2022-06-20,30,35.32,Month-to-month,2,West,1,Yes
+C01445,2020-10-16,17,82.73,Month-to-month,0,South,0,No
+C01446,2020-10-15,68,26.47,One year,0,West,0,No
+C01447,2020-04-24,27,50.06,Two year,0,North,0,No
+C01448,2023-12-20,7,46.71,Month-to-month,0,North,0,No
+C01449,2021-11-21,12,118.25,Month-to-month,0,North,1,Yes
+C01450,2020-10-10,56,65.36,Two year,2,North,0,No
+C01451,2020-10-31,44,63.54,Month-to-month,1,South,0,No
+C01452,2022-02-18,68,107.0,Month-to-month,0,North,0,No
+C01453,2021-07-17,21,70.06,Month-to-month,0,South,0,No
+C01454,2024-01-19,15,76.25,Month-to-month,0,East,1,Yes
+C01455,2022-11-02,15,46.94,Month-to-month,0,West,0,No
+C01456,2023-01-25,64,58.06,One year,2,South,0,No
+C01457,2021-07-20,44,84.81,Month-to-month,1,North,0,No
+C01458,2020-07-02,28,108.76,,3,East,0,No
+C01459,2020-01-12,21,69.37,Month-to-month,2,East,1,Yes
+C01460,2021-03-19,24,61.78,Two year,1,East,0,No
+C01461,2020-03-31,35,62.33,Two year,1,East,0,No
+C01462,2022-06-02,33,77.07,Month-to-month,3,East,0,No
+C01463,2020-01-06,66,84.72,Two year,2,South,0,No
+C01464,2020-06-19,23,87.5,Month-to-month,1,North,0,No
+C01465,2020-09-21,22,82.03,Month-to-month,4,South,1,Yes
+C01466,2021-06-17,58,47.7,One year,1,East,0,No
+C01467,2021-12-11,69,145.83,Month-to-month,2,North,1,Yes
+C01468,2021-12-29,46,113.35,Month-to-month,3,South,1,Yes
+C01469,2022-01-14,40,81.24,Two year,1,East,0,No
+C01470,2023-06-07,25,,Month-to-month,2,North,0,No
+C01471,2022-02-20,18,64.54,Month-to-month,1,West,1,Yes
+C01472,2021-07-01,53,71.98,Month-to-month,0,North,0,No
+C01473,2022-10-26,9,65.81,Two year,3,North,0,No
+C01474,2022-10-09,6,46.06,One year,0,North,0,No
+C01475,2020-04-27,11,96.94,Month-to-month,0,West,0,No
+C01476,2023-05-14,63,84.34,Month-to-month,1,East,1,Yes
+C01477,2021-08-31,30,59.3,One year,1,West,0,No
+C01478,2024-01-14,12,63.58,Month-to-month,3,North,1,Yes
+C01479,2020-02-22,31,87.19,One year,2,North,0,No
+C01480,2020-03-18,59,42.38,Month-to-month,2,West,0,No
+C01481,2020-04-28,43,81.3,Month-to-month,2,South,0,No
+C01482,2022-08-13,26,78.27,One year,5,South,1,Yes
+C01483,2021-01-16,55,76.29,Month-to-month,3,West,1,Yes
+C01484,2023-11-27,26,97.84,Month-to-month,0,South,0,No
+C01485,2023-12-26,46,37.0,Month-to-month,1,South,0,No
+C01486,2023-11-25,4,75.62,One year,2,North,0,No
+C01487,2020-02-13,38,97.73,Month-to-month,0,West,0,No
+C01488,2023-05-16,34,86.71,One year,0,North,1,Yes
+C01489,2020-01-22,61,20.0,Two year,1,South,0,No
+C01490,2023-06-24,8,83.88,One year,1,South,0,No
+C01491,2021-09-11,61,90.25,Month-to-month,1,North,0,No
+C01492,2022-08-16,38,20.0,Month-to-month,1,South,0,No
+C01493,2021-05-09,17,79.8,Month-to-month,2,East,1,Yes
+C01494,2023-03-23,46,64.47,Month-to-month,0,South,0,No
+C01495,2020-11-05,40,78.25,One year,1,North,0,No
+C01496,2020-08-03,34,77.1,Month-to-month,2,North,1,Yes
+C01497,2020-12-13,66,53.94,Month-to-month,2,North,0,No
+C01498,2023-01-30,69,84.78,Two year,0,South,0,No
+C01499,2020-06-05,25,113.7,Two year,3,West,1,Yes
+C01500,2022-05-29,7,47.7,Two year,3,North,1,Yes
+C01501,2022-01-07,61,44.05,Month-to-month,4,North,0,No
+C01502,2022-08-31,62,33.58,One year,2,West,0,No
+C01503,2020-11-03,60,88.78,Month-to-month,1,East,0,No
+C01504,2023-06-10,30,20.0,Month-to-month,2,East,0,No
+C01505,2024-01-29,29,69.88,One year,1,North,0,No
+C01506,2022-07-27,25,30.88,Two year,2,East,0,No
+C01507,2022-03-10,4,71.51,One year,0,East,0,No
+C01508,2021-05-25,22,85.89,Two year,0,North,0,No
+C01509,2022-02-16,7,49.5,Two year,0,East,0,No
+C01510,2023-09-24,22,36.15,Month-to-month,0,West,0,No
+C01511,2021-08-22,28,55.54,One year,0,North,0,No
+C01512,2020-12-03,27,62.8,One year,1,South,0,No
+C01513,2020-03-24,65,96.26,One year,3,South,0,No
+C01514,2021-08-02,4,78.75,Two year,1,East,0,No
+C01515,2022-09-24,54,53.85,Two year,0,East,0,No
+C01516,2023-11-18,38,82.54,Month-to-month,2,West,0,No
+C01517,2023-05-04,8,27.7,Two year,0,South,0,No
+C01518,2021-03-30,12,80.05,Two year,1,North,0,No
+C01519,2023-01-09,3,72.69,One year,1,West,0,No
+C01520,2023-10-16,55,54.77,Two year,1,South,0,No
+C01521,2023-06-13,6,48.2,Month-to-month,1,East,1,Yes
+C01522,2022-09-10,18,74.04,One year,0,East,0,No
+C01523,2023-01-29,6,,Month-to-month,0,East,0,No
+C01524,2021-04-19,31,111.85,One year,0,South,0,No
+C01525,2022-11-15,4,60.97,One year,0,North,0,No
+C01526,2022-01-09,1,,Month-to-month,2,East,0,No
+C01527,2020-02-14,45,29.15,Two year,1,North,0,No
+C01528,2023-06-03,45,71.96,Month-to-month,1,South,0,No
+C01529,2021-07-14,62,39.52,Month-to-month,0,East,0,No
+C01530,2022-12-28,1,89.12,Month-to-month,1,North,1,Yes
+C01531,2023-10-09,18,36.04,Two year,0,South,0,No
+C01532,2022-11-04,30,96.61,One year,1,West,0,No
+C01533,2020-08-04,35,62.37,Two year,0,North,0,No
+C01534,2022-10-06,60,56.42,Month-to-month,2,East,1,Yes
+C01535,2020-05-15,22,80.47,One year,3,North,0,No
+C01536,2020-02-15,64,110.27,One year,1,East,0,No
+C01537,2020-08-30,18,87.16,Month-to-month,3,East,1,Yes
+C01538,2022-01-10,39,44.62,,3,North,0,No
+C01539,2021-09-03,2,70.95,Month-to-month,1,North,0,No
+C01540,2020-03-21,16,20.0,One year,2,West,0,No
+C01541,2022-09-21,18,73.42,Month-to-month,2,North,1,Yes
+C01542,2021-01-03,54,90.89,Month-to-month,3,South,0,No
+C01543,2020-09-19,23,25.89,Two year,1,West,0,No
+C01544,2022-08-26,48,41.88,Month-to-month,2,East,0,No
+C01545,2023-02-07,67,51.37,Month-to-month,3,West,0,No
+C01546,2021-05-17,12,48.93,One year,2,South,0,No
+C01547,2020-05-17,10,87.34,Month-to-month,0,North,1,Yes
+C01548,2020-09-22,41,103.07,One year,2,East,0,No
+C01549,2023-06-15,55,63.78,Month-to-month,1,North,1,Yes
+C01550,2023-11-23,52,81.35,One year,1,West,0,No
+C01551,2020-08-28,48,57.34,Month-to-month,0,East,0,No
+C01552,2022-12-30,5,70.51,Two year,0,West,0,No
+C01553,2022-10-31,11,83.9,Month-to-month,1,East,1,Yes
+C01554,2024-01-17,7,52.83,Month-to-month,0,North,0,No
+C01555,2022-05-29,45,57.63,Month-to-month,1,East,0,No
+C01556,2023-12-03,9,63.84,Month-to-month,3,East,1,Yes
+C01557,2021-04-15,19,84.63,Month-to-month,1,West,1,Yes
+C01558,2023-07-30,3,20.0,One year,0,West,0,No
+C01559,2020-04-24,70,66.81,Month-to-month,2,South,0,No
+C01560,2024-01-12,30,107.78,Month-to-month,0,East,0,No
+C01561,2020-07-05,28,60.77,Two year,2,East,0,No
+C01562,2020-10-18,18,74.54,Month-to-month,0,South,0,No
+C01563,2020-02-21,59,,One year,2,South,0,No
+C01564,2022-12-25,12,115.72,Month-to-month,1,South,1,Yes
+C01565,2022-04-06,50,85.76,Two year,1,West,0,No
+C01566,2020-05-15,4,94.3,One year,2,North,1,Yes
+C01567,2020-12-04,12,90.42,Month-to-month,2,North,1,Yes
+C01568,2021-09-05,58,89.52,Month-to-month,1,West,0,No
+C01569,2023-10-24,51,61.48,Month-to-month,1,South,1,Yes
+C01570,2022-11-06,16,59.97,Month-to-month,0,North,1,Yes
+C01571,2022-12-13,58,53.33,Month-to-month,3,North,0,No
+C01572,2020-07-31,4,130.59,Month-to-month,4,West,0,No
+C01573,2021-11-18,61,49.4,One year,0,East,0,No
+C01574,2021-06-06,40,83.51,Month-to-month,0,West,0,No
+C01575,2021-06-01,30,63.22,Month-to-month,1,East,1,Yes
+C01576,2020-12-15,54,46.89,Month-to-month,3,West,0,No
+C01577,2023-03-12,68,67.22,Month-to-month,0,West,0,No
+C01578,2023-03-15,57,87.73,Month-to-month,4,West,0,No
+C01579,2023-01-23,46,20.14,One year,1,North,0,No
+C01580,2022-11-05,12,103.01,Month-to-month,1,South,1,Yes
+C01581,2022-02-05,6,79.09,,2,East,1,Yes
+C01582,2021-03-06,31,75.57,Month-to-month,1,South,0,No
+C01583,2020-06-24,59,64.32,Month-to-month,2,North,0,No
+C01584,2022-02-06,69,59.18,Month-to-month,0,East,0,No
+C01585,2022-08-08,60,71.53,One year,1,South,0,No
+C01586,2021-01-16,33,133.49,Month-to-month,3,North,0,No
+C01587,2021-03-06,38,67.73,,0,South,0,No
+C01588,2021-10-26,44,85.85,One year,2,South,0,No
+C01589,2020-02-19,61,75.01,Month-to-month,1,East,0,No
+C01590,2021-04-09,46,90.36,Month-to-month,0,West,0,No
+C01591,2021-06-20,30,58.01,One year,1,West,0,No
+C01592,2022-09-20,28,119.44,Month-to-month,0,North,0,No
+C01593,2020-08-31,28,55.85,One year,2,North,0,No
+C01594,2024-01-08,30,85.35,,2,East,1,Yes
+C01595,2022-10-18,39,91.1,Month-to-month,2,West,0,No
+C01596,2024-01-16,12,,Two year,2,East,1,Yes
+C01597,2020-05-28,33,99.77,Month-to-month,0,West,0,No
+C01598,2023-08-26,51,62.97,Two year,6,South,0,No
+C01599,2024-01-05,41,86.52,Month-to-month,2,North,1,Yes
+C01600,2020-03-10,71,67.53,Month-to-month,4,West,0,No
+C01601,2020-05-08,31,130.3,One year,1,West,0,No
+C01602,2021-10-14,23,75.05,Month-to-month,1,South,0,No
+C01603,2023-01-30,36,31.29,Two year,2,East,0,No
+C01604,2022-09-09,69,72.25,Month-to-month,1,West,1,Yes
+C01605,2023-04-13,64,51.85,Month-to-month,1,West,0,No
+C01606,2022-09-12,5,97.32,Month-to-month,2,East,1,Yes
+C01607,2023-01-16,50,33.61,Two year,1,East,0,No
+C01608,2022-01-18,30,,,2,South,0,No
+C01609,2021-12-28,64,24.86,Month-to-month,5,West,0,No
+C01610,2022-01-02,62,64.35,One year,2,West,0,No
+C01611,2020-01-29,27,20.0,Two year,2,South,1,Yes
+C01612,2023-11-17,51,45.05,Two year,2,North,0,No
+C01613,2023-10-13,18,,Two year,1,South,0,No
+C01614,2022-01-10,57,100.1,One year,0,West,0,No
+C01615,2022-02-24,36,67.18,Month-to-month,1,East,0,No
+C01616,2020-07-26,48,76.51,Month-to-month,1,East,0,No
+C01617,2024-01-01,49,53.2,One year,1,North,0,No
+C01618,2023-09-26,68,95.63,Month-to-month,3,West,0,No
+C01619,2023-09-07,63,64.49,Month-to-month,2,South,1,Yes
+C01620,2023-06-22,38,105.27,Two year,1,East,1,Yes
+C01621,2022-11-05,6,45.2,Two year,1,North,1,Yes
+C01622,2023-06-20,56,93.67,One year,1,North,0,No
+C01623,2020-11-12,47,20.0,One year,1,North,0,No
+C01624,2023-04-21,39,72.22,Month-to-month,3,North,0,No
+C01625,2024-01-28,50,42.19,One year,0,South,0,No
+C01626,2023-05-16,9,52.26,Two year,0,West,0,No
+C01627,2023-12-20,66,73.96,Month-to-month,3,North,0,No
+C01628,2021-10-03,67,65.67,Two year,2,North,0,No
+C01629,2020-08-20,63,59.76,Month-to-month,2,East,0,No
+C01630,2021-10-01,17,67.21,Month-to-month,0,East,0,No
+C01631,2022-08-17,62,100.43,Month-to-month,2,East,0,No
+C01632,2021-09-30,67,128.52,Two year,1,East,0,No
+C01633,2020-05-22,12,70.36,One year,0,South,1,Yes
+C01634,2020-10-03,32,41.47,Month-to-month,1,North,1,Yes
+C01635,2020-06-05,11,43.1,Month-to-month,3,East,0,No
+C01636,2023-10-08,21,73.3,,2,East,1,Yes
+C01637,2021-11-27,15,43.08,Two year,0,East,0,No
+C01638,2020-06-10,53,67.4,Month-to-month,0,West,0,No
+C01639,2023-12-09,30,49.53,Month-to-month,3,West,1,Yes
+C01640,2020-12-13,6,96.38,One year,2,East,1,Yes
+C01641,2022-11-13,15,53.81,Month-to-month,3,North,1,Yes
+C01642,2021-07-15,52,90.21,Month-to-month,2,West,0,No
+C01643,2021-12-02,33,64.03,Month-to-month,2,North,0,No
+C01644,2020-09-11,24,45.93,One year,2,South,0,No
+C01645,2024-01-17,7,75.91,Two year,1,South,1,Yes
+C01646,2022-05-25,66,26.2,Month-to-month,0,South,0,No
+C01647,2023-02-15,71,70.41,Two year,1,West,0,No
+C01648,2021-11-02,41,,Month-to-month,5,North,1,Yes
+C01649,2022-10-24,61,101.4,Month-to-month,1,South,0,No
+C01650,2020-02-08,37,66.84,Month-to-month,3,East,0,No
+C01651,2023-02-12,13,53.22,Month-to-month,1,East,1,Yes
+C01652,2022-12-09,36,64.47,Two year,1,South,0,No
+C01653,2020-03-19,63,,Month-to-month,3,South,0,No
+C01654,2023-07-06,70,57.31,One year,2,South,0,No
+C01655,2020-04-09,63,78.0,Month-to-month,1,North,0,No
+C01656,2023-06-15,59,70.18,Month-to-month,1,South,0,No
+C01657,2020-01-13,19,97.81,Month-to-month,0,East,1,Yes
+C01658,2022-04-21,1,,Month-to-month,1,East,1,Yes
+C01659,2023-08-27,2,86.32,Month-to-month,0,West,1,Yes
+C01660,2021-08-30,22,83.6,Month-to-month,2,East,0,No
+C01661,2021-05-27,14,110.36,One year,3,North,0,No
+C01662,2022-03-12,68,59.47,Two year,5,North,0,No
+C01663,2023-10-11,18,66.93,Month-to-month,1,North,1,Yes
+C01664,2020-02-05,6,21.34,Month-to-month,3,North,1,Yes
+C01665,2020-06-21,27,32.5,Month-to-month,4,East,1,Yes
+C01666,2020-12-15,64,58.54,Month-to-month,0,South,0,No
+C01667,2022-12-04,28,81.91,Month-to-month,4,North,1,Yes
+C01668,2021-09-30,42,78.25,Month-to-month,0,North,1,Yes
+C01669,2021-03-26,14,88.98,Month-to-month,5,North,1,Yes
+C01670,2021-01-22,46,30.13,One year,2,East,0,No
+C01671,2020-02-17,49,56.81,Month-to-month,2,East,1,Yes
+C01672,2022-11-11,57,78.53,Month-to-month,1,West,0,No
+C01673,2020-06-06,59,38.56,Month-to-month,2,West,0,No
+C01674,2023-06-29,18,108.03,One year,0,North,1,Yes
+C01675,2023-04-24,8,55.95,Month-to-month,0,North,1,Yes
+C01676,2021-11-17,27,63.12,Month-to-month,4,South,0,No
+C01677,2021-04-09,18,83.69,Month-to-month,2,West,1,Yes
+C01678,2022-02-08,69,46.12,Month-to-month,2,North,0,No
+C01679,2020-01-30,44,116.33,One year,0,East,0,No
+C01680,2022-03-06,48,72.96,Month-to-month,2,South,0,No
+C01681,2023-03-16,59,58.28,One year,3,East,0,No
+C01682,2020-09-03,28,47.68,Two year,0,East,0,No
+C01683,2023-04-11,7,68.48,Two year,1,North,0,No
+C01684,2022-02-17,8,81.72,Month-to-month,1,East,1,Yes
+C01685,2020-11-16,54,126.69,Month-to-month,1,North,1,Yes
+C01686,2021-03-18,27,88.37,Two year,1,West,0,No
+C01687,2021-02-21,38,70.01,One year,2,South,0,No
+C01688,2021-08-12,50,79.04,Two year,0,East,0,No
+C01689,2021-09-28,21,86.07,Month-to-month,1,North,1,Yes
+C01690,2023-12-25,57,31.36,Month-to-month,0,North,0,No
+C01691,2022-04-29,62,82.1,Two year,0,North,0,No
+C01692,2022-09-08,56,44.57,Month-to-month,1,West,0,No
+C01693,2022-07-13,24,54.93,One year,2,East,1,Yes
+C01694,2023-07-18,58,100.42,Month-to-month,3,East,1,Yes
+C01695,2022-08-20,10,130.92,One year,0,South,0,No
+C01696,2022-08-04,1,101.35,One year,1,East,0,No
+C01697,2020-09-04,20,58.5,Month-to-month,1,North,1,Yes
+C01698,2023-11-08,51,,Month-to-month,0,East,0,No
+C01699,2022-11-23,39,97.92,One year,0,South,0,No
+C01700,2021-12-15,68,54.93,Two year,1,West,0,No
+C01701,2023-02-25,31,70.09,One year,3,East,1,Yes
+C01702,2022-02-01,38,69.21,,1,West,0,No
+C01703,2021-09-08,57,20.0,Two year,1,West,0,No
+C01704,2020-08-17,6,67.07,Month-to-month,4,North,1,Yes
+C01705,2023-05-26,60,,Month-to-month,1,East,0,No
+C01706,2022-12-07,62,38.41,Month-to-month,0,South,0,No
+C01707,2022-07-26,32,89.85,Two year,2,East,1,Yes
+C01708,2021-09-23,71,70.12,Month-to-month,1,East,0,No
+C01709,2021-06-29,18,,One year,1,West,0,No
+C01710,2023-07-09,32,70.97,Month-to-month,1,South,0,No
+C01711,2021-09-10,32,64.64,Month-to-month,2,South,1,Yes
+C01712,2023-04-10,40,61.67,Month-to-month,1,South,0,No
+C01713,2022-03-05,51,70.74,One year,1,North,0,No
+C01714,2021-07-07,39,43.84,Month-to-month,1,North,0,No
+C01715,2022-03-06,69,66.7,One year,2,South,0,No
+C01716,2021-06-10,40,78.77,Month-to-month,0,South,1,Yes
+C01717,2020-09-15,14,42.93,One year,0,West,0,No
+C01718,2022-11-09,36,,Month-to-month,2,South,1,Yes
+C01719,2023-03-10,12,72.26,Month-to-month,2,East,1,Yes
+C01720,2022-05-30,55,80.35,Month-to-month,0,West,0,No
+C01721,2020-10-14,37,55.89,Month-to-month,3,North,1,Yes
+C01722,2021-07-04,52,42.1,Month-to-month,0,South,0,No
+C01723,2021-04-23,35,65.89,One year,0,East,0,No
+C01724,2022-02-08,59,67.92,Month-to-month,1,West,0,No
+C01725,2021-09-26,29,111.91,Month-to-month,1,South,1,Yes
+C01726,2022-03-12,10,66.87,Month-to-month,2,East,1,Yes
+C01727,2021-03-09,9,73.21,Month-to-month,3,West,1,Yes
+C01728,2020-04-24,18,,Month-to-month,4,East,1,Yes
+C01729,2020-01-13,26,83.4,One year,0,West,0,No
+C01730,2023-03-25,60,59.02,Month-to-month,0,South,0,No
+C01731,2023-01-15,60,70.25,One year,2,North,0,No
+C01732,2023-02-08,59,48.26,Month-to-month,1,North,0,No
+C01733,2021-12-17,19,87.4,Month-to-month,0,South,0,No
+C01734,2020-04-25,13,76.06,Two year,1,West,0,No
+C01735,2023-03-11,2,85.61,Month-to-month,1,South,0,No
+C01736,2021-09-22,28,45.45,Month-to-month,1,East,0,No
+C01737,2022-04-19,11,47.78,Month-to-month,1,South,0,No
+C01738,2022-07-20,68,81.32,Month-to-month,1,West,0,No
+C01739,2022-01-18,62,57.65,One year,0,South,0,No
+C01740,2022-08-16,17,27.69,Month-to-month,2,East,0,No
+C01741,2022-12-21,28,58.33,One year,2,East,0,No
+C01742,2020-08-02,7,102.74,Month-to-month,3,West,1,Yes
+C01743,2020-08-23,1,79.34,Month-to-month,1,West,1,Yes
+C01744,2021-04-13,8,78.79,Month-to-month,0,South,0,No
+C01745,2022-04-09,26,50.61,Month-to-month,1,East,0,No
+C01746,2022-10-19,68,99.75,Month-to-month,1,South,0,No
+C01747,2023-06-21,60,42.1,Month-to-month,0,North,0,No
+C01748,2021-02-19,37,109.74,Month-to-month,0,West,1,Yes
+C01749,2020-06-30,45,80.61,Two year,2,South,1,Yes
+C01750,2023-09-24,39,25.45,One year,0,South,0,No
+C01751,2020-08-19,43,63.59,Month-to-month,1,North,0,No
+C01752,2024-01-07,37,72.23,Month-to-month,4,East,1,Yes
+C01753,2021-07-17,69,64.21,One year,3,West,0,No
+C01754,2022-06-25,14,66.76,Two year,1,South,0,No
+C01755,2023-06-08,14,41.49,One year,0,North,0,No
+C01756,2020-04-02,42,88.5,Two year,4,East,0,No
+C01757,2020-11-10,7,77.88,One year,0,West,0,No
+C01758,2020-10-11,13,36.97,Two year,0,East,1,Yes
+C01759,2021-08-15,4,82.8,Month-to-month,1,South,1,Yes
+C01760,2020-12-27,17,121.38,One year,2,South,0,No
+C01761,2021-09-17,6,62.05,Month-to-month,1,West,0,No
+C01762,2023-07-21,41,85.64,Month-to-month,2,West,0,No
+C01763,2023-09-22,56,49.47,Month-to-month,2,West,0,No
+C01764,2020-08-06,30,73.39,Month-to-month,3,West,1,Yes
+C01765,2024-01-18,54,109.72,One year,1,South,0,No
+C01766,2020-05-25,23,60.36,Two year,2,West,0,No
+C01767,2020-09-21,24,82.57,Month-to-month,2,North,1,Yes
+C01768,2021-04-16,37,94.04,Two year,3,South,1,Yes
+C01769,2021-07-05,60,72.3,Two year,5,West,0,No
+C01770,2023-07-30,35,92.99,Two year,1,East,0,No
+C01771,2020-04-01,71,85.29,One year,1,South,0,No
+C01772,2023-04-01,7,79.43,Month-to-month,2,East,0,No
+C01773,2020-10-14,18,33.99,Two year,2,North,1,Yes
+C01774,2020-07-09,49,98.95,Month-to-month,3,North,1,Yes
+C01775,2023-10-06,38,37.95,Month-to-month,2,North,0,No
+C01776,2021-03-01,1,127.52,Month-to-month,1,East,1,Yes
+C01777,2020-08-11,5,,Two year,1,North,0,No
+C01778,2020-12-08,61,,Month-to-month,3,South,1,Yes
+C01779,2022-11-01,11,87.8,One year,1,West,0,No
+C01780,2020-12-22,30,66.98,Month-to-month,2,West,0,No
+C01781,2023-01-12,14,84.49,Month-to-month,0,North,0,No
+C01782,2022-09-26,20,60.19,Month-to-month,0,West,0,No
+C01783,2021-07-17,42,104.98,Two year,0,West,0,No
+C01784,2022-03-09,45,35.49,One year,1,South,0,No
+C01785,2020-01-24,52,82.59,Month-to-month,1,South,0,No
+C01786,2020-02-29,17,26.59,Month-to-month,1,North,0,No
+C01787,2023-09-25,38,31.93,Month-to-month,2,South,0,No
+C01788,2022-06-04,15,59.6,One year,2,East,0,No
+C01789,2021-09-01,37,108.7,Month-to-month,4,South,1,Yes
+C01790,2022-04-07,5,89.09,Month-to-month,0,North,0,No
+C01791,2020-01-06,48,86.78,Month-to-month,1,North,1,Yes
+C01792,2020-06-20,1,43.0,Two year,2,South,1,Yes
+C01793,2020-01-27,50,20.0,One year,3,East,0,No
+C01794,2023-10-26,38,66.07,One year,2,West,1,Yes
+C01795,2022-12-05,45,70.16,Two year,2,West,1,Yes
+C01796,2021-10-23,70,80.55,Two year,2,East,0,No
+C01797,2020-07-05,17,,One year,1,East,0,No
+C01798,2023-06-17,17,66.63,,0,North,0,No
+C01799,2021-07-31,11,72.08,Month-to-month,1,North,0,No
+C01800,2021-07-09,6,,Month-to-month,0,East,0,No
+C01801,2021-04-06,24,70.88,Two year,2,West,0,No
+C01802,2021-03-08,48,39.13,Month-to-month,1,South,0,No
+C01803,2023-09-12,68,73.12,Two year,2,West,0,No
+C01804,2021-08-13,39,78.41,Month-to-month,2,North,1,Yes
+C01805,2020-02-14,19,95.9,Month-to-month,1,South,1,Yes
+C01806,2021-04-24,32,74.55,Two year,3,West,1,Yes
+C01807,2022-11-27,43,55.97,,2,East,0,No
+C01808,2021-08-24,48,77.72,Month-to-month,1,North,0,No
+C01809,2022-01-04,22,82.95,One year,1,West,0,No
+C01810,2023-06-03,56,78.3,Month-to-month,2,West,0,No
+C01811,2020-11-14,32,50.65,Month-to-month,1,North,0,No
+C01812,2021-10-20,67,109.52,One year,4,East,0,No
+C01813,2021-07-30,20,103.31,Month-to-month,0,West,1,Yes
+C01814,2022-07-28,32,53.78,Month-to-month,2,North,0,No
+C01815,2023-01-15,20,94.48,One year,2,East,1,Yes
+C01816,2023-09-08,40,41.14,Two year,0,East,0,No
+C01817,2024-01-29,40,56.01,Two year,0,North,0,No
+C01818,2023-12-29,62,20.0,One year,0,North,0,No
+C01819,2021-12-16,45,42.77,Month-to-month,2,West,0,No
+C01820,2023-07-05,55,66.09,One year,2,North,0,No
+C01821,2020-11-24,63,63.69,Two year,1,East,0,No
+C01822,2020-06-24,17,73.65,Two year,1,West,0,No
+C01823,2021-04-26,7,44.57,Month-to-month,0,East,1,Yes
+C01824,2020-02-21,69,55.93,Two year,2,East,0,No
+C01825,2020-10-18,46,44.77,Two year,1,South,0,No
+C01826,2022-05-15,31,77.25,Month-to-month,2,North,0,No
+C01827,2021-04-06,54,101.99,Two year,1,West,0,No
+C01828,2020-03-12,34,87.09,One year,1,East,0,No
+C01829,2023-06-20,19,70.75,Two year,2,South,0,No
+C01830,2021-03-02,7,94.76,Month-to-month,3,West,0,No
+C01831,2021-09-12,3,65.96,Month-to-month,1,South,0,No
+C01832,2021-03-02,27,24.21,Two year,2,South,0,No
+C01833,2020-05-06,26,107.66,Month-to-month,0,North,1,Yes
+C01834,2021-07-22,14,87.9,Month-to-month,3,East,1,Yes
+C01835,2021-04-13,64,63.17,Month-to-month,2,East,0,No
+C01836,2022-09-12,63,30.52,Month-to-month,2,East,0,No
+C01837,2023-02-14,58,80.38,Month-to-month,1,West,1,Yes
+C01838,2022-10-21,38,28.62,Month-to-month,1,West,1,Yes
+C01839,2021-09-29,46,73.22,One year,2,South,0,No
+C01840,2023-05-02,22,57.06,Two year,2,East,0,No
+C01841,2021-03-06,70,60.95,One year,2,South,0,No
+C01842,2022-06-11,50,95.87,Month-to-month,1,West,1,Yes
+C01843,2021-03-27,26,87.42,One year,2,North,0,No
+C01844,2021-08-01,13,48.01,Month-to-month,1,West,1,Yes
+C01845,2023-05-12,53,27.24,Two year,2,North,0,No
+C01846,2022-07-31,71,39.02,Month-to-month,2,East,0,No
+C01847,2023-10-01,48,,Month-to-month,1,South,0,No
+C01848,2020-11-14,11,93.84,Two year,1,North,0,No
+C01849,2022-01-16,17,72.62,One year,2,East,0,No
+C01850,2022-06-04,39,122.39,Month-to-month,3,West,0,No
+C01851,2023-07-02,49,104.14,Month-to-month,3,North,1,Yes
+C01852,2023-06-06,61,47.03,Month-to-month,3,West,0,No
+C01853,2023-10-05,7,50.99,Month-to-month,1,North,0,No
+C01854,2024-02-03,71,131.86,Month-to-month,0,West,0,No
+C01855,2023-10-22,2,45.85,Month-to-month,2,West,0,No
+C01856,2020-12-22,64,89.03,Two year,3,South,1,Yes
+C01857,2023-11-22,66,66.69,One year,2,North,0,No
+C01858,2021-07-06,22,103.19,Month-to-month,4,South,0,No
+C01859,2020-08-25,47,66.09,Two year,0,South,0,No
+C01860,2021-07-09,1,61.58,One year,0,North,0,No
+C01861,2021-06-13,37,54.47,One year,0,West,0,No
+C01862,2020-11-06,27,88.26,Month-to-month,1,East,0,No
+C01863,2020-08-25,21,105.43,Month-to-month,1,East,1,Yes
+C01864,2021-12-13,35,118.13,One year,1,West,0,No
+C01865,2021-10-17,62,53.8,Month-to-month,2,West,1,Yes
+C01866,2023-03-22,31,78.11,,5,West,0,No
+C01867,2022-09-02,28,75.53,Month-to-month,1,South,0,No
+C01868,2022-03-21,53,119.98,One year,2,North,1,Yes
+C01869,2023-10-27,24,49.1,Month-to-month,1,North,0,No
+C01870,2023-05-15,63,86.73,Two year,1,North,0,No
+C01871,2020-01-12,49,65.36,Month-to-month,1,East,0,No
+C01872,2024-01-10,60,20.0,Two year,3,East,0,No
+C01873,2020-08-26,44,56.25,One year,4,East,1,Yes
+C01874,2021-03-02,43,93.72,Month-to-month,0,South,1,Yes
+C01875,2020-04-03,14,58.21,Month-to-month,1,North,0,No
+C01876,2021-08-26,10,20.0,Two year,2,South,1,Yes
+C01877,2022-09-15,28,53.69,One year,2,East,0,No
+C01878,2020-08-25,35,27.27,Month-to-month,1,South,0,No
+C01879,2023-08-21,71,109.36,,1,North,0,No
+C01880,2020-04-27,42,40.13,Month-to-month,1,South,0,No
+C01881,2023-09-16,38,48.24,One year,0,South,0,No
+C01882,2021-01-15,7,82.59,Month-to-month,0,West,1,Yes
+C01883,2020-03-17,59,64.45,One year,1,East,0,No
+C01884,2020-08-18,4,90.97,Month-to-month,1,West,0,No
+C01885,2023-06-21,12,101.3,Month-to-month,0,West,1,Yes
+C01886,2020-11-28,30,61.65,Month-to-month,3,North,0,No
+C01887,2021-01-27,27,72.34,Two year,0,North,0,No
+C01888,2023-09-30,36,93.32,Month-to-month,0,South,0,No
+C01889,2022-08-09,53,48.53,Month-to-month,2,West,0,No
+C01890,2021-03-18,18,58.94,Month-to-month,1,South,0,No
+C01891,2021-09-11,11,69.9,Month-to-month,0,East,0,No
+C01892,2021-05-05,61,99.92,Two year,1,North,0,No
+C01893,2021-09-06,26,72.28,Two year,1,North,0,No
+C01894,2021-12-03,27,20.0,Month-to-month,1,South,1,Yes
+C01895,2022-05-04,52,119.96,Month-to-month,3,South,0,No
+C01896,2020-12-14,28,,Month-to-month,0,South,0,No
+C01897,2022-03-30,5,60.37,Two year,2,East,0,No
+C01898,2022-02-08,54,79.38,One year,2,West,0,No
+C01899,2023-07-28,24,77.74,Month-to-month,2,East,1,Yes
+C01900,2020-02-23,23,63.19,Month-to-month,0,South,0,No
+C01901,2021-06-20,44,65.36,One year,2,North,0,No
+C01902,2022-08-21,7,83.29,Month-to-month,4,East,1,Yes
+C01903,2020-02-25,14,76.39,Month-to-month,1,West,0,No
+C01904,2022-07-28,18,71.46,Month-to-month,1,South,1,Yes
+C01905,2022-09-18,41,91.17,Month-to-month,2,East,1,Yes
+C01906,2020-06-08,69,49.49,Two year,0,East,0,No
+C01907,2020-06-15,19,77.51,Month-to-month,0,East,1,Yes
+C01908,2022-04-30,3,77.34,Month-to-month,2,West,1,Yes
+C01909,2021-04-06,28,,Two year,2,North,0,No
+C01910,2020-12-16,9,68.92,Month-to-month,4,North,0,No
+C01911,2021-12-09,52,96.03,Month-to-month,1,North,0,No
+C01912,2022-02-16,48,54.8,Month-to-month,3,South,0,No
+C01913,2020-04-03,64,73.17,Month-to-month,1,North,0,No
+C01914,2022-03-05,31,69.78,One year,2,West,0,No
+C01915,2022-10-07,14,83.52,Month-to-month,4,South,1,Yes
+C01916,2023-08-08,47,58.56,Two year,2,South,0,No
+C01917,2021-11-02,15,45.87,One year,5,East,1,Yes
+C01918,2023-07-21,47,41.57,Month-to-month,3,North,1,Yes
+C01919,2022-08-26,46,71.05,Two year,0,East,0,No
+C01920,2022-01-02,5,91.19,One year,2,South,0,No
+C01921,2022-11-30,11,35.46,Month-to-month,0,South,1,Yes
+C01922,2022-06-12,64,46.75,Month-to-month,0,East,0,No
+C01923,2020-06-29,19,85.24,Two year,1,South,1,Yes
+C01924,2022-09-21,59,40.24,Month-to-month,4,East,0,No
+C01925,2021-03-23,14,45.89,Two year,1,South,0,No
+C01926,2020-07-29,13,74.41,One year,0,South,0,No
+C01927,2023-02-26,30,72.27,One year,0,South,0,No
+C01928,2020-04-21,10,23.9,Month-to-month,0,South,1,Yes
+C01929,2023-03-10,47,89.51,Two year,3,East,0,No
+C01930,2022-07-06,61,68.44,,1,North,0,No
+C01931,2020-01-22,30,38.57,One year,1,South,0,No
+C01932,2020-11-23,25,108.35,One year,3,East,0,No
+C01933,2022-06-09,60,,One year,2,West,0,No
+C01934,2021-01-05,16,35.17,Month-to-month,3,North,1,Yes
+C01935,2021-06-05,55,,Two year,1,East,0,No
+C01936,2020-07-11,33,61.03,One year,2,East,0,No
+C01937,2021-01-24,12,78.01,Month-to-month,1,West,1,Yes
+C01938,2021-08-11,16,55.3,Month-to-month,1,North,0,No
+C01939,2023-08-21,26,70.93,Month-to-month,2,East,0,No
+C01940,2023-07-05,22,106.45,One year,0,North,0,No
+C01941,2021-12-02,23,42.26,One year,1,South,0,No
+C01942,2022-06-22,31,71.95,Month-to-month,1,West,0,No
+C01943,2023-01-21,42,41.67,Two year,1,South,0,No
+C01944,2022-04-05,10,92.01,Month-to-month,1,East,1,Yes
+C01945,2022-04-28,53,72.09,Month-to-month,3,East,1,Yes
+C01946,2020-06-06,44,49.61,One year,2,South,0,No
+C01947,2021-09-02,51,68.39,One year,1,North,0,No
+C01948,2020-07-12,17,58.76,Two year,1,West,0,No
+C01949,2023-07-20,65,52.27,One year,1,East,0,No
+C01950,2020-08-08,27,53.92,Two year,3,East,0,No
+C01951,2022-06-17,8,89.63,One year,1,East,0,No
+C01952,2023-02-26,55,52.03,Month-to-month,1,West,0,No
+C01953,2020-05-27,59,74.66,Month-to-month,0,South,0,No
+C01954,2022-01-16,58,82.37,Month-to-month,3,West,0,No
+C01955,2023-07-27,59,39.07,Month-to-month,1,South,0,No
+C01956,2023-03-16,14,77.17,Two year,0,North,0,No
+C01957,2021-01-23,19,56.63,One year,4,East,0,No
+C01958,2022-02-10,18,26.61,Two year,0,South,0,No
+C01959,2022-06-19,43,59.98,Two year,1,South,0,No
+C01960,2020-04-19,45,79.24,Two year,1,East,1,Yes
+C01961,2020-09-10,71,89.96,Two year,2,West,0,No
+C01962,2023-10-02,47,74.69,Two year,0,West,0,No
+C01963,2020-08-19,55,58.0,Month-to-month,1,West,0,No
+C01964,2020-12-01,51,78.94,Month-to-month,0,North,0,No
+C01965,2023-02-25,44,43.47,One year,0,North,0,No
+C01966,2021-05-28,66,91.94,One year,1,East,0,No
+C01967,2020-03-11,7,27.04,Month-to-month,3,North,0,No
+C01968,2022-03-11,48,68.48,One year,0,North,0,No
+C01969,2020-06-22,45,42.74,One year,3,East,0,No
+C01970,2021-08-20,10,104.05,One year,3,South,0,No
+C01971,2021-12-10,4,83.69,Month-to-month,2,East,0,No
+C01972,2020-01-14,10,114.66,Month-to-month,4,South,1,Yes
+C01973,2022-09-26,35,82.52,Month-to-month,0,West,0,No
+C01974,2023-02-24,2,59.22,Two year,1,East,0,No
+C01975,2023-03-24,39,89.22,Month-to-month,3,West,0,No
+C01976,2020-01-27,51,66.23,Two year,1,East,0,No
+C01977,2022-03-01,14,68.72,Month-to-month,1,West,1,Yes
+C01978,2021-08-12,47,81.33,Month-to-month,1,West,0,No
+C01979,2022-12-12,38,71.3,Two year,1,West,0,No
+C01980,2023-10-16,7,110.74,Two year,3,North,0,No
+C01981,2020-01-25,44,62.48,Month-to-month,5,South,1,Yes
+C01982,2021-06-08,2,63.24,Two year,3,South,0,No
+C01983,2020-03-18,49,,Month-to-month,1,West,0,No
+C01984,2022-05-18,18,52.16,Month-to-month,0,North,0,No
+C01985,2020-08-04,20,121.57,Month-to-month,1,South,1,Yes
+C01986,2023-04-06,20,45.84,One year,1,South,0,No
+C01987,2022-10-18,66,110.58,One year,1,South,0,No
+C01988,2021-01-13,28,,Two year,2,North,0,No
+C01989,2020-08-25,36,65.89,Two year,1,South,0,No
+C01990,2021-08-04,10,88.26,Month-to-month,2,East,0,No
+C01991,2020-07-15,14,33.67,Month-to-month,3,East,1,Yes
+C01992,2020-12-26,54,79.27,Month-to-month,2,West,0,No
+C01993,2021-09-23,71,80.44,One year,1,East,0,No
+C01994,2020-10-01,11,49.81,Two year,0,East,0,No
+C01995,2020-01-02,44,56.08,One year,3,West,0,No
+C01996,2020-09-07,6,124.08,Month-to-month,3,West,1,Yes
+C01997,2021-11-05,41,77.49,One year,1,West,0,No
+C01998,2021-12-09,16,39.12,Two year,3,South,0,No
+C01999,2023-06-14,15,57.25,Month-to-month,1,South,0,No
+C02000,2020-08-04,1,108.79,Two year,2,South,1,Yes
+C02001,2020-02-21,36,80.65,Month-to-month,5,North,1,Yes
+C02002,2021-12-30,15,89.94,One year,2,North,1,Yes
+C02003,2022-02-03,7,80.89,Month-to-month,1,North,1,Yes
+C02004,2021-12-14,4,70.55,Month-to-month,0,West,1,Yes
+C02005,2023-06-25,69,26.7,Two year,1,East,0,No
+C02006,2023-11-26,28,20.0,One year,4,North,0,No
+C02007,2022-03-10,68,66.72,Two year,1,South,0,No
+C02008,2021-05-10,35,50.22,One year,1,West,0,No
+C02009,2022-03-01,42,80.08,Month-to-month,2,East,1,Yes
+C02010,2023-03-19,14,107.47,Two year,0,North,0,No
+C02011,2021-07-30,18,30.96,Month-to-month,1,South,0,No
+C02012,2022-05-27,41,116.32,Month-to-month,3,East,0,No
+C02013,2022-10-20,39,47.5,One year,3,North,0,No
+C02014,2020-03-29,43,64.68,Month-to-month,3,East,0,No
+C02015,2023-03-17,68,59.41,One year,1,West,0,No
+C02016,2022-05-18,28,88.38,One year,3,South,1,Yes
+C02017,2021-01-20,61,91.3,Two year,0,South,0,No
+C02018,2020-05-03,16,57.82,Two year,0,West,0,No
+C02019,2023-08-16,35,75.42,One year,1,West,0,No
+C02020,2022-07-14,51,79.45,Month-to-month,0,South,0,No
+C02021,2020-10-05,45,91.58,One year,4,North,0,No
+C02022,2023-12-07,53,51.94,One year,4,North,0,No
+C02023,2021-08-19,26,95.1,One year,2,West,1,Yes
+C02024,2023-09-25,45,90.49,Month-to-month,2,North,0,No
+C02025,2023-08-22,6,39.75,Month-to-month,2,North,0,No
+C02026,2022-10-30,69,76.42,Month-to-month,0,West,0,No
+C02027,2022-09-22,33,141.56,Month-to-month,1,West,1,Yes
+C02028,2020-03-23,42,56.66,Two year,5,South,0,No
+C02029,2020-04-15,30,54.01,One year,5,South,1,Yes
+C02030,2021-11-12,14,20.0,Two year,1,East,0,No
+C02031,2023-01-04,10,100.38,One year,1,East,0,No
+C02032,2022-08-07,55,71.52,Month-to-month,4,South,0,No
+C02033,2021-08-22,9,83.28,One year,0,East,0,No
+C02034,2021-04-07,26,85.05,One year,2,South,0,No
+C02035,2023-03-13,34,67.72,Month-to-month,0,North,0,No
+C02036,2023-06-19,18,63.71,Two year,3,North,0,No
+C02037,2022-05-04,48,58.74,Two year,3,North,0,No
+C02038,2021-06-01,17,93.39,One year,2,North,1,Yes
+C02039,2021-11-08,50,59.83,Month-to-month,1,East,0,No
+C02040,2023-03-26,63,50.97,Month-to-month,2,West,0,No
+C02041,2021-06-22,38,95.96,Month-to-month,2,East,0,No
+C02042,2022-05-19,10,,Two year,1,West,1,Yes
+C02043,2022-06-22,47,67.72,Two year,1,North,0,No
+C02044,2020-09-08,13,58.6,Month-to-month,3,West,1,Yes
+C02045,2021-01-09,23,65.03,Month-to-month,1,West,0,No
+C02046,2021-01-21,57,67.17,Month-to-month,0,South,0,No
+C02047,2021-05-16,46,27.67,Month-to-month,1,West,0,No
+C02048,2021-07-11,34,49.9,One year,0,North,0,No
+C02049,2023-02-07,63,26.64,Month-to-month,3,West,0,No
+C02050,2023-11-17,5,94.79,Month-to-month,0,North,1,Yes
+C02051,2022-03-20,70,38.7,Two year,1,South,0,No
+C02052,2023-03-02,42,,Two year,1,West,0,No
+C02053,2023-04-01,13,92.34,One year,0,West,0,No
+C02054,2023-05-08,1,60.24,Month-to-month,2,North,0,No
+C02055,2023-03-15,70,123.28,One year,0,South,1,Yes
+C02056,2020-05-14,23,67.05,One year,3,North,0,No
+C02057,2023-02-20,50,55.53,Month-to-month,2,South,0,No
+C02058,2023-03-18,66,51.78,Month-to-month,1,North,0,No
+C02059,2021-12-12,11,99.72,One year,3,West,1,Yes
+C02060,2023-07-20,71,56.75,Two year,0,East,0,No
+C02061,2022-10-18,17,,One year,0,South,0,No
+C02062,2023-09-26,28,44.29,Month-to-month,2,East,1,Yes
+C02063,2020-11-26,39,33.42,One year,1,South,0,No
+C02064,2020-08-06,42,65.67,Month-to-month,0,North,0,No
+C02065,2024-02-06,71,,Month-to-month,3,South,0,No
+C02066,2023-09-19,39,52.88,One year,1,South,0,No
+C02067,2022-05-07,35,82.05,Month-to-month,0,East,0,No
+C02068,2021-06-18,41,55.03,Two year,3,South,0,No
+C02069,2022-01-31,41,150.0,One year,1,East,0,No
+C02070,2021-04-27,28,112.49,Month-to-month,0,West,0,No
+C02071,2021-06-22,37,91.55,One year,2,South,0,No
+C02072,2020-02-06,60,60.37,Month-to-month,0,North,0,No
+C02073,2022-07-24,28,,One year,2,North,1,Yes
+C02074,2022-11-02,57,55.76,Month-to-month,2,North,1,Yes
+C02075,2021-07-04,59,66.19,One year,0,North,0,No
+C02076,2022-05-17,32,85.25,Month-to-month,2,East,1,Yes
+C02077,2021-03-28,49,74.36,Two year,1,South,0,No
+C02078,2021-03-07,4,79.07,,1,North,1,Yes
+C02079,2020-12-16,65,68.0,Month-to-month,1,East,0,No
+C02080,2023-02-13,38,36.7,Month-to-month,2,East,0,No
+C02081,2023-11-28,40,81.29,Month-to-month,2,East,0,No
+C02082,2022-04-03,13,124.72,One year,0,East,0,No
+C02083,2020-07-25,48,81.54,Two year,3,North,0,No
+C02084,2021-05-17,58,99.25,Month-to-month,2,North,1,Yes
+C02085,2020-11-21,22,105.23,Month-to-month,2,South,1,Yes
+C02086,2020-09-08,13,56.29,Month-to-month,3,South,1,Yes
+C02087,2022-04-30,18,55.41,One year,0,West,0,No
+C02088,2023-04-29,40,,Month-to-month,2,East,1,Yes
+C02089,2023-04-25,32,47.64,Two year,4,West,0,No
+C02090,2022-11-20,30,121.75,Month-to-month,0,North,1,Yes
+C02091,2021-09-28,56,69.8,One year,2,West,0,No
+C02092,2020-08-25,66,77.33,One year,4,East,0,No
+C02093,2020-04-30,38,104.24,Two year,2,East,0,No
+C02094,2022-07-18,1,20.0,Month-to-month,2,South,0,No
+C02095,2020-03-03,24,52.09,One year,0,East,0,No
+C02096,2021-07-30,14,40.57,Month-to-month,1,North,1,Yes
+C02097,2020-11-18,9,73.05,Month-to-month,2,East,1,Yes
+C02098,2023-12-16,54,81.83,Month-to-month,1,East,0,No
+C02099,2023-06-05,14,81.48,Month-to-month,0,West,1,Yes
+C02100,2021-03-30,9,60.18,Month-to-month,2,North,1,Yes
+C02101,2020-08-12,7,79.98,Two year,0,East,0,No
+C02102,2022-06-19,28,93.66,Month-to-month,1,North,1,Yes
+C02103,2022-06-01,38,65.18,Month-to-month,3,West,0,No
+C02104,2023-03-08,36,52.55,Two year,0,South,0,No
+C02105,2023-04-15,41,103.21,Month-to-month,2,West,0,No
+C02106,2023-09-10,27,91.83,Month-to-month,2,East,0,No
+C02107,2021-04-30,58,93.01,Month-to-month,1,West,0,No
+C02108,2023-06-01,46,87.82,Two year,2,South,0,No
+C02109,2022-05-31,59,,Month-to-month,2,South,0,No
+C02110,2022-09-10,24,,Month-to-month,3,West,0,No
+C02111,2022-10-08,19,45.91,One year,0,East,0,No
+C02112,2021-03-14,16,61.41,Month-to-month,1,West,1,Yes
+C02113,2020-02-19,65,126.1,Month-to-month,5,West,1,Yes
+C02114,2024-01-14,4,72.59,One year,2,North,1,Yes
+C02115,2020-11-28,21,65.78,Month-to-month,1,North,0,No
+C02116,2022-11-14,48,55.54,One year,1,North,0,No
+C02117,2024-01-18,63,91.08,Month-to-month,1,West,0,No
+C02118,2021-04-26,25,60.35,One year,2,North,0,No
+C02119,2021-01-18,41,29.72,Month-to-month,1,South,0,No
+C02120,2020-04-15,10,,Month-to-month,2,East,1,Yes
+C02121,2020-04-23,42,20.0,Month-to-month,4,East,0,No
+C02122,2020-09-04,20,69.2,Two year,3,South,0,No
+C02123,2022-09-25,68,32.93,Month-to-month,2,North,0,No
+C02124,2023-12-25,67,74.12,Month-to-month,1,West,1,Yes
+C02125,2022-10-16,25,73.36,Month-to-month,0,East,0,No
+C02126,2022-09-27,36,39.12,One year,1,West,0,No
+C02127,2023-06-09,47,94.3,Month-to-month,2,East,0,No
+C02128,2021-08-03,33,64.63,One year,0,East,0,No
+C02129,2020-03-30,35,95.45,Month-to-month,3,West,1,Yes
+C02130,2020-12-16,43,57.37,Two year,1,West,0,No
+C02131,2020-02-02,38,60.73,Two year,1,North,0,No
+C02132,2021-03-17,56,34.36,Two year,2,South,0,No
+C02133,2020-01-02,36,73.56,Two year,0,North,0,No
+C02134,2022-01-24,66,63.3,One year,1,South,0,No
+C02135,2021-04-20,21,78.07,Month-to-month,3,West,1,Yes
+C02136,2020-11-12,47,51.8,Two year,2,East,0,No
+C02137,2022-11-19,63,82.85,Month-to-month,2,East,0,No
+C02138,2023-06-02,63,74.52,Month-to-month,1,East,0,No
+C02139,2023-03-07,31,82.13,Two year,0,East,0,No
+C02140,2022-04-21,52,82.19,One year,1,South,0,No
+C02141,2023-02-10,5,67.76,Month-to-month,0,East,0,No
+C02142,2024-01-25,69,20.0,Month-to-month,1,South,0,No
+C02143,2021-06-01,7,82.19,Month-to-month,0,West,0,No
+C02144,2021-01-30,42,82.69,Month-to-month,0,West,0,No
+C02145,2022-02-17,4,50.63,One year,1,East,1,Yes
+C02146,2023-11-14,40,35.52,,3,West,1,Yes
+C02147,2021-06-13,28,81.99,Month-to-month,0,West,1,Yes
+C02148,2022-09-23,14,50.02,Month-to-month,1,North,0,No
+C02149,2020-11-05,45,52.13,One year,2,North,1,Yes
+C02150,2021-11-06,1,54.24,Two year,0,West,0,No
+C02151,2022-04-22,1,69.86,Month-to-month,2,West,1,Yes
+C02152,2020-04-30,1,95.22,Month-to-month,4,West,0,No
+C02153,2021-05-27,12,47.54,Month-to-month,0,North,1,Yes
+C02154,2022-05-06,30,98.92,Two year,1,East,0,No
+C02155,2024-01-26,6,81.01,Month-to-month,0,South,0,No
+C02156,2023-02-13,70,27.01,One year,0,South,0,No
+C02157,2021-02-26,58,118.57,One year,0,East,0,No
+C02158,2022-11-28,31,39.21,Two year,1,South,0,No
+C02159,2023-07-04,19,89.42,,0,East,0,No
+C02160,2022-12-29,17,47.27,Two year,2,South,0,No
+C02161,2021-05-17,10,71.85,One year,1,East,0,No
+C02162,2021-06-15,10,50.45,Two year,3,East,1,Yes
+C02163,2021-04-03,65,101.47,Month-to-month,1,West,0,No
+C02164,2021-02-11,29,61.57,Month-to-month,2,West,0,No
+C02165,2022-05-16,59,61.73,Month-to-month,1,South,0,No
+C02166,2021-01-02,49,67.11,Two year,1,South,0,No
+C02167,2020-05-24,28,114.07,Month-to-month,4,West,1,Yes
+C02168,2023-02-04,26,48.04,Month-to-month,3,North,0,No
+C02169,2020-07-25,25,30.69,,1,East,1,Yes
+C02170,2024-01-09,6,63.96,Month-to-month,0,West,0,No
+C02171,2021-04-24,35,70.25,Month-to-month,0,South,1,Yes
+C02172,2021-08-20,60,77.82,One year,0,North,0,No
+C02173,2020-02-23,44,54.36,Month-to-month,1,South,0,No
+C02174,2020-09-30,60,85.84,Month-to-month,0,West,0,No
+C02175,2023-03-11,22,68.17,Month-to-month,0,South,1,Yes
+C02176,2021-11-27,13,63.82,One year,3,East,1,Yes
+C02177,2021-03-26,6,81.36,One year,3,South,0,No
+C02178,2022-09-30,21,87.81,Month-to-month,2,North,0,No
+C02179,2023-10-02,32,64.79,Month-to-month,1,North,1,Yes
+C02180,2021-05-31,24,23.45,Month-to-month,1,West,0,No
+C02181,2023-01-14,20,98.32,Two year,3,North,0,No
+C02182,2023-11-18,48,41.94,One year,1,North,1,Yes
+C02183,2021-05-08,7,,Month-to-month,1,West,1,Yes
+C02184,2023-06-24,69,62.19,,1,East,0,No
+C02185,2021-09-10,25,101.39,Month-to-month,2,South,1,Yes
+C02186,2020-02-26,48,66.7,Month-to-month,1,North,0,No
+C02187,2021-04-02,33,117.94,Two year,3,East,0,No
+C02188,2022-03-24,17,60.44,Month-to-month,2,South,1,Yes
+C02189,2023-06-19,23,59.23,Month-to-month,2,East,0,No
+C02190,2023-06-21,29,52.37,Month-to-month,3,West,1,Yes
+C02191,2023-07-24,29,51.41,One year,2,East,1,Yes
+C02192,2022-12-09,6,81.66,Two year,2,South,0,No
+C02193,2020-06-16,67,49.03,Two year,1,East,0,No
+C02194,2021-04-30,36,52.64,Month-to-month,2,North,1,Yes
+C02195,2021-03-03,52,51.51,One year,6,East,0,No
+C02196,2021-08-26,57,59.36,One year,1,West,0,No
+C02197,2022-06-22,6,38.23,Month-to-month,0,North,0,No
+C02198,2020-03-31,30,67.01,Two year,5,East,0,No
+C02199,2020-07-24,54,80.29,One year,2,West,0,No
+C02200,2020-04-04,66,60.07,Month-to-month,3,East,0,No
+C02201,2021-05-07,62,65.34,Month-to-month,1,South,0,No
+C02202,2020-03-10,27,39.28,Two year,1,East,0,No
+C02203,2020-10-14,29,,Month-to-month,1,South,0,No
+C02204,2021-09-22,40,59.53,Month-to-month,1,North,0,No
+C02205,2023-05-27,48,77.09,One year,2,East,0,No
+C02206,2022-09-03,33,58.94,Month-to-month,1,West,0,No
+C02207,2022-08-30,5,52.21,,1,East,0,No
+C02208,2020-05-01,55,89.46,Month-to-month,0,East,0,No
+C02209,2021-06-22,1,58.09,Month-to-month,2,East,1,Yes
+C02210,2021-03-18,12,79.26,Month-to-month,2,South,1,Yes
+C02211,2022-08-30,52,104.31,Month-to-month,4,East,1,Yes
+C02212,2022-03-03,69,45.11,One year,1,West,0,No
+C02213,2021-06-08,27,,Month-to-month,2,North,0,No
+C02214,2023-08-06,16,108.08,One year,2,West,0,No
+C02215,2022-07-06,17,84.64,Month-to-month,1,North,0,No
+C02216,2023-04-14,71,74.96,Month-to-month,1,South,0,No
+C02217,2022-10-09,3,20.0,Month-to-month,0,North,1,Yes
+C02218,2023-11-06,18,77.73,One year,0,East,1,Yes
+C02219,2020-02-07,66,90.01,Month-to-month,4,East,0,No
+C02220,2023-01-26,33,50.69,Month-to-month,1,East,0,No
+C02221,2022-06-12,39,71.6,Month-to-month,0,North,0,No
+C02222,2021-11-14,69,57.97,Month-to-month,1,East,0,No
+C02223,2020-02-13,5,56.97,One year,0,West,1,Yes
+C02224,2023-10-04,22,48.85,Month-to-month,2,North,1,Yes
+C02225,2020-02-12,11,76.65,One year,1,North,0,No
+C02226,2023-05-06,17,68.11,Month-to-month,2,North,1,Yes
+C02227,2020-09-29,3,63.64,Month-to-month,0,West,1,Yes
+C02228,2022-08-29,47,94.27,Month-to-month,1,West,1,Yes
+C02229,2021-05-08,62,97.49,Two year,1,South,0,No
+C02230,2022-07-05,47,86.47,Month-to-month,1,South,1,Yes
+C02231,2020-09-05,33,94.57,Month-to-month,1,East,0,No
+C02232,2023-08-16,24,62.63,Month-to-month,0,North,1,Yes
+C02233,2020-01-03,62,130.32,Month-to-month,0,East,0,No
+C02234,2021-01-27,2,78.19,One year,0,South,0,No
+C02235,2021-11-24,37,35.15,Month-to-month,4,North,1,Yes
+C02236,2020-08-15,9,47.84,Month-to-month,5,North,1,Yes
+C02237,2023-04-21,48,78.05,Month-to-month,4,North,1,Yes
+C02238,2023-07-09,1,47.68,Month-to-month,1,West,1,Yes
+C02239,2022-04-03,36,73.62,Month-to-month,0,North,0,No
+C02240,2021-10-05,27,39.75,Month-to-month,1,North,0,No
+C02241,2021-03-01,63,74.18,Month-to-month,0,South,0,No
+C02242,2023-02-20,53,74.76,One year,2,East,0,No
+C02243,2021-01-05,23,89.95,Two year,0,West,0,No
+C02244,2023-06-02,32,66.16,One year,2,East,0,No
+C02245,2022-06-02,2,67.76,One year,1,West,0,No
+C02246,2022-06-11,4,41.13,One year,1,West,0,No
+C02247,2022-10-10,4,72.94,Two year,0,East,0,No
+C02248,2022-01-12,37,69.47,Two year,2,South,1,Yes
+C02249,2023-11-30,43,108.25,Month-to-month,2,South,0,No
+C02250,2023-12-20,21,52.55,Two year,1,South,0,No
+C02251,2023-09-02,6,107.89,Month-to-month,2,East,0,No
+C02252,2022-03-22,55,96.15,One year,0,North,0,No
+C02253,2021-06-12,4,98.65,Two year,1,North,1,Yes
+C02254,2022-06-18,24,99.27,Month-to-month,0,South,1,Yes
+C02255,2020-04-25,49,75.2,Two year,2,North,0,No
+C02256,2023-08-28,31,111.86,Two year,4,West,0,No
+C02257,2021-12-18,8,114.19,Month-to-month,1,North,1,Yes
+C02258,2022-08-07,43,80.91,Month-to-month,2,West,0,No
+C02259,2023-07-08,13,65.15,Month-to-month,2,East,0,No
+C02260,2020-03-29,5,20.0,One year,0,West,0,No
+C02261,2021-11-26,28,79.63,One year,0,East,0,No
+C02262,2022-09-10,44,41.2,Two year,2,East,0,No
+C02263,2021-02-10,54,73.38,Month-to-month,3,North,0,No
+C02264,2024-01-02,11,47.6,One year,2,South,1,Yes
+C02265,2020-06-27,44,,Two year,3,East,0,No
+C02266,2020-10-07,7,118.23,Month-to-month,1,East,1,Yes
+C02267,2021-05-30,1,73.74,Month-to-month,2,West,1,Yes
+C02268,2020-03-07,52,52.2,Two year,3,East,0,No
+C02269,2020-02-02,35,59.6,Month-to-month,1,West,1,Yes
+C02270,2021-03-23,24,98.32,Two year,1,South,0,No
+C02271,2020-12-09,65,74.73,Month-to-month,1,South,0,No
+C02272,2023-03-18,31,51.11,Month-to-month,2,South,0,No
+C02273,2021-05-13,19,20.0,,2,West,0,No
+C02274,2021-11-07,33,92.26,Month-to-month,3,West,1,Yes
+C02275,2020-07-30,3,54.81,Two year,1,North,0,No
+C02276,2021-11-28,39,105.39,Month-to-month,1,East,0,No
+C02277,2023-08-07,13,75.76,Two year,1,West,0,No
+C02278,2022-09-26,65,,Month-to-month,1,South,0,No
+C02279,2020-01-04,4,98.2,Month-to-month,1,West,1,Yes
+C02280,2022-04-08,14,93.04,Month-to-month,0,South,0,No
+C02281,2024-01-01,4,95.65,Month-to-month,2,East,0,No
+C02282,2020-08-14,71,,Month-to-month,1,North,0,No
+C02283,2020-11-09,7,86.1,One year,0,South,1,Yes
+C02284,2020-04-01,21,68.95,Month-to-month,2,West,0,No
+C02285,2022-07-26,59,111.18,One year,2,West,0,No
+C02286,2021-04-18,3,100.94,Month-to-month,0,East,0,No
+C02287,2022-11-09,48,53.58,Month-to-month,1,West,0,No
+C02288,2021-12-21,53,106.95,Two year,0,North,0,No
+C02289,2023-08-16,59,33.75,Month-to-month,2,North,0,No
+C02290,2023-08-30,58,77.71,,3,West,0,No
+C02291,2020-09-24,44,104.31,Month-to-month,1,South,1,Yes
+C02292,2021-11-16,34,71.75,Month-to-month,3,South,1,Yes
+C02293,2022-07-27,70,86.35,Month-to-month,3,West,0,No
+C02294,2021-07-16,25,92.02,,1,South,1,Yes
+C02295,2020-05-19,61,50.61,Month-to-month,2,South,0,No
+C02296,2022-02-02,65,96.01,One year,0,North,0,No
+C02297,2021-06-14,62,82.78,One year,0,East,0,No
+C02298,2022-08-24,13,55.9,Two year,2,West,0,No
+C02299,2020-04-21,71,119.29,Month-to-month,1,North,0,No
+C02300,2020-03-13,50,66.64,One year,2,West,0,No
+C02301,2022-11-08,4,68.31,Month-to-month,0,North,0,No
+C02302,2021-07-30,33,64.42,Month-to-month,1,East,0,No
+C02303,2023-10-14,50,67.64,Two year,1,South,0,No
+C02304,2020-08-07,14,33.45,One year,1,West,0,No
+C02305,2020-12-14,18,60.67,Month-to-month,0,South,0,No
+C02306,2020-09-28,69,,Month-to-month,2,North,0,No
+C02307,2023-10-16,48,87.85,Month-to-month,1,West,0,No
+C02308,2022-07-20,39,26.95,Two year,2,East,0,No
+C02309,2022-09-07,49,123.21,Month-to-month,3,North,0,No
+C02310,2022-10-01,37,82.62,Month-to-month,1,West,0,No
+C02311,2021-10-21,26,100.52,Month-to-month,2,West,1,Yes
+C02312,2021-09-15,36,94.32,One year,2,West,0,No
+C02313,2023-11-22,65,68.94,Month-to-month,5,West,1,Yes
+C02314,2021-01-16,65,53.31,Month-to-month,5,East,0,No
+C02315,2020-05-20,9,65.61,One year,4,East,0,No
+C02316,2024-01-15,68,54.65,One year,2,East,1,Yes
+C02317,2022-10-22,7,69.0,Month-to-month,3,North,1,Yes
+C02318,2024-02-04,8,71.01,Month-to-month,1,South,0,No
+C02319,2022-08-22,52,62.13,Two year,1,North,0,No
+C02320,2021-12-26,18,83.29,Two year,0,North,0,No
+C02321,2023-11-27,4,38.52,One year,1,East,0,No
+C02322,2022-11-18,9,48.82,Two year,5,East,0,No
+C02323,2023-12-07,48,60.47,One year,3,North,0,No
+C02324,2020-05-24,44,66.91,One year,0,North,0,No
+C02325,2021-08-24,62,63.88,Month-to-month,2,North,0,No
+C02326,2023-03-04,4,48.95,Month-to-month,0,North,0,No
+C02327,2021-11-14,45,43.92,Month-to-month,0,East,0,No
+C02328,2021-12-19,50,,Month-to-month,0,West,0,No
+C02329,2022-07-21,51,56.6,Month-to-month,0,North,0,No
+C02330,2021-12-17,11,65.69,Month-to-month,0,West,0,No
+C02331,2020-04-19,44,56.95,Month-to-month,2,South,0,No
+C02332,2023-11-17,63,68.29,Month-to-month,2,East,1,Yes
+C02333,2022-06-23,63,40.99,Month-to-month,3,North,0,No
+C02334,2020-02-20,36,,Month-to-month,1,East,1,Yes
+C02335,2020-02-14,29,67.32,One year,0,South,0,No
+C02336,2020-02-06,60,93.33,Month-to-month,1,West,0,No
+C02337,2020-10-08,2,47.65,Month-to-month,2,South,0,No
+C02338,2023-05-05,22,68.88,Month-to-month,0,East,1,Yes
+C02339,2020-10-13,26,46.61,One year,3,South,0,No
+C02340,2020-10-20,11,58.94,Two year,1,South,0,No
+C02341,2020-04-11,42,42.52,Month-to-month,2,East,0,No
+C02342,2020-07-23,14,46.21,One year,0,West,0,No
+C02343,2020-03-06,52,79.45,One year,3,East,0,No
+C02344,2021-07-04,67,94.9,Month-to-month,2,West,0,No
+C02345,2021-02-02,8,40.69,One year,1,North,0,No
+C02346,2020-02-08,41,77.56,Month-to-month,0,West,1,Yes
+C02347,2022-09-29,57,98.04,Month-to-month,1,East,1,Yes
+C02348,2021-11-08,38,45.26,Two year,1,East,0,No
+C02349,2023-05-31,47,71.46,One year,1,East,0,No
+C02350,2023-08-12,56,69.89,Two year,1,South,0,No
+C02351,2022-11-01,7,66.55,Month-to-month,3,East,1,Yes
+C02352,2023-07-03,1,51.05,One year,2,South,0,No
+C02353,2022-11-23,9,86.75,Month-to-month,4,North,1,Yes
+C02354,2021-01-08,38,56.63,Two year,4,West,0,No
+C02355,2020-06-24,68,20.0,One year,2,North,0,No
+C02356,2021-09-24,47,83.98,Month-to-month,4,West,1,Yes
+C02357,2023-08-12,42,61.16,Month-to-month,1,West,0,No
+C02358,2020-04-21,64,73.03,Month-to-month,4,North,0,No
+C02359,2021-05-04,58,75.17,One year,3,North,0,No
+C02360,2020-01-24,40,50.8,Month-to-month,2,North,0,No
+C02361,2022-10-21,66,47.91,Month-to-month,1,North,0,No
+C02362,2023-10-24,52,77.34,One year,1,East,1,Yes
+C02363,2020-04-27,62,37.94,Two year,0,West,0,No
+C02364,2023-02-20,70,36.06,Month-to-month,3,North,1,Yes
+C02365,2022-10-11,59,64.1,Month-to-month,1,South,0,No
+C02366,2022-12-03,41,81.6,Month-to-month,1,South,1,Yes
+C02367,2020-12-01,54,58.48,Month-to-month,2,West,1,Yes
+C02368,2020-07-20,8,123.15,Two year,1,North,0,No
+C02369,2021-06-08,48,83.25,One year,1,East,0,No
+C02370,2022-04-15,70,26.88,Month-to-month,1,North,0,No
+C02371,2022-08-27,42,22.37,Month-to-month,1,North,0,No
+C02372,2020-10-09,29,68.23,Month-to-month,3,West,1,Yes
+C02373,2021-03-07,12,67.99,One year,0,East,0,No
+C02374,2023-09-29,4,67.92,Month-to-month,3,North,0,No
+C02375,2022-02-23,19,90.61,Month-to-month,1,West,0,No
+C02376,2023-01-05,36,121.43,Two year,1,North,0,No
+C02377,2023-08-29,47,61.48,Two year,1,East,0,No
+C02378,2021-02-04,18,70.55,Month-to-month,1,West,0,No
+C02379,2020-10-15,28,61.89,One year,0,West,0,No
+C02380,2023-09-08,55,64.88,Month-to-month,1,West,1,Yes
+C02381,2020-05-15,20,93.85,Month-to-month,4,East,1,Yes
+C02382,2021-11-11,44,40.03,Two year,3,South,0,No
+C02383,2020-08-16,45,20.0,One year,0,South,0,No
+C02384,2021-03-16,47,,One year,4,South,0,No
+C02385,2020-02-04,35,96.0,Two year,3,East,0,No
+C02386,2022-06-21,34,91.33,Month-to-month,1,West,0,No
+C02387,2022-06-01,70,94.19,Month-to-month,2,East,0,No
+C02388,2021-07-13,47,86.35,One year,3,North,1,Yes
+C02389,2021-01-06,33,112.08,Month-to-month,0,North,0,No
+C02390,2021-05-01,40,91.9,Two year,1,South,0,No
+C02391,2022-02-14,31,68.38,Month-to-month,2,South,0,No
+C02392,2020-06-23,48,112.01,Month-to-month,1,West,0,No
+C02393,2023-12-30,2,25.66,Two year,3,North,0,No
+C02394,2022-07-02,33,67.61,Month-to-month,2,East,1,Yes
+C02395,2022-11-06,64,94.07,One year,2,South,0,No
+C02396,2022-07-07,46,62.64,Month-to-month,0,West,0,No
+C02397,2023-07-25,56,38.51,Month-to-month,2,South,1,Yes
+C02398,2021-03-05,65,106.04,Month-to-month,1,South,0,No
+C02399,2021-07-07,23,51.52,Two year,0,North,0,No
+C02400,2022-04-11,28,26.29,Month-to-month,1,West,0,No
+C02401,2020-03-09,6,69.03,Month-to-month,0,South,0,No
+C02402,2022-04-11,36,81.92,One year,0,West,0,No
+C02403,2020-06-15,36,45.87,Month-to-month,2,North,0,No
+C02404,2023-06-13,68,74.1,One year,2,West,0,No
+C02405,2022-10-31,29,100.96,Month-to-month,1,North,1,Yes
+C02406,2021-01-26,10,85.31,Month-to-month,3,South,1,Yes
+C02407,2021-08-21,44,51.35,Month-to-month,0,East,0,No
+C02408,2022-03-09,4,105.02,One year,0,North,0,No
+C02409,2021-04-15,12,72.45,Month-to-month,3,North,0,No
+C02410,2023-08-25,52,67.94,Month-to-month,0,East,0,No
+C02411,2021-11-21,5,81.9,Two year,2,South,0,No
+C02412,2020-11-18,30,41.01,Month-to-month,1,North,0,No
+C02413,2020-01-13,61,45.92,Month-to-month,3,North,0,No
+C02414,2023-08-02,45,62.09,Month-to-month,2,South,0,No
+C02415,2021-07-25,3,25.07,One year,1,North,1,Yes
+C02416,2020-10-02,70,84.18,Month-to-month,0,South,0,No
+C02417,2023-07-28,48,72.38,One year,1,North,0,No
+C02418,2023-10-28,18,113.86,Two year,2,West,1,Yes
+C02419,2023-07-24,57,74.61,Month-to-month,2,West,0,No
+C02420,2021-07-26,42,56.03,One year,2,West,0,No
+C02421,2021-07-22,25,81.72,,0,South,1,Yes
+C02422,2023-12-20,4,92.05,One year,2,North,1,Yes
+C02423,2022-07-18,61,59.12,One year,1,North,0,No
+C02424,2022-03-09,47,61.92,Month-to-month,1,East,0,No
+C02425,2022-01-21,32,83.45,Month-to-month,0,South,1,Yes
+C02426,2022-09-26,71,83.04,One year,0,East,0,No
+C02427,2021-10-27,52,53.29,Month-to-month,2,North,0,No
+C02428,2020-01-23,48,46.8,Month-to-month,1,West,0,No
+C02429,2021-03-13,12,74.6,Two year,2,East,0,No
+C02430,2020-12-01,63,28.45,One year,2,West,0,No
+C02431,2020-07-04,9,45.14,Month-to-month,1,South,1,Yes
+C02432,2023-05-06,63,,One year,3,South,0,No
+C02433,2021-09-21,4,115.37,Month-to-month,2,South,0,No
+C02434,2023-06-12,56,98.42,One year,1,South,1,Yes
+C02435,2023-08-13,55,84.11,Month-to-month,0,East,0,No
+C02436,2020-06-19,42,91.26,Two year,1,West,0,No
+C02437,2022-08-08,55,107.45,One year,0,South,0,No
+C02438,2022-02-09,26,64.46,Two year,4,West,1,Yes
+C02439,2022-01-30,7,,Month-to-month,1,East,1,Yes
+C02440,2021-12-09,64,110.86,Month-to-month,1,West,0,No
+C02441,2023-02-24,70,71.21,Month-to-month,4,East,0,No
+C02442,2020-02-27,39,52.85,One year,1,West,0,No
+C02443,2022-12-01,68,53.59,Month-to-month,5,West,0,No
+C02444,2020-07-01,8,96.38,Two year,3,North,0,No
+C02445,2023-04-03,44,87.32,Month-to-month,0,North,0,No
+C02446,2022-03-07,24,66.69,One year,1,West,0,No
+C02447,2022-08-06,30,94.73,Month-to-month,3,West,0,No
+C02448,2020-12-19,52,49.58,One year,1,East,0,No
+C02449,2021-06-05,18,83.42,One year,1,East,0,No
+C02450,2023-02-25,57,,Month-to-month,3,South,0,No
+C02451,2022-02-10,44,,One year,5,East,1,Yes
+C02452,2021-08-29,34,78.18,Month-to-month,1,West,0,No
+C02453,2022-08-29,49,59.0,Two year,2,South,0,No
+C02454,2023-07-20,43,98.64,One year,0,North,0,No
+C02455,2021-11-02,2,47.7,Two year,1,East,0,No
+C02456,2021-07-23,54,107.15,Two year,0,North,0,No
+C02457,2020-10-26,65,55.71,Two year,4,South,0,No
+C02458,2021-01-20,57,,Two year,4,North,1,Yes
+C02459,2023-08-22,16,,Month-to-month,1,East,0,No
+C02460,2023-05-16,21,30.18,Month-to-month,0,West,0,No
+C02461,2020-11-01,62,74.96,Two year,1,North,0,No
+C02462,2021-06-01,64,109.65,Month-to-month,0,South,0,No
+C02463,2022-10-23,55,53.58,Month-to-month,4,North,0,No
+C02464,2022-10-23,44,,Month-to-month,2,West,0,No
+C02465,2022-02-24,26,111.28,Month-to-month,2,West,0,No
+C02466,2021-12-11,1,105.85,One year,1,West,0,No
+C02467,2021-11-02,50,65.66,Month-to-month,4,East,1,Yes
+C02468,2022-02-15,40,,Month-to-month,1,North,0,No
+C02469,2023-01-18,3,93.9,Month-to-month,2,East,0,No
+C02470,2022-06-06,71,68.16,One year,1,North,0,No
+C02471,2023-01-19,4,62.21,Month-to-month,2,North,0,No
+C02472,2023-12-17,31,78.04,Month-to-month,0,South,0,No
+C02473,2020-09-14,14,20.0,Month-to-month,1,West,1,Yes
+C02474,2022-03-02,21,57.16,Month-to-month,1,South,0,No
+C02475,2022-02-22,12,31.3,Month-to-month,0,West,1,Yes
+C02476,2021-08-06,6,52.7,Two year,3,West,0,No
+C02477,2021-12-15,17,91.73,Month-to-month,1,North,0,No
+C02478,2020-06-29,63,53.84,,0,South,0,No
+C02479,2021-03-19,9,68.93,One year,3,West,0,No
+C02480,2020-06-20,28,47.82,Two year,1,North,0,No
+C02481,2020-12-30,7,125.67,Two year,1,East,1,Yes
+C02482,2022-11-27,43,63.73,Month-to-month,0,West,0,No
+C02483,2021-04-04,5,53.02,Month-to-month,0,West,1,Yes
+C02484,2020-07-16,16,108.52,Month-to-month,0,East,1,Yes
+C02485,2021-01-13,61,104.52,Month-to-month,4,North,1,Yes
+C02486,2020-06-25,1,69.51,Two year,1,East,1,Yes
+C02487,2022-03-11,40,95.31,Two year,0,North,0,No
+C02488,2022-04-29,38,38.33,One year,3,East,1,Yes
+C02489,2020-04-10,7,61.63,One year,4,West,1,Yes
+C02490,2024-01-23,59,75.88,One year,1,South,0,No
+C02491,2023-10-01,26,20.0,One year,1,South,0,No
+C02492,2023-02-17,65,100.14,Month-to-month,0,North,0,No
+C02493,2020-05-18,63,38.94,Month-to-month,0,South,0,No
+C02494,2022-03-30,53,85.48,Month-to-month,0,North,0,No
+C02495,2023-09-22,51,73.71,Two year,2,South,0,No
+C02496,2023-01-07,50,78.93,Month-to-month,2,East,0,No
+C02497,2022-03-25,29,98.8,One year,1,North,0,No
+C02498,2020-06-11,66,123.16,Month-to-month,2,East,0,No
+C02499,2023-05-01,51,45.32,Month-to-month,4,South,1,Yes

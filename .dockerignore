@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+.agent_artifacts/
+__pycache__/
+tests/
+.git/
+*.sqlite

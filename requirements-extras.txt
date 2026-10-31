@@ -1,0 +1,5 @@
+# Optional extras
+skops>=0.9               # data-only model format (NEXUSML_MODEL_FORMAT=skops)
+# torch + torchvision are installed by Dockerfile.multimodal (CPU wheels) for NEXUSML_IMAGE_BACKEND=resnet
+sentence-transformers>=2.2   # optional text embeddings (NEXUSML_TEXT_EMBEDDINGS=1); downloads a model on first use
+# OCR for scanned PDFs: install the system tools `tesseract-ocr` and `poppler-utils` (no Python package needed)

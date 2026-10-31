@@ -1,0 +1,11 @@
+# Versions this release was tested with (sandbox). Packages not installed in the test environment (streamlit, plotly, langgraph, mlflow, skops)
+# are NOT pinned here: run `pip freeze > requirements-lock.txt` on your machine after a successful install to capture them.
+
+pandas==3.0.2
+numpy==2.4.4
+scipy==1.17.1
+scikit-learn==1.8.0
+matplotlib==3.10.8
+pillow==12.1.1
+joblib==1.5.3
+openpyxl==3.1.5

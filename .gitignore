@@ -1,0 +1,12 @@
+.agent_artifacts/
+__pycache__/
+*.pyc
+.env
+
+
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-journal
+EVAL_RESULTS.md
+eval_results.json
