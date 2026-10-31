@@ -340,8 +340,12 @@ def build(state: Dict[str, Any]) -> Dict[str, Any]:
     rows = sorted(final["rows"], key=lambda r: r["rank"])
     gains = [{"attempt": h["attempt"], "levers": h.get("levers", []), "best": max(h["rows"], key=lambda r: r.get("select_score") or -1e9)["name"],
               "best_score": max((r.get("select_score") or -1e9) for r in h["rows"])} for h in hist]
-    txt = (f"{len(rows)} candidate model(s) compared in the final attempt ({len(hist)} attempt(s), {sum(len(h['rows']) for h in hist)} candidate fits in total). "
-           f"Winner {summary.get('winner')} on CV {metric}"
+       txt = (
+        f"{len(rows)} candidate model(s) compared in the final attempt "
+        f"({len(hist)} attempt(s), "
+        f"{sum(len(h['rows']) for h in hist)} candidate fits in total). "
+        f"Winner {summary.get('winner')} on CV {metric}"
+    )
     if summary.get("tied_with_winner"):
         txt += f"; statistically tied or within noise: {', '.join(summary['tied_with_winner'])}"
     if summary.get("parsimony_differs"):
