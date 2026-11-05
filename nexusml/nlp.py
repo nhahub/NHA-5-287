@@ -11,6 +11,7 @@
 
 Privacy: raw text and terms never reach the LLM unless the user opted in (allow_terms); evidence strings carry only counts and shares.
 """
+import html as _html
 import re
 import unicodedata
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -29,10 +30,17 @@ from sklearn.svm import LinearSVC
 from . import config
 
 NLP_MAX_FEATURES = int(__import__("os").environ.get("NEXUSML_NLP_MAX_FEATURES", "8000"))
-SPARSE_REPS = {"word", "char"}
+SPARSE_REPS = {"word", "char", "wordchar"}
 _URL = re.compile(r"https?://\S+|www\.\S+")
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
-_TOKEN = re.compile(r"\w+", re.U)
+# Python's \w does not match combining marks, so words in Hindi, Thai, Bengali... and vowelled Arabic were cut into fragments ('भारत' -> 'रत'). These ranges keep the marks inside the word:
+# Hebrew/Arabic points, Brahmic scripts (Devanagari...Sinhala without the danda punctuation), Thai, Lao, Tibetan, Myanmar, Khmer, combining diacritics, ZWNJ/ZWJ.
+_WCH = r"[\w\u0300-\u036f\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06dc\u06df-\u06e8\u06ea-\u06ed\u0900-\u0963\u0966-\u0dff\u0e00-\u0eff\u0f00-\u0fff\u1000-\u109f\u1780-\u17ff\u200c\u200d]"
+_TOKEN = re.compile(_WCH + "+", re.U)
+_TOKEN_PATTERN = "(?u)" + _WCH + _WCH + "+"                    # TfidfVectorizer: tokens of >= 2 characters, as before, but mark-aware
+_AR_MARKS = re.compile("[\u064b-\u065f\u0670\u0640]")            # Arabic short-vowel marks and tatweel are optional orthography: 'الْقَاهِرَةُ' and 'القاهرة' are the same word
+_HTML_TAG = re.compile(r"</?(?:html|head|body|title|meta|link|script|style|div|span|p|br|hr|a|b|i|u|em|strong|small|big|font|center|pre|code|blockquote|ul|ol|li|table|thead|tbody|tr|td|th|h[1-6]|img|section|article|nav|footer|header|form|input|button|label)\b[^<>]*>", re.I)
+_NO_SPACE = {"CJK", "HIRAGANA", "KATAKANA", "THAI", "LAO", "KHMER", "MYANMAR", "TIBETAN"}   # scripts written without spaces between words
 _SENT = re.compile(r"(?<=[.!?؟۔])\s+|\n+")
 
 
@@ -41,10 +49,23 @@ def is_sparse_rep(rep: str) -> bool:
 
 
 def clean_text(s: Any) -> str:
-    """URLs and e-mail addresses become placeholders (a model should not memorise an address); whitespace is collapsed."""
+    """HTML tags and entities are removed (markup is not language), URLs and e-mail addresses become placeholders (a model should not memorise an address),
+    Arabic optional vowel marks are dropped, whitespace is collapsed."""
     if s is None or (isinstance(s, float) and s != s):
         return ""
-    return re.sub(r"\s+", " ", _EMAIL.sub(" EMAILADDR ", _URL.sub(" URLLINK ", str(s)))).strip()
+    t = str(s)
+    if "<" in t and _HTML_TAG.search(t):
+        t = _html.unescape(_HTML_TAG.sub(" ", t))
+    elif "&" in t and re.search(r"&(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z]{2,8});", t):
+        t = _html.unescape(t)
+    t = _AR_MARKS.sub("", _EMAIL.sub(" EMAILADDR ", _URL.sub(" URLLINK ", t)))
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def no_space_share(docs: List[str], sample: int = 300) -> float:
+    """Share of letters in scripts that have no spaces between words (Chinese, Japanese, Thai, Lao, Khmer, Myanmar, Tibetan)."""
+    mix = script_mix(docs, sample)
+    return float(sum(v for k, v in mix.items() if k in _NO_SPACE))
 
 
 # representations
@@ -61,7 +82,10 @@ class TextVec(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         docs = self._docs(X)
         n = len(docs)
-        kw = dict(analyzer=self.analyzer, ngram_range=self.ngram_range, max_features=self.max_features or NLP_MAX_FEATURES,
+        self.analyzer_, self.ngram_range_ = self.analyzer, self.ngram_range
+        if self.analyzer == "word" and docs and no_space_share(docs) > 0.3:      # a sentence is one 'word' here: use character n-grams
+            self.analyzer_, self.ngram_range_ = "char_wb", (1, 3)
+        kw = dict(analyzer=self.analyzer_, ngram_range=self.ngram_range_, max_features=self.max_features or NLP_MAX_FEATURES, token_pattern=_TOKEN_PATTERN,
                   sublinear_tf=True, min_df=2 if n > 150 else 1, max_df=0.95 if n >= 50 else 1.0)
         try:
             self.vec_ = TfidfVectorizer(**kw).fit(docs)
@@ -87,7 +111,7 @@ class TextVec(BaseEstimator, TransformerMixin):
     def get_feature_names_out(self, names=None):
         if self.lsa and self.svd_ is not None:
             return np.array([f"topic_{i}" for i in range(self.svd_.n_components)])
-        tag = "char" if self.analyzer != "word" else "word"
+        tag = "char" if getattr(self, "analyzer_", self.analyzer) != "word" else "word"
         return np.array([f"{tag}:{t}" for t in self.vec_.get_feature_names_out()])
 
 
@@ -122,7 +146,69 @@ def embeddings_available() -> bool:
         return False
 
 
+class WordCharVec(BaseEstimator, TransformerMixin):
+    """Word 1-2-gram TF-IDF and char_wb 2-5-gram TF-IDF side by side: words carry meaning, characters absorb typos, morphology and unseen words."""
+
+    def __init__(self, clean: bool = True):
+        self.clean = clean
+
+    def fit(self, X, y=None):
+        self.w_ = TextVec(analyzer="word", ngram_range=(1, 2), clean=self.clean).fit(X)
+        self.c_ = TextVec(analyzer="char_wb", ngram_range=(2, 5), clean=self.clean).fit(X)
+        return self
+
+    def transform(self, X):
+        from scipy import sparse
+        return sparse.hstack([self.w_.transform(X), self.c_.transform(X)]).tocsr()
+
+    def get_feature_names_out(self, names=None):
+        return np.concatenate([self.w_.get_feature_names_out(), self.c_.get_feature_names_out()])
+
+
+class NBLogisticRegression(ClassifierMixin, BaseEstimator):
+    """NB-SVM (Wang & Manning 2012): scale each feature by the naive-Bayes log-count ratio of the class vs the rest, then fit a linear model.
+    One-vs-rest for several classes. A strong, cheap baseline for sentiment / topic classification on TF-IDF features."""
+
+    def __init__(self, C: float = 4.0, alpha: float = 1.0, class_weight=None, max_iter: int = 2000):
+        self.C, self.alpha, self.class_weight, self.max_iter = C, alpha, class_weight, max_iter
+
+    def fit(self, X, y):
+        y = np.asarray(y)
+        self.classes_ = np.unique(y)
+        Xb = X.copy().tocsr()
+        Xb.data = np.ones_like(Xb.data)                                    # presence/absence for the ratio, as in the paper
+        self.r_, self.models_ = [], []
+        targets = [self.classes_[1]] if len(self.classes_) == 2 else list(self.classes_)
+        for c in targets:
+            pos, neg = np.asarray(Xb[y == c].sum(0)).ravel() + self.alpha, np.asarray(Xb[y != c].sum(0)).ravel() + self.alpha
+            r = np.log((pos / pos.sum()) / (neg / neg.sum()))
+            m = LogisticRegression(C=self.C, max_iter=self.max_iter, class_weight=self.class_weight).fit(X.multiply(r).tocsr(), (y == c).astype(int))
+            self.r_.append(r)
+            self.models_.append(m)
+        return self
+
+    def _scores(self, X):
+        return np.column_stack([m.decision_function(X.multiply(r).tocsr()) for r, m in zip(self.r_, self.models_)])
+
+    def decision_function(self, X):
+        d = self._scores(X)
+        return d.ravel() if d.shape[1] == 1 else d
+
+    def predict_proba(self, X):
+        d = self._scores(X)
+        if d.shape[1] == 1:
+            p = 1.0 / (1.0 + np.exp(-d[:, 0]))
+            return np.column_stack([1 - p, p])
+        p = 1.0 / (1.0 + np.exp(-d))
+        return p / p.sum(1, keepdims=True)
+
+    def predict(self, X):
+        return self.classes_[self.predict_proba(X).argmax(1)]
+
+
 def text_transformer(rep: str):
+    if rep == "wordchar":
+        return WordCharVec()
     if rep == "char":
         return TextVec(analyzer="char_wb", ngram_range=(2, 5))
     if rep == "lsa":
@@ -132,7 +218,7 @@ def text_transformer(rep: str):
     return TextVec(analyzer="word", ngram_range=(1, 2))
 
 
-REP_LABEL = {"word": "word TF-IDF", "char": "char n-gram TF-IDF", "lsa": "LSA", "embed": "embeddings"}
+REP_LABEL = {"word": "word TF-IDF", "char": "char n-gram TF-IDF", "wordchar": "word+char TF-IDF", "lsa": "LSA", "embed": "embeddings"}
 
 
 # models
@@ -180,6 +266,8 @@ def candidate_specs(task: str, strategy: Dict[str, Any], rs: int) -> Dict[str, A
         m[f"LogisticRegression · {L['word']}"] = Spec(LogisticRegression(max_iter=3000, class_weight=cw, C=c), text_rep="word", meta=False)
         m[f"LogisticRegression · {L['char']}"] = Spec(LogisticRegression(max_iter=3000, class_weight=cw, C=c), text_rep="char", meta=False)
         m[f"LinearSVC · {L['word']}"] = Spec(CalibratedLinearSVC(C=0.2 if rg else 0.6, class_weight=cw, random_state=rs), text_rep="word", meta=False)
+        m[f"LogisticRegression · {L['wordchar']}"] = Spec(LogisticRegression(max_iter=3000, class_weight=cw, C=c), text_rep="wordchar", meta=False)
+        m[f"NB-SVM · {L['word']}"] = Spec(NBLogisticRegression(C=0.5 if rg else 4.0, class_weight=cw), text_rep="word", meta=False)
         m[f"ComplementNB · {L['word']}"] = Spec(ComplementNB(alpha=1.0 if rg else 0.3), text_rep="word", meta=False)
         m[f"SGD · {L['word']}"] = Spec(SGDClassifier(loss="modified_huber", alpha=1e-3 if rg else 2e-4, class_weight=cw, random_state=rs, max_iter=60, tol=1e-3), text_rep="word", meta=False)
         m[f"RandomForest · {L['lsa']}"] = Spec(RandomForestClassifier(n_estimators=200, class_weight=cw, n_jobs=-1, random_state=rs,
@@ -230,7 +318,8 @@ def detect_language(docs: List[str], sample: int = 300) -> Dict[str, Any]:
     mix = script_mix(docs, sample)
     top = next(iter(mix), None)
     if top and top != "LATIN":
-        return {"language": {"ARABIC": "ar", "CYRILLIC": "ru/uk/bg", "CJK": "zh/ja", "HANGUL": "ko", "HEBREW": "he", "GREEK": "el"}.get(top, top.lower()), "confidence": "script-based", "scripts": mix}
+        return {"language": {"ARABIC": "ar/fa/ur", "CYRILLIC": "ru/uk/bg", "CJK": "zh/ja", "HIRAGANA": "ja", "KATAKANA": "ja", "HANGUL": "ko", "HEBREW": "he", "GREEK": "el", "DEVANAGARI": "hi/mr/ne",
+                                                                                                          "THAI": "th", "BENGALI": "bn", "TAMIL": "ta", "TELUGU": "te", "ARMENIAN": "hy", "GEORGIAN": "ka"}.get(top, top.lower()), "confidence": "script-based", "scripts": mix}
     words = [w for d in docs[:sample] for w in _TOKEN.findall(d.lower())[:200]]
     if len(words) < 50:
         return {"language": "unknown", "confidence": "too little text", "scripts": mix}
@@ -370,8 +459,15 @@ def _luhn(num: str) -> bool:
     return (sum(d[0::2]) + sum(sum(divmod(2 * x, 10)) for x in d[1::2])) % 10 == 0
 
 
-_PII = {"email": _EMAIL, "phone": re.compile(r"(?<!\d)\+?\d[\d\s().-]{8,}\d(?!\d)"), "ipv4": re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b"),
-        "us_ssn": re.compile(r"\b\d{3}-\d{2}-\d{4}\b"), "iban": re.compile(r"\b[A-Z]{2}\d{2}[A-Z0-9]{11,30}\b"), "card": re.compile(r"\b(?:\d[ -]?){13,19}\b")}
+# Structured patterns, not "any long run of digits": the old phone pattern matched timestamps, decimals and number arrays (126 false phones in 2,000 pandas docstrings with no personal data at all).
+_PHONE = re.compile(r"(?<![\w.])(?:\+\d{1,3}[\s.-]?(?:\(?\d{1,4}\)?[\s.-]?){2,5}\d"      # +20 100 123 4567, +44 20 7946 0958
+                    r"|\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}"                                   # (415) 555-0132, 415.555.0132
+                    r"|0\d{2,4}[\s.-]\d{3,4}[\s.-]?\d{3,5}"                                   # national: 010 1234 5678, 020-123-4567
+                    r"|01[0-25]\d{8})(?![\w.]*\d)")                                            # Egyptian mobile 01012345678
+_OCTET = r"(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)"
+_PII = {"email": _EMAIL, "phone": _PHONE, "ipv4": re.compile(rf"(?<![\w.])(?:{_OCTET}\.){{3}}{_OCTET}(?![\w]|\.\d)"),
+        "us_ssn": re.compile(r"(?<![\w-])\d{3}-\d{2}-\d{4}(?![\w-])"), "iban": re.compile(r"\b[A-Z]{2}\d{2}[A-Z0-9]{11,30}\b"),
+        "card": re.compile(r"(?<![\w.-])(?:(?:\d{4}[ -]){3}\d{1,7}|[3-6]\d{12,18})(?![\w-]|\.\d)")}      # grouped 4-4-4-4, or 13-19 digits starting 3-6 (then Luhn-checked)
 
 
 def pii_scan(docs: List[str]) -> Dict[str, Any]:
@@ -384,7 +480,7 @@ def pii_scan(docs: List[str]) -> Dict[str, Any]:
             if k == "card":
                 hits = [h for h in hits if 13 <= len(re.sub(r"\D", "", h)) <= 19 and _luhn(re.sub(r"\D", "", h))]
             if k == "phone":
-                hits = [h for h in hits if 9 <= len(re.sub(r"\D", "", h)) <= 15]
+                hits = [h for h in hits if 9 <= len(re.sub(r"\D", "", h)) <= 15 and not re.fullmatch(r"\+?\d+\.\d+", h.strip())]       # a signed decimal such as +0.38268343 is a number, not a phone
             if hits:
                 counts[k] += len(hits)
                 affected.add(i)
@@ -692,8 +788,9 @@ def analyze(df: pd.DataFrame, text_col: str, label_col: Optional[str] = None, al
             for s in li["suspects"]:
                 s["text"] = docs[s["index"]][:200]
             rep["label_issues"] = li
-            items.append(("nlp_label_issues", f"{li['n_suspects']} document(s) ({li['share']:.1%}) look mislabelled: an out-of-fold model confidently prefers another class. "
-                                              "Review them before trusting the held-out score; a noisy label caps what any model can reach.", {"n": li["n_suspects"], "share": li["share"]}))
+            items.append(("nlp_label_issues", f"Up to {li['n_suspects']} document(s) ({li['share']:.1%}) may be mislabelled or genuinely ambiguous: an out-of-fold model prefers another class. "
+                                              "The list is ranked: the first entries are the most likely real errors, later ones are more often just hard or ambiguous cases, so the total is an upper bound, not a count of errors. "
+                                              "Review the top of the list before trusting the held-out score; a noisy label caps what any model can reach.", {"n": li["n_suspects"], "share": li["share"]}))
     # ---- PII / entities / sentiment
     pii = pii_scan(docs)
     rep["pii"] = pii

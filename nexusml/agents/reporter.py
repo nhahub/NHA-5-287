@@ -131,7 +131,11 @@ def finalize_node(state) -> Dict[str, Any]:
     reg = get_registry()
     plan = state["analysis_plan"]
     pt = plan["problem_type"]
-    skey = reg.save_bytes(json.dumps(jsonable({k: v for k, v in state.items()}), default=str).encode("utf-8"), f"runs/{state['experiment_id']}/state.json")
+    from .. import resume as _resume
+    saved = {k: v for k, v in state.items()}
+    if saved.get("resume"):
+        saved["resume"] = _resume.slim(saved["resume"])                  # the carried payload is already inside this run's own results
+    skey = reg.save_bytes(json.dumps(jsonable(saved), default=str).encode("utf-8"), f"runs/{state['experiment_id']}/state.json")
     reg.log_run({"experiment_id": state["experiment_id"], "created": pd.Timestamp.now().isoformat(timespec="seconds"),
                  "request": state.get("user_request"), "analysis_type": state.get("analysis_type"), "problem_type": pt,
                  "target": plan.get("target"), "best_model": state.get("best_model_name"), "quality_passed": state.get("quality_passed"),

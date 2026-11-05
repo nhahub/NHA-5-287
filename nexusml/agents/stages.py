@@ -19,7 +19,7 @@ from typing import Any, Callable, Dict, List, Tuple
 
 import numpy as np
 
-from .. import blackboard, config, leaderboard, llm, modeling, viz
+from .. import blackboard, config, leaderboard, llm, modeling, resume as R, viz
 from ..state import merge_update, merge_updates
 from ..storage import get_registry
 from ._util import jsonable, log, make_evidence
@@ -61,12 +61,15 @@ def _skip_update(sub: str, state) -> Dict[str, Any]:
     return {**SKIPPED_DEFAULTS.get(sub, {}), "agent_log": [log("Supervisor", f"Skipped '{sub}': not needed for this request.")]}
 
 
-def _run_subtasks(stage_name: str, state, tasks: List[Tuple[str, Callable]], parallel: bool = True) -> Dict[str, Any]:
-    """Run independent sub-tasks (concurrently when allowed), isolating failures. Updates are merged in LIST order, so results are deterministic."""
+def _run_subtasks(stage_name: str, state, tasks: List[Tuple[str, Callable]], parallel: bool = True, reused: Tuple[str, ...] = ()) -> Dict[str, Any]:
+    """Run independent sub-tasks (concurrently when allowed), isolating failures. Updates are merged in LIST order, so results are deterministic.
+    `reused` names sub-tasks whose results came from an earlier analysis (resume.py): they are not run, and (unlike a skipped phase) their results are kept."""
     skip = set(state.get("skip_phases") or [])
 
     def one(item):
         sub, fn = item
+        if R.SUBTASK.get(sub) in reused:
+            return {"timings": {f"{stage_name}.{sub}": {"seconds": 0.0, "reused": True}}}
         if PHASE_OF.get(sub) in skip:
             return _skip_update(sub, state)
         t0 = time.perf_counter()
@@ -97,11 +100,14 @@ def _run_subtasks(stage_name: str, state, tasks: List[Tuple[str, Callable]], par
 
 
 def intake_node(state) -> Dict[str, Any]:
+    if (state.get("resume") or {}).get("profile_reused") and state.get("dataset_profile"):
+        return data_engineer.reuse_profile_node(state)
     return data_engineer.profile_dataset_node(state)
 
 
 def frame_node(state) -> Dict[str, Any]:
     out = planner.understand_request_node(state)
+    out = {**out, **R.pinned_frame(state)}                             # a follow-up keeps the parent's KPI definitions (its KPI numbers are reused)
     if not out.get("is_objective_clear"):                              # prepare the question NOW: the graph pauses before `await_clarification`
         out = merge_updates(out, planner.ask_clarification_node(merge_update(state, out)))
     return out
@@ -110,6 +116,7 @@ def frame_node(state) -> Dict[str, Any]:
 def await_clarification_node(state) -> Dict[str, Any]:
     """Resume after the human answered (target / problem type). The human's choices always win."""
     out = planner.await_clarification_node(state)
+    out = {**out, **R.pinned_frame(state)}
     if not out.get("is_objective_clear"):                              # still unclear: re-ask, listing the candidate columns again
         out = merge_updates(out, planner.ask_clarification_node(merge_update(state, out)))
     return out
@@ -171,8 +178,11 @@ def explore_node(state) -> Dict[str, Any]:
         st = state
         if not (state.get("crew") or {}).get("explore", True):
             st = {**state, "skip_phases": sorted(set(state.get("skip_phases") or []) | {"statistics", "kpis", "trends", "media"})}
+        reuse = R.applicable(state)                                     # follow-up analysis: phases whose earlier results are still valid for this plan
         upd = _run_subtasks("explore", st, [("statistical_analysis", analysis.statistical_analysis_node), ("kpi_analysis", analysis.kpi_analysis_node),
-                                            ("trend_analysis", analysis.trend_analysis_node), ("media_analysis", media.media_analysis_node)])
+                                            ("trend_analysis", analysis.trend_analysis_node), ("media_analysis", media.media_analysis_node)], reused=tuple(reuse))
+        if state.get("resume"):
+            upd = merge_updates(R.carried_update(state, reuse), upd, {"agent_log": [log("Planner", R.explain(state))]})
         try:                                                            # tell the AutoML agent what the analysis found (names and counts only)
             sr = upd.get("stat_results") or []
             names = [str(r.get("name") or r.get("test") or r.get("id") or "") for r in sr if isinstance(r, dict)][:4]

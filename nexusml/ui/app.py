@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 from .. import config, jobs, runstore
-from . import legacy, nav, state, theme
+from . import context, dock, legacy, nav, state, theme
 from ._st import ss, st
-from .pages import analyze, assistant, data, home, models, runs, settings
+from .pages import assistant, data, home, models, runs, settings
 
 
 def _assets() -> Tuple[Optional[str], Optional[str]]:
@@ -87,13 +87,14 @@ def _pages():
     page = {"home": P(home.render, title="Home", icon=":material/home:", url_path="home", default=True),
             "assistant": P(assistant.render, title="Assistant", icon=":material/forum:", url_path="assistant"),
             "data": P(data.render, title="Data", icon=":material/table_chart:", url_path="data"),
-            "analyze": P(analyze.render, title="New analysis", icon=":material/add_circle:", url_path="new-analysis"),
-            "history": P(runs.render, title="Analyses", icon=":material/history:", url_path="analyses"),
+            "analyses": P(runs.render, title="Analyses", icon=":material/analytics:", url_path="analyses"),
             "models": P(models.render, title="Models", icon=":material/deployed_code:", url_path="models"),
             "settings": P(settings.render, title="Settings", icon=":material/settings:", url_path="settings")}
     for k, v in page.items():
         nav.register(k, v)
-    return {"Workspace": [page["home"], page["assistant"], page["data"]], "Analyses": [page["analyze"], page["history"]], "Models": [page["models"]], "System": [page["settings"]]}
+    nav.register("analyze", page["analyses"])                        # the composer and the history are one page now; both names lead to it
+    nav.register("history", page["analyses"])
+    return {"Workspace": [page["home"], page["assistant"], page["data"]], "Analyses": [page["analyses"]], "Models": [page["models"]], "System": [page["settings"]]}
 
 
 def main() -> None:
@@ -118,3 +119,5 @@ def main() -> None:
                 st.rerun()
     with error_boundary("page"):
         navigation.run()
+    with error_boundary("assistant dock"):
+        dock.render()                                                 # after the page, so the assistant sees what the page is showing

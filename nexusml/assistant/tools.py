@@ -5,6 +5,8 @@ A tool returns TWO different things on purpose:
   table / figure   for the person's screen. They may contain real rows ("show me the outlier rows"), and they never go to the model.
 """
 import difflib
+import json
+import re
 import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
@@ -14,7 +16,7 @@ import pandas as pd
 
 from .. import profiling
 from ..util import jsonable
-from . import charts
+from . import charts, runfacts
 
 MAX_TABLE_ROWS = 500
 MODEL_ROWS = 15000
@@ -31,6 +33,8 @@ class ToolContext:
     run_state: Optional[Dict[str, Any]] = None        # a finished analysis the person is looking at (enables ask_run)
     seed: int = 42
     answer_run: Optional[Callable[[str], str]] = None  # injected by the app so this module stays free of LLM imports
+    repairs: List[str] = field(default_factory=list)   # column names the tool layer corrected on the model's behalf (see resolve_column)
+    view: Dict[str, Any] = field(default_factory=dict)  # where the person is in the application (page, open analysis, selected dataset ...)
 
 
 @dataclass
@@ -41,6 +45,7 @@ class ToolResult:
     figure: Optional[Dict[str, Any]] = None
     notes: List[str] = field(default_factory=list)
     proposal: Optional[Dict[str, Any]] = None
+    image: Optional[str] = None                       # registry key of a stored picture (for the person's screen only)
     text: str = ""                                    # one plain sentence describing what was done (shown in the activity list)
 
 
@@ -71,7 +76,17 @@ def numeric_columns(df: pd.DataFrame, min_unique: int = 2) -> List[str]:
     return [c for c in df.columns if pd.api.types.is_numeric_dtype(df[c]) and not pd.api.types.is_bool_dtype(df[c]) and df[c].nunique() >= min_unique]
 
 
-def resolve_column(df: pd.DataFrame, name: Any, numeric: bool = False) -> str:
+def _norm(x: Any) -> str:
+    return re.sub(r"[^0-9a-z]+", "", str(x).lower())
+
+
+def resolve_column(df: pd.DataFrame, name: Any, numeric: bool = False, repairs: Optional[List[str]] = None) -> str:
+    """Map the model's column name to a real one.
+
+    A near miss that has exactly one sensible reading ('Total Sales' / 'total_sales' / 'totalsales', or a one-letter typo) is corrected
+    here and reported in `repairs`, instead of being rejected: a rejection costs a whole extra model round-trip just to retype the name.
+    Anything ambiguous or far off is still an error that lists the closest real columns."""
+    col = None
     if name in df.columns:
         col = name
     else:
@@ -80,14 +95,31 @@ def resolve_column(df: pd.DataFrame, name: Any, numeric: bool = False) -> str:
         if key in low:
             col = low[key]
         else:
-            near = difflib.get_close_matches(str(name), [str(c) for c in df.columns], n=4, cutoff=0.5)
-            raise ToolError(f"There is no column named '{name}'." + (f" Closest matches: {near}." if near else f" Available columns: {list(df.columns)[:30]}."))
+            nk = _norm(name)
+            cols = list(df.columns)
+            normed = {}
+            for c in cols:
+                normed.setdefault(_norm(c), []).append(c)
+            if nk and nk in normed and len(normed[nk]) == 1:                        # same letters and digits, different punctuation / case / spacing
+                col = normed[nk][0]
+            elif nk:
+                close = difflib.get_close_matches(nk, [k for k in normed if k], n=2, cutoff=0.86)
+                if len(close) == 1 and len(normed[close[0]]) == 1:
+                    col = normed[close[0]][0]
+                elif len(close) == 2 and difflib.SequenceMatcher(None, nk, close[0]).ratio() - difflib.SequenceMatcher(None, nk, close[1]).ratio() >= 0.08 and len(normed[close[0]]) == 1:
+                    col = normed[close[0]][0]
+            if col is not None:
+                if repairs is not None:
+                    repairs.append(f"'{name}' -> '{col}'")
+            else:
+                near = difflib.get_close_matches(str(name), [str(c) for c in cols], n=4, cutoff=0.5)
+                raise ToolError(f"There is no column named '{name}'." + (f" Closest matches: {near}." if near else f" Available columns: {list(df.columns)[:30]}."))
     if numeric and not pd.api.types.is_numeric_dtype(df[col]):
         raise ToolError(f"Column '{col}' is not numeric ({kind_of(df[col])}); choose one of {numeric_columns(df)[:20]}.")
     return col
 
 
-def coerce_args(tool: Tool, df: Optional[pd.DataFrame], raw: Dict[str, Any]) -> Dict[str, Any]:
+def coerce_args(tool: Tool, df: Optional[pd.DataFrame], raw: Dict[str, Any], repairs: Optional[List[str]] = None) -> Dict[str, Any]:
     raw = raw if isinstance(raw, dict) else {}
     unknown = [k for k in raw if k not in tool.params]
     if unknown:
@@ -102,12 +134,12 @@ def coerce_args(tool: Tool, df: Optional[pd.DataFrame], raw: Dict[str, Any]) -> 
             continue
         try:
             if p.kind == "column":
-                out[k] = resolve_column(df, v)
+                out[k] = resolve_column(df, v, repairs=repairs)
             elif p.kind == "numeric_column":
-                out[k] = resolve_column(df, v, numeric=True)
+                out[k] = resolve_column(df, v, numeric=True, repairs=repairs)
             elif p.kind == "columns":
                 vals = v if isinstance(v, list) else [v]
-                out[k] = [resolve_column(df, x) for x in vals][:40]
+                out[k] = [resolve_column(df, x, repairs=repairs) for x in vals][:40]
             elif p.kind == "number":
                 out[k] = float(v)
             elif p.kind == "int":
@@ -450,6 +482,26 @@ def t_filter_rows(ctx: ToolContext, a) -> ToolResult:
                       sub[cols].head(limit).reset_index().rename(columns={"index": "row"}), None, text=f"{int(m.sum()):,} of {len(df):,} rows match.")
 
 
+def t_segment_analysis(ctx: ToolContext, a) -> ToolResult:
+    from .. import segmentation as SG
+    df = ctx.df
+    try:
+        spec = {"name": a["name"] or "segment", "conditions": a["conditions"] or [], "time_range": None}
+        if not spec["conditions"] and a["request"]:
+            spec = SG.propose(df, a["request"], a["target"])
+        elif a["positive_class_of"]:
+            col = resolve_column(df, a["positive_class_of"])
+            spec["conditions"] = [{"column": col, "op": "eq", "value": SG._positive_value(df[col])}]
+        res = SG.analyze(df, spec, target=a["target"], secondary_target=a["secondary_target"], strategy={"imbalance": a["imbalance"]} if a["imbalance"] else None)
+    except SG.SegmentError as e:
+        raise ToolError(str(e))
+    m = res.get("model") or {}
+    facts = {"segment": res["segment"]["spec"], "rows": res["segment"]["rows"], "of": res["segment"]["of"], "most_distinctive": res["vs_rest"][:5], "notes": res["notes"],
+             "model": ({"target": m["target"], "best": m["best"], "candidates": [{k: c.get(k) for k in ("name", "f1_macro", "balanced_accuracy", "roc_auc", "r2", "rmse")} for c in m["candidates"]],
+                        "threshold": m.get("threshold", {}).get("threshold")} if m else None)}
+    return ToolResult("Segment analysis", facts, None, None, text=SG.summarize(res))
+
+
 def t_time_trend(ctx: ToolContext, a) -> ToolResult:
     df, dc, vc = ctx.df, a["date"], a["value"]
     d = pd.to_datetime(df[dc], errors="coerce")
@@ -545,6 +597,173 @@ def t_ask_run(ctx: ToolContext, a) -> ToolResult:
     return ToolResult("From the open analysis", {"answer": ans}, None, None, text="Looked the answer up in the open analysis.")
 
 
+# ---- the workspace: analyses, charts, running work, models, packages. These tools do not need a dataset.
+def _runs(limit: int = 60) -> List[Dict[str, Any]]:
+    from .. import lineage
+    return lineage.list_state_summaries(limit)
+
+
+def _resolve_run(ctx: ToolContext, ref: Any) -> Dict[str, Any]:
+    """The saved state of the analysis the person means: an id (or its last characters), 'latest', 'previous', words from its request, or (no reference) the one that is open."""
+    from .. import lineage
+    ref = str(ref or "").strip()
+    runs = _runs(200)
+    if not ref:
+        if ctx.run_state:
+            return ctx.run_state
+        ref = str(ctx.view.get("run") or "") or ("latest" if runs else "")
+    if not runs:
+        raise ToolError("There are no finished analyses yet.")
+    low = ref.lower()
+    pick = None
+    if low in ("latest", "last", "newest", "most recent", "recent"):
+        pick = runs[0]
+    elif low in ("previous", "the one before", "earlier") and len(runs) > 1:
+        pick = runs[1]
+    elif low in ("first", "oldest"):
+        pick = runs[-1]
+    else:
+        exact = [r for r in runs if r["id"].lower() == low]
+        part = [r for r in runs if len(low) >= 4 and (low in r["id"].lower())]
+        words = [r for r in runs if low and low in (r["request"] or "").lower()]
+        for group in (exact, part, words):
+            if len(group) == 1:
+                pick = group[0]
+                break
+        if pick is None and (part or words):
+            raise ToolError(f"'{ref}' matches several analyses: {[r['id'] for r in (part or words)[:5]]}. Use a full id.")
+    if pick is None:
+        raise ToolError(f"No analysis matches '{ref}'. Recent ones: {[{'id': r['id'], 'request': (r['request'] or '')[:40]} for r in runs[:5]]}.")
+    st = lineage.load_state(pick["id"])
+    if not st:
+        raise ToolError(f"The saved results of {pick['id']} could not be read.")
+    return st
+
+
+def t_analyses(ctx: ToolContext, a) -> ToolResult:
+    from .. import jobs, lineage
+    runs = _runs(100)
+    q = (a["query"] or "").strip().lower()
+    if a["compare"]:
+        ids = [x.strip() for x in str(a["compare"]).replace(";", ",").split(",") if x.strip()][:5]
+        if len(ids) < 2:
+            raise ToolError("compare needs two or more analysis ids separated by commas.")
+        rows = []
+        for i in ids:
+            st = _resolve_run(ToolContext(pd.DataFrame(), view={}), i)
+            ci, plan = st.get("metric_ci") or {}, st.get("analysis_plan") or {}
+            rows.append({"analysis": st.get("experiment_id"), "request": (st.get("user_request") or "")[:60], "problem": plan.get("problem_type"), "target": plan.get("target"), "model": st.get("best_model_name"),
+                         "metric": st.get("primary_metric"), "held_out": _r(ci.get("value"), 4), "low": _r(ci.get("lo"), 4), "high": _r(ci.get("hi"), 4), "passed_review": st.get("quality_passed"),
+                         "rows": (st.get("dataset_profile") or {}).get("n_rows"), "built_on": st.get("parent_experiment_id")})
+        return ToolResult("Analyses side by side", {"compared": rows, "reading": "Scores are comparable only when the target, metric and data are the same."}, pd.DataFrame(rows), None, text=f"Compared {len(rows)} analyses.")
+    if q:
+        runs = [r for r in runs if q in " ".join(str(r.get(k) or "") for k in ("request", "target", "best_model", "dataset", "problem_type")).lower()]
+    live = [j for j in jobs.active() if j["status"] in ("running", "queued", "needs_input")]
+    rows = [{"id": r["id"], "request": (r["request"] or "")[:70], "dataset": r["dataset"], "problem": r["problem_type"], "target": r["target"], "model": r["best_model"], "metric": r["metric"],
+             "held_out": _r(r["heldout"], 3), "passed_review": r["passed_review"], "built_on": r["parent"]} for r in runs[: int(min(max(a["limit"] or 12, 1), 40))]]
+    summary = {"finished_analyses": len(runs), "shown": rows[:8], "running_now": [{"id": j["id"], "status": j["status"], "stage": j["stage_label"], "request": (j["request"] or "")[:60]} for j in live[:4]]}
+    return ToolResult("Analyses", summary, pd.DataFrame(rows) if rows else None, None, text=f"Listed {len(rows)} analyses.")
+
+
+def t_analysis(ctx: ToolContext, a) -> ToolResult:
+    st = _resolve_run(ctx, a["run"])
+    name = a["part"] or "overview"
+    summary, table = runfacts.part(st, name, a["query"] or "")
+    rid = st.get("experiment_id")
+    return ToolResult(f"{name.capitalize()} of the analysis", {"analysis": rid, **summary}, table, None, text=f"Read the {name} of analysis {rid}.")
+
+
+def t_analysis_chart(ctx: ToolContext, a) -> ToolResult:
+    from ..storage import get_registry
+    st = _resolve_run(ctx, a["run"])
+    cs = st.get("charts") or []
+    if not a["chart"]:
+        summary, table = runfacts.charts(st, "")
+        return ToolResult("Charts of the analysis", {"analysis": st.get("experiment_id"), **summary}, table, None, text=f"Listed the {len(cs)} charts.")
+    q = str(a["chart"]).strip().lower()
+    hit = [c for c in cs if q == (c.get("id") or "").lower()] or [c for c in cs if q in (c.get("title") or "").lower() or q in (c.get("id") or "").lower()]
+    if not hit:
+        raise ToolError(f"No chart matches '{a['chart']}'. Available: {[c.get('title') for c in cs[:12]]}.")
+    ch = hit[0]
+    reg, fig, img = get_registry(), None, None
+    if ch.get("spec_key"):
+        try:
+            fig = json.loads(reg.path_of(ch["spec_key"]).read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            fig = None
+    if fig is None and ch.get("key") and reg.path_of(ch["key"]).exists():
+        img = ch["key"]
+    if fig is None and img is None:
+        raise ToolError(f"The picture for '{ch.get('title')}' is no longer stored.")
+    return ToolResult(ch.get("title") or "Chart", {"analysis": st.get("experiment_id"), "chart": ch.get("title"), "section": ch.get("section"), "what_it_shows": (ch.get("caption") or "")[:300],
+                                                  "other_matches": [c.get("title") for c in hit[1:4]]}, None, fig, image=img, text=f"Showed the chart '{ch.get('title')}'.")
+
+
+def t_jobs_status(ctx: ToolContext, a) -> ToolResult:
+    from .. import jobs, runstore
+    live = jobs.active()
+    rows = [{"id": j["id"], "status": j["status"], "stage": j["stage_label"], "progress_pct": round(100 * j["progress"]), "seconds": j["elapsed"], "request": (j["request"] or "")[:70], "dataset": j["dataset_name"],
+             "recent_activity": [str(e["message"])[:140] for e in j["log"][-3:]], "needs_answer": (j["message"] or "")[:200] if j["status"] == "needs_input" else None, "problem": (j["error"] or "")[:200] if j["status"] == "failed" else None}
+            for j in live[:6]]
+    att = [{"id": x["id"], "status": x["status"], "request": (x["request"] or "")[:70], "problem": (x["error"] or x["message"] or "")[:200]} for x in runstore.list_attempts(10) if x["id"] not in {j["id"] for j in live}]
+    return ToolResult("Running and unfinished analyses", {"in_this_session": rows, "unfinished_earlier": att[:5]}, pd.DataFrame(rows) if rows else None, None, text="Checked what is running and what did not finish.")
+
+
+def t_workspace_info(ctx: ToolContext, a) -> ToolResult:
+    from .. import config, workspace
+    part = a["part"] or "datasets"
+    if part == "datasets":
+        ds = workspace.list_datasets()
+        rows = [{"name": d["name"], "rows": d["rows"], "columns": d["cols"], "size_kb": round(d["bytes"] / 1024), "in_use": d["name"] == ctx.name} for d in ds[:30]]
+        return ToolResult("Datasets in the workspace", {"count": len(ds), "datasets": rows[:10]}, pd.DataFrame(rows) if rows else None, None, text=f"Listed {len(ds)} datasets.")
+    if part == "models":
+        from .. import tracking
+        reg = tracking.registry().get("models", {})
+        rows = [{"model": n, "version": v["version"], "stage": v["stage"], "analysis_run": v["run_id"], **{k: _r(x, 4) for k, x in list(v.get("metrics", {}).items())[:3]}} for n, m in reg.items() for v in m["versions"]]
+        return ToolResult("Registered models", {"models": len(reg), "versions": rows[:12]}, pd.DataFrame(rows) if rows else None, None, text="Listed the registered models.")
+    if part == "settings":
+        sl = workspace.get_pref("share_labels", True)
+        return ToolResult("Workspace settings", {"language_model": {"provider": config.LLM_PROVIDER_NAME, "model": config.LLM_MODEL, "connected": bool(config.provider_configured(config.LLM_PROVIDER))},
+                                                 "category_labels_shared_with_assistant": bool(sl), "reading": "Keys are never shown."}, None, None, text="Read the workspace settings.")
+    return ToolResult("Where you are", {"view": ctx.view or {"page": "unknown"}}, None, None, text="Read the current view.")
+
+
+def t_packages(ctx: ToolContext, a) -> ToolResult:
+    from . import workspace_ctx
+    info = workspace_ctx.package_versions(a["query"] or "")
+    rows = [{"package": k, "version": v} for k, v in (info.get("found") or info.get("installed") or {}).items()]
+    return ToolResult("Installed packages", info, pd.DataFrame(rows) if rows else None, None, text="Checked the installed packages.")
+
+
+def t_note_concern(ctx: ToolContext, a) -> ToolResult:
+    from .. import runstore
+    st = _resolve_run(ctx, a["run"])
+    rid = st.get("experiment_id")
+    runstore.add_note(rid, a["concern"], "concern")
+    return ToolResult("Concern saved", {"saved": True, "analysis": rid, "shown_with_the_analysis": True}, None, None, text=f"Saved the concern with analysis {rid}.")
+
+
+def t_propose_extension(ctx: ToolContext, a) -> ToolResult:
+    from .. import resume
+    st = _resolve_run(ctx, a["run"])
+    rid = st.get("experiment_id")
+    target = a["target"]
+    if target:                                                          # validated against the ANALYSIS' dataset, not the one open in the chat
+        cols = list((st.get("dataset_profile") or {}).get("columns", {}))
+        if target not in cols:
+            near = difflib.get_close_matches(str(target), cols, n=3, cutoff=0.6)
+            raise ToolError(f"There is no column named '{target}' in that analysis' dataset." + (f" Closest matches: {near}." if near else f" Columns: {cols[:30]}."))
+    try:
+        sd = resume.seed(rid, st.get("dataset_path") or "")
+        reuse = (["data profile"] if sd["resume"]["profile_reused"] else []) + [resume.LABEL[p] for p in sd["resume"]["carry"]]
+        notes = sd["resume"]["notes"]
+    except resume.ResumeError as e:
+        raise ToolError(str(e))
+    prop = {"kind": "extend", "parent": rid, "objective": a["request"], "target": a["target"], "goal_metric": a["goal_metric"], "goal_value": a["goal_value"], "reuse": reuse}
+    return ToolResult("Follow-up proposal", {"proposed": True, "shown_to_user": True, "builds_on": rid, "can_reuse": reuse, "notes": notes}, None, None, proposal=prop,
+                      text="Prepared a follow-up that builds on the earlier analysis; nothing has been started.")
+
+
 # registry
 def _t(name, desc, params, fn, needs_data=True) -> Tool:
     return Tool(name, desc, params, fn, needs_data)
@@ -572,10 +791,29 @@ REGISTRY: Dict[str, Tool] = {t.name: t for t in [
         "limit": P("int", "max rows", default=50)}, t_filter_rows),
     _t("time_trend", "How a value (or the row count) changes over time.", {"date": P("column", "date column", True), "value": P("numeric_column", "numeric column (omit to count rows)"),
         "agg": P("choice", "sum | mean | median | count | min | max", choices=["sum", "mean", "median", "count", "min", "max"]), "freq": P("choice", "D | W | MS | QS", choices=["D", "W", "MS", "QS"])}, t_time_trend),
+    _t("segment_analysis", "Isolate a slice of the data (a class such as the positive target class, a value range, a date range) and run EDA, feature engineering and modelling on ONLY that slice.",
+       {"request": P("text", "the slice in plain words, e.g. 'only customers over 50' or 'last 6 months'"), "conditions": P("conditions", "or explicit list of {column, op, value}"), "name": P("text", "label for the slice"),
+        "positive_class_of": P("column", "isolate the rarer / positive class of this column"), "target": P("column", "target column of the main problem"),
+        "secondary_target": P("column", "model this column inside the slice (needed when the target is constant there)"),
+        "imbalance": P("choice", "smote | adasyn | random", choices=["smote", "adasyn", "random"])}, t_segment_analysis),
     _t("duplicates", "Find duplicate rows (optionally on a subset of columns).", {"columns": P("columns", "columns that define a duplicate (default: all)")}, t_duplicates),
     _t("drivers", "Quick model: which columns best predict a target, and how well. Fast single-model estimate, not a tuned one.", {"target": P("column", "column to predict", True), "top": P("int", "features to list", default=10)}, t_drivers),
     _t("propose_analysis", "Use ONLY when the person clearly wants a complete, validated modelling analysis or a model that meets an accuracy goal. Prepares a proposal they confirm; it does not start anything.",
        {"objective": P("text", "the objective in the person's words", True), "target": P("column", "column to predict, if known"), "goal_metric": P("text", "e.g. roc_auc, r2, recall"), "goal_value": P("number", "target value")}, t_propose_analysis),
+    _t("analyses", "List the finished analyses (newest first) with their target, model and score, or compare several side by side. Use it to find an analysis the person refers to.",
+       {"query": P("text", "words to find in the request, target, model or dataset"), "compare": P("text", "two or more analysis ids, comma separated, to compare"), "limit": P("int", "rows to list", default=12)}, t_analyses, needs_data=False),
+    _t("analysis", "Look inside ONE finished analysis: summary (the best single call to SUMMARISE it), overview, metrics, explanation (feature importance), trials (model search), statistics, kpis, trends, findings, evidence, audit (leakage, review, warnings), decisions, charts, report (sections), notes.",
+       {"run": P("text", "analysis id, 'latest', or words from its request (default: the open one)"), "part": P("choice", "which part", True, choices=list(runfacts.PARTS)),
+        "query": P("text", "for evidence / charts / report: what to look for")}, t_analysis, needs_data=False),
+    _t("analysis_chart", "List the charts of an analysis, or show one of them to the person.", {"run": P("text", "analysis id (default: the open one)"), "chart": P("text", "chart id or part of its title; omit to list")}, t_analysis_chart, needs_data=False),
+    _t("jobs_status", "What is running now, what needs an answer, and which analyses failed or were cancelled.", {}, t_jobs_status, needs_data=False),
+    _t("workspace_info", "Facts about the workspace itself: its datasets, registered models, settings, or the page the person is on.", {"part": P("choice", "datasets | models | settings | page", True, choices=["datasets", "models", "settings", "page"])}, t_workspace_info, needs_data=False),
+    _t("packages", "Installed Python packages and versions (the key ones by default, or every package whose name contains the query).", {"query": P("text", "part of a package name")}, t_packages, needs_data=False),
+    _t("note_concern", "Save the person's concern or doubt about an analysis so it stays with that analysis. Use it when they ask you to remember or flag something.",
+       {"run": P("text", "analysis id (default: the open one)"), "concern": P("text", "the concern in the person's words", True)}, t_note_concern, needs_data=False),
+    _t("propose_extension", "Use when the person wants to CONTINUE or EXTEND a finished analysis (for example 'now build a predictive model', 'go deeper on region'). The follow-up reuses the earlier results and only does the new work. Prepares a proposal they confirm; it does not start anything.",
+       {"request": P("text", "what to do next, in the person's words", True), "run": P("text", "analysis id (default: the open one)"), "target": P("text", "column to predict, if known"),
+        "goal_metric": P("text", "e.g. roc_auc, r2, recall"), "goal_value": P("number", "target value")}, t_propose_extension, needs_data=False),
     _t("ask_run", "Answer a question about the finished analysis the person has open (results, models, findings).", {"question": P("text", "the question", True)}, t_ask_run, needs_data=False),
 ]}
 
@@ -585,6 +823,30 @@ def catalog(has_run: bool = False) -> List[Dict[str, Any]]:
             for t in REGISTRY.values() if has_run or t.name != "ask_run"]
 
 
+def catalog_compact(has_run: bool = False, has_data: bool = True) -> List[str]:
+    """The same information as catalog(), as one short signature per tool: roughly a third of the tokens, and it is resent on every model step."""
+    out = []
+    for t in REGISTRY.values():
+        if not (has_run or t.name != "ask_run"):
+            continue
+        if t.needs_data and not has_data:                                # tools that read the dataset cannot work without one: do not offer them (saves tokens and failed calls)
+            continue
+        ps = []
+        for k, p in t.params.items():
+            ty = "|".join(p.choices) if p.choices else p.kind
+            ps.append(f"{k}{'' if p.required else '?'}:{ty}")
+        out.append(f"{t.name}({', '.join(ps)}) - {t.description}")
+    return out
+
+
+def call_key(name: str, args: Any) -> str:
+    """Canonical identity of a tool call, used to recognise a repeated call (key order and letter case of names do not matter)."""
+    try:
+        return str(name) + ":" + json.dumps(args if isinstance(args, dict) else {}, sort_keys=True, default=str).lower()
+    except (TypeError, ValueError):
+        return str(name) + ":" + repr(args)
+
+
 def run_tool(ctx: ToolContext, name: str, raw_args: Dict[str, Any]) -> ToolResult:
     """Validate then run one tool. Raises ToolError for a bad request; any unexpected failure is reported as a ToolError too (the assistant can recover, the app never crashes)."""
     tool = REGISTRY.get(name)
@@ -592,7 +854,8 @@ def run_tool(ctx: ToolContext, name: str, raw_args: Dict[str, Any]) -> ToolResul
         raise ToolError(f"Unknown tool '{name}'. Available: {[t for t in REGISTRY if t != 'ask_run' or ctx.run_state]}.")
     if tool.needs_data and (ctx.df is None or len(ctx.df) == 0):
         raise ToolError("No dataset is loaded. Ask the person to add one, or answer without data.")
-    args = coerce_args(tool, ctx.df, raw_args)
+    fixed: List[str] = []
+    args = coerce_args(tool, ctx.df, raw_args, fixed)
     t0 = time.time()
     try:
         res = tool.fn(ctx, args)
@@ -605,4 +868,7 @@ def run_tool(ctx: ToolContext, name: str, raw_args: Dict[str, Any]) -> ToolResul
     if res.table is not None and len(res.table) > MAX_TABLE_ROWS:
         res.table = res.table.head(MAX_TABLE_ROWS)
     res.summary["_seconds"] = round(time.time() - t0, 2)
+    if fixed:
+        res.summary["column_names_corrected"] = fixed
+        res.notes.append("Corrected column name(s): " + ", ".join(fixed) + ".")
     return res

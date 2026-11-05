@@ -10,6 +10,8 @@ from ._util import ANALYST_PERSONA, ask, log
 AGENT = "Strategist"
 LEVERS = {
     "class_weight": "Use balanced class weights (classification with a rare class)",
+    "smote": "Oversample the rare class with SMOTE inside each training fold (classification with a rare class; try after class weights)",
+    "adasyn": "Oversample the rare class with ADASYN, which adds more synthetic points near the hard decision boundary (alternative to SMOTE)",
     "log_target": "Model log(1+target) (regression with a skewed, non-negative target)",
     "delta_target": "Model the change vs the previous value (time series with a trend; lets trees forecast levels)",
     "extra_models": "Add ExtraTrees to the candidate set",
@@ -25,6 +27,10 @@ def _applicable(state, applied: List[str]) -> List[str]:
         if lv in applied:
             continue
         if lv == "class_weight" and pt != "classification":
+            continue
+        if lv in ("smote", "adasyn") and (pt != "classification" or s.get("imbalance")
+                                           or state.get("data_summary", {}).get("minority_share", 1) >= 0.35
+                                           or any(x in applied for x in ("smote", "adasyn"))):
             continue
         if lv == "log_target" and (pt != "regression" or state.get("data_summary", {}).get("target_min", -1) < 0):
             continue
@@ -68,6 +74,8 @@ def revise_strategy_node(state) -> Dict[str, Any]:
     for lv in pick:
         if lv == "class_weight":
             s["class_weight"] = "balanced"
+        elif lv in ("smote", "adasyn"):
+            s["imbalance"] = lv
         elif lv == "regularize":
             s["regularize"] = True
         elif lv == "wider_search":

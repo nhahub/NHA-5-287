@@ -19,7 +19,7 @@ import pandas as pd
 
 from .storage import get_registry
 
-VENDOR = ["config.py", "profiling.py", "trends.py", "modeling.py", "featurizers.py", "modelio.py", "automl_models.py", "automl_recipes.py", "nlp.py", "cv.py", "imageprep.py"]   # everything a pickled model may reference
+VENDOR = ["config.py", "profiling.py", "trends.py", "modeling.py", "featurizers.py", "modelio.py", "automl_models.py", "automl_recipes.py", "nlp.py", "cv.py", "imageprep.py", "imbalance.py", "threshold.py", "estimators.py", "advisor.py"]   # everything a pickled model may reference
 
 
 def schema_for(state: Dict[str, Any]) -> List[Dict[str, Any]]:
@@ -171,6 +171,7 @@ PLAN = __PLAN__
 STRATEGY = __STRATEGY__
 MODEL = "__MODEL__"
 BEST_PARAMS = __PARAMS__
+THRESHOLD = __THRESHOLD__      # tuned decision threshold (binary classification) or None for the default 0.5
 
 df = pd.read_csv(sys.argv[1])
 task = PLAN["problem_type"]
@@ -180,6 +181,9 @@ est, prefix = M._build(M._candidates(task, STRATEGY)[MODEL], splits["X_train"], 
 est.set_params(**{prefix + k: v for k, v in BEST_PARAMS.items()})
 cv = cross_val_score(est, splits["X_train"], splits["y_train"], cv=M._cv(task, splits["y_train"]), scoring=M.primary_metric_for(task, n_classes))
 est.fit(splits["X_train"], splits["y_train"])
+if THRESHOLD is not None:
+    from nexusml import threshold as _thr
+    est = _thr.ThresholdedClassifier.prefit(est, THRESHOLD)
 print("cross-validated", M.primary_metric_for(task, n_classes), round(float(cv.mean()), 4))
 print("held-out", M.evaluate(task, est, splits["X_test"], splits["y_test"], n_classes))
 from nexusml import modelio
@@ -245,7 +249,8 @@ def build_package(state: Dict[str, Any]) -> bytes:
                 z.writestr(root + "train.py", TRAIN_AUTOML.replace("__PLAN__", _lit(plan)).replace("__STRATEGY__", _lit(strategy)).replace("__CONFIG__", _lit(bc)))
             else:
                 z.writestr(root + "train.py", TRAIN.replace("__PLAN__", _lit(plan)).replace("__STRATEGY__", _lit(strategy))
-                           .replace("__MODEL__", best["name"]).replace("__PARAMS__", _lit(params)))
+                           .replace("__MODEL__", best["name"]).replace("__PARAMS__", _lit(params))
+                           .replace("__THRESHOLD__", _lit((state.get("threshold_report") or {}).get("threshold") if (state.get("threshold_report") or {}).get("adopted") else None)))
         if state.get("report_html_key"):
             z.writestr(root + "report.html", reg.path_of(state["report_html_key"]).read_bytes())
         z.writestr(root + "README.md", f"""# {title}
@@ -306,7 +311,8 @@ def build_reproducibility_kit(state, reg) -> bytes:
     ds = Path(str(state.get("dataset_path", "")))
     args["dataset_path"] = "dataset.csv"
     args["seed"] = state.get("seed")
-    args = {k: v for k, v in args.items() if k not in ("on_event", "on_clarify", "on_approval") and v is not None}
+    resumed = bool(args.get("resume_from") or state.get("parent_experiment_id"))
+    args = {k: v for k, v in args.items() if k not in ("on_event", "on_clarify", "on_approval", "resume_from", "resume_reuse") and v is not None}
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("reproduce.py", REPRODUCE)
@@ -322,5 +328,7 @@ def build_reproducibility_kit(state, reg) -> bytes:
         if lock.is_file():
             z.write(lock, "requirements-lock.txt")
         z.writestr("README.txt", "Reproducibility kit.\nseed: %s\nrun id: %s\nLLM model: %s\n\nRun `python reproduce.py` from the project root. See comments inside.\n"
-                   % (state.get("seed"), state.get("run_id"), __import__("nexusml.config", fromlist=["x"]).LLM_MODEL))
+                   % (state.get("seed"), state.get("run_id"), __import__("nexusml.config", fromlist=["x"]).LLM_MODEL)
+                   + ("\nNOTE: this analysis built on an earlier one (%s). The kit runs it from scratch on the dataset, so the replay will not match the recorded model calls "
+                      "exactly; reproduce the earlier analysis first to compare.\n" % state.get("parent_experiment_id") if resumed else ""))
     return buf.getvalue()

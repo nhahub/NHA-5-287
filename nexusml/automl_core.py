@@ -135,7 +135,8 @@ class Session:
     def __init__(self, task: str, splits: Dict[str, Any], strategy: Dict[str, Any], goal: Goal, seed: int = 42, n_workers: int = 1,
                  time_budget: Optional[float] = None, log: Optional[Callable[[str], None]] = None):
         self.task, self.splits, self.goal, self.seed = task, splits, goal, seed
-        self.strategy = {**modeling.DEFAULT_STRATEGY, **(strategy or {})}
+        self.strategy = modeling.enrich_strategy(task, splits, {**modeling.DEFAULT_STRATEGY, "with_mlp": True, **(strategy or {})})
+        self.plan: Optional[Dict[str, Any]] = None                  # the advisor's insight-driven plan (shortlist, exclusions + reasons, audit)
         self.X0, self.y = splits["X_train"], np.asarray(splits["y_train"])
         self.classes = splits.get("classes") or []
         self.k = len(self.classes)
@@ -173,8 +174,43 @@ class Session:
 
     def families(self) -> List[str]:
         if not hasattr(self, "_families"):
-            self._families = list(modeling._candidates(self.task, self.strategy).keys())
+            self._pool = list(modeling._candidates(self.task, self.strategy).keys())
+            self._families = list(self._pool)
+            if self.strategy.get("advisor", True) and self.strategy.get("pipeline_kind") not in ("text", "image"):
+                try:
+                    from . import advisor
+                    self.plan = advisor.build_plan(self.task, self.splits, self._pool, self.seed)
+                    keep = {e["family"] for e in self.plan["shortlist"]}
+                    self._families = [f for f in self._pool if f in keep]
+                except Exception as e:                           # the advisor must never stop a run: fall back to the full zoo
+                    self.plan = None
+                    self.log(f"Model advisor skipped ({type(e).__name__}); trying every family.")
         return list(self._families)
+
+    def audit_exclusions(self, max_families: int = 4, min_seconds: float = 8.0) -> List[Dict[str, Any]]:
+        """Verify the advisor's exclusions: fit each excluded family once (default settings, same folds). One that clearly beats the incumbent is promoted and searched,
+        so a wrong rule costs a little time, never the result."""
+        if not self.plan or self.best() is None:
+            return []
+        res: List[Dict[str, Any]] = []
+        promoted: List[str] = []
+        for e in self.plan["excluded"][:max_families]:
+            f = e["family"]
+            if f not in getattr(self, "_pool", []) or self.time_left() < min_seconds:
+                continue
+            t = self.evaluate(Config(f), 1.0, rnd=self.round)
+            self.record([t])
+            inc = self.best()
+            ok = t.status == "ok"
+            win = bool(ok and t.mean > inc.mean + 0.5 * max(inc.std, 0.002))
+            res.append({"family": f, "cv": round(t.mean, 4) if ok else None, "incumbent": round(inc.mean, 4), "promoted": win, "reason_excluded": e["why"]})
+            if win:
+                promoted.append(f)
+                self._families.append(f)
+        if promoted and self.time_left() > 5:
+            self.run_search(3, families=promoted)
+        self.plan["audit"] = res
+        return res
 
     def make_estimator(self, cfg: Config):
         base_model, strat = self._factory_for(cfg)
@@ -183,7 +219,7 @@ class Session:
             m.set_params(**cfg.params)
         ideas = [self.ideas[n] for n in cfg.ideas if n in self.ideas] or None
         sp = Spec(m, text_rep=getattr(spec, "text_rep", None), image_rep=getattr(spec, "image_rep", None), meta=getattr(spec, "meta", True),
-                  recipe=tuple(sorted(set(cfg.recipe) | set(getattr(spec, "recipe", ()) or ()))), ideas=ideas)
+                  recipe=tuple(sorted(set(cfg.recipe) | set(getattr(spec, "recipe", ()) or ()))), ideas=ideas, ts=getattr(spec, "ts", None))
         est, _ = modeling._build(sp, self.X, self.task, strat)
         return est
 
@@ -456,8 +492,9 @@ class Session:
 
     # ---------------------------------------------------------------- folds / diagnostics
     def _fresh_folds(self, seed: int):
-        if self.task == "time_series":
-            return self.folds
+        if self.task == "time_series":                       # a different rolling-origin geometry than the search folds (4 shorter windows, not the same 3)
+            from sklearn.model_selection import TimeSeriesSplit
+            return list(TimeSeriesSplit(n_splits=4, test_size=max(5, len(self.y) // 8)).split(self.X, self.y))
         from sklearn.model_selection import KFold, StratifiedKFold
         if self.task == "classification" and np.bincount(self.y).min() >= len(self.folds):
             return list(StratifiedKFold(len(self.folds), shuffle=True, random_state=seed).split(self.X, self.y))

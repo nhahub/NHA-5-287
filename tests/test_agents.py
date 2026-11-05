@@ -388,7 +388,7 @@ class TestSales(LLMCase):
         self.assertEqual(list(v["kpi_results"]), ["Total sales"])                                          # invalid KPI dropped
         self.assertEqual(v["data_summary"]["split"], "chronological")
         self.assertIn("lags", v["data_summary"]["time_series"])
-        self.assertIn("last value", v["baseline_metrics"]["name"])
+        self.assertTrue(any(k in v["baseline_metrics"]["name"] for k in ("last value", "seasonal naive")))      # v5: the bar also includes "same period last season"
 
 
 class TestSegments(Tmp):

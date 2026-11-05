@@ -2,21 +2,47 @@ name: ci
 on:
   push:
   pull_request:
+  workflow_dispatch:
   schedule:
     - cron: "0 5 * * 1"        # weekly: full evaluation run (see eval job)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  lint:
+    # Fast gate: a syntax/indentation error or 3.12-only syntax fails here with ONE clear message
+    # instead of surfacing as a wall of "Failed to import test module" errors in the test job.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"          # oldest supported interpreter: catches 3.12-only f-string syntax
+      - run: python -m compileall -q nexusml tests scripts benchmarks app.py
+      - run: python scripts/check_py311.py
+      - run: python scripts/check_secrets.py
+
   test:
+    needs: lint
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "${{ matrix.python }}"}
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
       - run: pip install -r requirements.txt
-      - run: python scripts/check_secrets.py
       - run: python -m unittest discover -s tests -v
+
   eval:
     # Deterministic benchmark with the stub LLM (no network, no secrets). Fails if quality regresses.
     runs-on: ubuntu-latest
@@ -24,8 +50,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.12"}
+        with:
+          python-version: "3.12"
+          cache: pip
       - run: pip install -r requirements.txt
       - run: python -m nexusml.evaluation.harness --out eval_results.json --markdown EVAL_RESULTS.md --check
       - uses: actions/upload-artifact@v4
-        with: {name: eval-results, path: "eval_results.json\nEVAL_RESULTS.md"}
+        if: always()                       # keep the leaderboard/results even when --check fails, so the failure can be inspected
+        with:
+          name: eval-results
+          if-no-files-found: warn
+          path: |
+            eval_results.json
+            EVAL_RESULTS.md

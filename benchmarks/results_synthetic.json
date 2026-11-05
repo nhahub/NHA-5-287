@@ -1,0 +1,63 @@
+{
+  "dataset": "synthetic",
+  "n_train": 4000,
+  "n_test": 2000,
+  "rows": [
+    {
+      "set": "previous",
+      "model": "LogReg \u00b7 word TF-IDF",
+      "accuracy": 0.8695,
+      "macro_f1": 0.8692,
+      "fit_s": 1.1,
+      "predict_s_per_1k": 0.06
+    },
+    {
+      "set": "previous",
+      "model": "LogReg \u00b7 char TF-IDF",
+      "accuracy": 0.863,
+      "macro_f1": 0.8628,
+      "fit_s": 3.7,
+      "predict_s_per_1k": 0.51
+    },
+    {
+      "set": "previous",
+      "model": "LinearSVC \u00b7 word TF-IDF",
+      "accuracy": 0.8685,
+      "macro_f1": 0.8684,
+      "fit_s": 0.8,
+      "predict_s_per_1k": 0.07
+    },
+    {
+      "set": "previous",
+      "model": "ComplementNB \u00b7 word TF-IDF",
+      "accuracy": 0.881,
+      "macro_f1": 0.8806,
+      "fit_s": 0.9,
+      "predict_s_per_1k": 0.08
+    },
+    {
+      "set": "added",
+      "model": "LogReg \u00b7 word+char TF-IDF",
+      "accuracy": 0.8475,
+      "macro_f1": 0.8475,
+      "fit_s": 4.5,
+      "predict_s_per_1k": 0.51
+    },
+    {
+      "set": "added",
+      "model": "NB-SVM \u00b7 word TF-IDF",
+      "accuracy": 0.887,
+      "macro_f1": 0.8868,
+      "fit_s": 0.9,
+      "predict_s_per_1k": 0.07
+    },
+    {
+      "set": "added",
+      "model": "LinearSVC \u00b7 word+char TF-IDF",
+      "accuracy": 0.856,
+      "macro_f1": 0.8559,
+      "fit_s": 4.2,
+      "predict_s_per_1k": 0.43
+    }
+  ]
+}

@@ -220,6 +220,10 @@ def add_upload(name: str, raw: bytes) -> Dict[str, Any]:
         return add_dataset(name, raw)
     if ext not in MEDIA_EXT:
         raise ValueError(f"Files of type '{ext}' are not supported. Add a CSV, Excel or JSON table, or documents, images or a zip of them.")
+    if ext == ".pdf":
+        pdf_meta = _add_pdf_tables(name, raw)
+        if pdf_meta is not None:
+            return pdf_meta
     import tempfile
     from . import media
     with tempfile.TemporaryDirectory(prefix="ws_media_") as d:
@@ -238,6 +242,24 @@ def add_upload(name: str, raw: bytes) -> Dict[str, Any]:
         raw_csv = tbl.to_csv(index=False).encode()
     meta = add_dataset(Path(name).stem + ".csv", raw_csv, note=json.dumps({"media": True, "suggest": {k: v for k, v in (info.get("suggest") or {}).items() if v}}))
     return meta
+
+
+def _add_pdf_tables(name: str, raw: bytes) -> Optional[Dict[str, Any]]:
+    """A PDF that contains tables becomes dataset(s) (multi-page tables stitched into one). Returns the largest, or None when the PDF
+    has no table so the caller falls back to the document route (text, OCR, document chat)."""
+    from . import pdfparse
+    try:
+        res = pdfparse.parse(raw)
+    except ValueError:
+        return None
+    tabs = sorted(res["tables"], key=lambda d: d.shape[0] * d.shape[1], reverse=True)
+    if not tabs:
+        return None
+    stem, metas = Path(name).stem, []
+    for i, t in enumerate(tabs[:8]):
+        note = json.dumps({"pdf": {"backend": res["backend"], "pages": f"{t.attrs.get('first_page')}-{t.attrs.get('last_page')}", "table": i + 1, "of": len(tabs)}})
+        metas.append(add_dataset(f"{stem}.csv" if i == 0 else f"{stem}_table{i + 1}.csv", t.to_csv(index=False).encode("utf-8"), note=note))
+    return metas[0]
 
 
 def dataset_hints(meta: Optional[Dict[str, Any]]) -> Dict[str, Any]:

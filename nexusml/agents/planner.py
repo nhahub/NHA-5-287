@@ -99,6 +99,14 @@ def frame_with_llm(state, profile) -> Dict[str, Any]:
                       "format": "currency|percent|number", "higher_is_better": True, "group_by": ["exact columns"]}],
             "hypotheses": "2-4 business hypotheses worth testing"}}
 
+    prev = (state.get("resume") or {}).get("context")
+    if prev:                                                           # a follow-up: the request has to be read in the light of what was already found
+        payload["previous_analysis"] = prev
+        payload["rules"] = list(payload["rules"]) + [
+            "This request FOLLOWS an earlier analysis of the same data (previous_analysis). Read it as an extension of that work: 'now build a model' or 'go deeper' refers to the "
+            "question and target already discussed there unless the request names something else. Do not drop the earlier target or business question without a reason in the request.",
+            "If the earlier analysis had no target and the request asks to predict, choose the most plausible target from the earlier findings and the columns; if none is plausible, return target=null."]
+
     def validate(d: Dict[str, Any]) -> Dict[str, Any]:
         at, pt = catalog.norm_analysis_type(d.get("analysis_type")), catalog.norm_problem_type(d.get("problem_type"))
         if not at:

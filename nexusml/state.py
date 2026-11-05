@@ -52,6 +52,8 @@ class DataScientistState(TypedDict, total=False):
     repro_key: str
     media_report: Dict[str, Any]
     allow_llm_text: bool                # opt-in: the LLM may see theme TERMS (never raw documents) to name document themes
+    parent_experiment_id: Optional[str]  # the analysis this one builds on (a follow-up / extension), see resume.py
+    resume: Dict[str, Any]              # bookkeeping of what was reused from the parent (the carried payload is dropped when the run is saved)
 
     # ---- Business framing (Business Analyst)
     analysis_type: str                  # BUSINESS problem: sales_performance, churn, ...
@@ -116,6 +118,7 @@ class DataScientistState(TypedDict, total=False):
     baseline_metrics: Dict[str, float]
     candidate_metrics: List[Dict[str, Any]]
     tuning_report: Dict[str, Any]
+    threshold_report: Dict[str, Any]
     attempts: Annotated[List[Dict[str, Any]], operator.add]
     best_model_name: Optional[str]
     models_key: Optional[str]
@@ -196,10 +199,12 @@ def initial_state(
     workers: Optional[int] = None,             # parallel search workers requested for this run
     image_prep: Optional[List[Dict[str, Any]]] = None,
     deep_mode: str = "auto",
+    resume_from: Optional[str] = None,         # experiment id of a finished analysis to build on (resume.py)
+    resume_reuse: Optional[List[str]] = None,  # which phases may be reused; None = every phase that is still valid
 ) -> DataScientistState:
     from . import catalog, config, imageprep, llm
     run_id = uuid.uuid4().hex[:8]
-    return {
+    out: Dict[str, Any] = {
         "thread_id": thread_id, "run_id": run_id,
         "experiment_id": f"EXP_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{run_id[:4]}",
         "user_request": user_request or "",
@@ -225,6 +230,13 @@ def initial_state(
         "evidence": [], "charts": [], "attempts": [], "llm_calls": [],
         "candidate_history": [], "timings": {}, "stage_errors": [], "retry_pending": False, "pipeline_kind": "tabular", "decisions": [], "automl_attempt": 0, "board": [],
     }
+    if resume_from:                                        # build on an earlier analysis: its profile now, its other reusable results when the plan is known
+        from . import resume as R
+        sd = R.seed(resume_from, dataset_path, resume_reuse)
+        for k, v in sd["state"].items():
+            out[k] = (list(out.get(k) or []) + list(v)) if k == "evidence" else v
+        out["resume"] = sd["resume"]
+    return out  # type: ignore[return-value]
 
 
 def _reducers() -> Dict[str, Any]:

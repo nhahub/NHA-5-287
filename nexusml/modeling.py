@@ -34,12 +34,15 @@ from sklearn.model_selection import (KFold, RandomizedSearchCV, StratifiedKFold,
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PowerTransformer, OneHotEncoder, StandardScaler
 
-from . import config
+from . import config, estimators as est_mod, imbalance, threshold as thr_mod
 from .profiling import to_datetime
 from .trends import choose_freq
 
 DEFAULT_STRATEGY = {"class_weight": None, "tune": True, "extra_models": False, "log_target": False,
-                    "delta_target": False, "tune_n_iter": config.TUNE_N_ITER}
+                    "delta_target": False, "tune_n_iter": config.TUNE_N_ITER,
+                    "imbalance": None,                    # None | "smote" | "adasyn" | "random": resample TRAINING folds only (see imbalance.py)
+                    "tune_threshold": True,               # binary classification: pick the decision threshold from out-of-fold PR/F1 instead of 0.5
+                    "threshold_objective": "f1"}          # f1 | fbeta | pr_distance | youden | cost
 
 
 class LastValueRegressor(BaseEstimator, RegressorMixin):
@@ -78,8 +81,9 @@ class Spec:
     Plain estimators (the v4 candidates) are still accepted everywhere; a Spec is only used by the text / image suites."""
 
     def __init__(self, model, text_rep: Optional[str] = None, image_rep: Optional[str] = None, meta: bool = True, label: str = "",
-                 recipe: Tuple[str, ...] = (), ideas: Optional[List[Dict[str, Any]]] = None):
+                 recipe: Tuple[str, ...] = (), ideas: Optional[List[Dict[str, Any]]] = None, ts: Optional[Dict[str, Any]] = None):
         self.model, self.text_rep, self.image_rep, self.meta, self.label = model, text_rep, image_rep, meta, label
+        self.ts = ts                                                           # time-series family descriptor: {"kind": naive|seasonal_naive|trend_seasonal|delta, ...}
         self.recipe, self.ideas = tuple(recipe or ()), ideas or None            # AutoML feature recipes (automl_recipes.py)
 
 
@@ -171,9 +175,20 @@ def prepare_timeseries(df: pd.DataFrame, plan: Dict[str, Any]) -> Tuple[pd.DataF
                 agg[c] = lambda s: s.mode().iloc[0] if len(s.dropna()) else np.nan
         d = d.groupby(pd.Grouper(key=date, freq=freq)).agg(agg).dropna(subset=[target]).reset_index()
         info.update(aggregated=True, freq=freq, target_agg=plan.get("target_agg", "sum"))
+    from . import advisor
+    d = d.reset_index(drop=True)
+    cut = max(int(len(d) * (1 - config.TEST_SIZE)), 12)                       # season / trend are measured on the TRAINING part only (no peeking at the test window)
+    ins = advisor.series_insights(d[target].to_numpy(dtype=float)[:cut], d[date].iloc[:cut])
     lags, rolls = plan.get("lags"), plan.get("rolls")
     if not lags:
-        lags, rolls = default_lags(d[date])
+        lags, rolls = advisor.ts_lags(ins, *default_lags(d[date]), n=len(d))
+    per = int(ins.get("period") or 0)
+    pos = np.arange(len(d), dtype=float)
+    d["ts_t"] = pos                                                               # position in the series: lets a model extrapolate trend
+    d["ts_phase"] = pos % max(per, 1)                                              # position inside the season
+    if per:
+        d["ts_sin"], d["ts_cos"] = np.sin(2 * np.pi * pos / per), np.cos(2 * np.pi * pos / per)
+    info["insights"] = ins
     d = add_lag_features(d, target, lags, rolls)
     lagcols = [c for c in d.columns if c.startswith(f"{target}_lag") or c.startswith(f"{target}_roll")]
     d = d.dropna(subset=lagcols).reset_index(drop=True)
@@ -304,6 +319,31 @@ def _optional_boosters(task: str, rs: int) -> Dict[str, Any]:
     return out
 
 
+def enrich_strategy(task: str, splits: Dict[str, Any], strategy: Dict[str, Any]) -> Dict[str, Any]:
+    """Copy what the time-series preparation learned (season length, reference lag column, log scale) into the strategy so the candidate builder can create
+    the seasonal families. Plain primitives only (the strategy is hashed and exported)."""
+    out = dict(strategy)
+    ti = splits.get("ts_info") or {}
+    if task == "time_series" and ti.get("insights") is not None:
+        X, ins = splits["X_train"], ti["insights"]
+        per = int(ins.get("period") or 0)
+        lag1 = lag1_col(X)
+        ref = next((c for c in X.columns if per and str(c).endswith(f"_lag{per}")), lag1)
+        if lag1 and "ts_t" in X.columns:
+            out.update(ts_period=per, ts_ref=ref, ts_lag1=lag1, ts_log=bool(ins.get("log_scale")))
+    return out
+
+
+def _ts_families(strategy: Dict[str, Any], rs: int) -> Dict[str, Any]:
+    per, ref, lag1, lg = int(strategy.get("ts_period") or 0), strategy["ts_ref"], strategy["ts_lag1"], bool(strategy.get("ts_log"))
+    delta = lambda m: Spec(m, ts={"kind": "delta", "ref": ref, "log": lg})
+    return {"Naive (last value)": Spec(est_mod.SeasonalNaive(col=lag1), ts={"kind": "naive", "lag1": lag1}),
+            **({"Seasonal naive": Spec(est_mod.SeasonalNaive(col=ref), ts={"kind": "seasonal_naive", "ref": ref})} if per else {}),
+            "TrendSeasonal": Spec(est_mod.TrendSeasonalRegressor(period=max(per, 1), degree=1, log=lg), ts={"kind": "trend_seasonal"}),
+            "Ridge · seasonal Δ": delta(Ridge(alpha=1.0)),
+            "HistGradientBoosting · seasonal Δ": delta(HistGradientBoostingRegressor(random_state=rs, max_iter=200, learning_rate=0.05, max_depth=3))}
+
+
 def _candidates(task: str, strategy: Dict[str, Any]) -> Dict[str, Any]:
     kind = strategy.get("pipeline_kind")
     if kind == "text" and task in ("classification", "regression"):
@@ -341,6 +381,10 @@ def _candidates(task: str, strategy: Dict[str, Any]) -> Dict[str, Any]:
             m["ElasticNet"] = ElasticNet(alpha=0.1, l1_ratio=0.5, max_iter=5000)
     if strategy.get("extra_models"):
         m.update(_optional_boosters(task, rs))
+    if strategy.get("with_mlp") and task != "time_series":                         # the advisor decides whether it is worth trying (see advisor.plan_tabular)
+        m["MLP"] = est_mod.MLPClassifierNet(random_state=rs) if task == "classification" else est_mod.MLPRegressorNet(random_state=rs)
+    if task == "time_series" and strategy.get("ts_ref"):
+        m.update(_ts_families(strategy, rs))
     return m
 
 
@@ -353,6 +397,9 @@ def _tree_space():
 
 
 DEFAULT_SPACES: Dict[str, Dict[str, Dict[str, Any]]] = {
+    "TrendSeasonal": {"degree": {"type": "choice", "values": [1, 2]}, "alpha": {"type": "loguniform", "low": 1e-4, "high": 10.0}},
+    "MLP": {"h1": {"type": "choice", "values": [16, 32, 64, 128]}, "h2": {"type": "choice", "values": [0, 16, 32, 64]},
+            "alpha": {"type": "loguniform", "low": 1e-5, "high": 1e-1}, "learning_rate_init": {"type": "loguniform", "low": 3e-4, "high": 1e-2}},
     "LogisticRegression": {"C": {"type": "loguniform", "low": 1e-3, "high": 1e2}},
     "Ridge": {"alpha": {"type": "loguniform", "low": 1e-2, "high": 1e3}},
     "RandomForest": _tree_space(),
@@ -474,6 +521,9 @@ def lag1_col(X: pd.DataFrame) -> Optional[str]:
 def _build(model, X: pd.DataFrame, task: str, strategy: Dict[str, Any]):
     """Pipeline (+ optional target wrapper). Returns (estimator, param_prefix)."""
     model, spec = _unspec(model)
+    ts = getattr(spec, "ts", None)
+    if ts and ts["kind"] in ("naive", "seasonal_naive", "trend_seasonal"):         # no learning pipeline: these read the lag / position columns directly
+        return model, "model__"
     steps: List[Tuple[str, Any]] = []
     Xp = X
     if spec is not None and spec.ideas:                                  # LLM-proposed feature ideas (validated, executed deterministically)
@@ -489,12 +539,18 @@ def _build(model, X: pd.DataFrame, task: str, strategy: Dict[str, Any]):
     if "select" in rec:
         from .automl_recipes import SelectTop
         steps.append(("fe_select", SelectTop(task=task if task == "classification" else "regression", seed=config.RANDOM_STATE)))
+    prefix = "model__"
+    if task == "classification" and strategy.get("imbalance") in imbalance.METHODS:
+        model = imbalance.ResamplingClassifier(model, method=strategy["imbalance"], random_state=config.RANDOM_STATE)
+        prefix = "model__estimator__"                      # hyper-parameters of the wrapped model are reached through the resampler
     pipe = Pipeline(steps + [("model", model)])
+    if ts and ts["kind"] == "delta":
+        return est_mod.SeasonalDeltaRegressor(regressor=pipe, col=ts["ref"], log=bool(ts["log"])), "regressor__" + prefix
     if task == "time_series" and strategy.get("delta_target") and lag1_col(X):
-        return DeltaRegressor(regressor=pipe, col=lag1_col(X)), "regressor__model__"
+        return DeltaRegressor(regressor=pipe, col=lag1_col(X)), "regressor__" + prefix
     if task == "regression" and strategy.get("log_target"):
-        return TransformedTargetRegressor(regressor=pipe, func=np.log1p, inverse_func=np.expm1), "regressor__model__"
-    return pipe, "model__"
+        return TransformedTargetRegressor(regressor=pipe, func=np.log1p, inverse_func=np.expm1), "regressor__" + prefix
+    return pipe, prefix
 
 
 def _py(v):
@@ -544,6 +600,12 @@ def make_baseline(task: str, splits: Dict[str, Any], cv=None, scoring: Optional[
         c_last = cross_val_score(naive, X_tr, y_tr, cv=cv, scoring=scoring).mean()
         if c_last > c_mean:
             base_pipe, base_name = naive, "last value (naive forecast)"
+        per = int((splits.get("ts_info") or {}).get("insights", {}).get("period") or 0)
+        sref = next((c for c in X_tr.columns if per and str(c).endswith(f"_lag{per}")), None)
+        if sref:
+            seas = est_mod.SeasonalNaive(col=sref)
+            if cross_val_score(seas, X_tr, y_tr, cv=cv, scoring=scoring).mean() > max(c_mean, c_last):
+                base_pipe, base_name = seas, f"same period last season (seasonal naive, period {per})"
     base_cv = cross_val_score(base_pipe, X_tr, y_tr, cv=cv, scoring=scoring)
     base_pipe.fit(X_tr, y_tr)
     return {"name": base_name, "cv_score": round(float(base_cv.mean()), 4), **evaluate(task, base_pipe, X_te, y_te, n_classes)}
@@ -551,7 +613,7 @@ def make_baseline(task: str, splits: Dict[str, Any], cv=None, scoring: Optional[
 
 def fit_default(task: str, splits: Dict[str, Any], strategy: Dict[str, Any]) -> Dict[str, Any]:
     """Baseline + default-hyper-parameter candidates, all scored by CV on train (+ test once)."""
-    strategy = {**DEFAULT_STRATEGY, **(strategy or {})}
+    strategy = enrich_strategy(task, splits, {**DEFAULT_STRATEGY, **(strategy or {})})
     X_tr, X_te, y_tr, y_te = splits["X_train"], splits["X_test"], splits["y_train"], splits["y_test"]
     n_classes = len(splits["classes"] or [])
     cv, scoring = _cv(task, y_tr), _scoring(task, n_classes)
@@ -652,6 +714,35 @@ def tune_candidates(task: str, splits: Dict[str, Any], strategy: Dict[str, Any],
         else:
             r["select_source"] = "default CV (tuning did not help out-of-fold)"
     return report
+
+
+def finalize_threshold(task: str, splits: Dict[str, Any], fitted: Dict[str, Any], results: List[Dict[str, Any]], strategy: Dict[str, Any],
+                       cost_fn: Optional[float] = None, cost_fp: Optional[float] = None) -> Dict[str, Any]:
+    """Binary classification only. Tune the decision threshold of the BEST model (out-of-fold on the training set; see threshold.py) and, when it
+    clearly helps, replace that model by a ThresholdedClassifier so every downstream consumer (held-out metrics, leaderboard, saved bundle,
+    scoring) uses the tuned threshold. Mutates `fitted` / `results`; returns a JSON-friendly report ({'enabled': False, ...} when not applicable)."""
+    strategy = {**DEFAULT_STRATEGY, **(strategy or {})}
+    n_classes = len(splits.get("classes") or [])
+    if task != "classification" or n_classes != 2 or not strategy.get("tune_threshold"):
+        return {"enabled": False, "reason": "binary classification only" if task != "classification" or n_classes != 2 else "disabled"}
+    name = pick_best(results)
+    row = next(r for r in results if r["name"] == name)
+    obj = strategy.get("threshold_objective") or "f1"
+    if obj == "cost" and (cost_fn is None or cost_fp is None):
+        obj = "f1"
+    try:
+        out = thr_mod.tune(fitted[name], splits["X_train"], splits["y_train"], splits["X_test"], splits["y_test"], objective=obj,
+                           cost_fn=cost_fn, cost_fp=cost_fp, random_state=config.RANDOM_STATE)
+    except Exception as e:                                  # threshold tuning must never break a run
+        return {"enabled": True, "model": name, "adopted": False, "error": f"{type(e).__name__}: {str(e)[:160]}"}
+    rep = {"enabled": True, "model": name, "adopted": out["adopted"], **out["report"]}
+    if out["adopted"]:
+        before = {k: row.get(k) for k in ("accuracy", "balanced_accuracy", "f1_macro", "f1_weighted")}
+        fitted[name] = out["estimator"]
+        row.update(evaluate(task, out["estimator"], splits["X_test"], splits["y_test"], n_classes))
+        row["threshold"] = out["threshold"]
+        rep["metrics_before"] = before
+    return rep
 
 
 # clustering

@@ -46,9 +46,14 @@ def _f(v, nd=4):
 def final_model(est):
     """The last estimator inside a Pipeline / target wrapper / calibrator (what actually holds the learned parameters)."""
     seen = 0
-    while seen < 6:
+    while seen < 8:
         seen += 1
-        if hasattr(est, "regressor_"):
+        if getattr(type(est), "_nx_wrapper", False):                # ThresholdedClassifier / ResamplingClassifier: look through to the real model
+            inner = est.__dict__.get("estimator_") or est.__dict__.get("estimator")
+            if inner is None:
+                break
+            est = inner
+        elif hasattr(est, "regressor_"):
             est = est.regressor_
         elif hasattr(est, "named_steps"):
             est = est.named_steps.get("model", list(est.named_steps.values())[-1])
@@ -340,16 +345,16 @@ def build(state: Dict[str, Any]) -> Dict[str, Any]:
     rows = sorted(final["rows"], key=lambda r: r["rank"])
     gains = [{"attempt": h["attempt"], "levers": h.get("levers", []), "best": max(h["rows"], key=lambda r: r.get("select_score") or -1e9)["name"],
               "best_score": max((r.get("select_score") or -1e9) for r in h["rows"])} for h in hist]
-       txt = (
-        f"{len(rows)} candidate model(s) compared in the final attempt "
-        f"({len(hist)} attempt(s), "
-        f"{sum(len(h['rows']) for h in hist)} candidate fits in total). "
-        f"Winner {summary.get('winner')} on CV {metric}"
-    )
+    n_fits = sum(len(h["rows"]) for h in hist)
+    parts = [
+        "%d candidate model(s) compared in the final attempt (%d attempt(s), %d candidate fits in total). Winner %s on CV %s"
+        % (len(rows), len(hist), n_fits, summary.get("winner"), metric)
+    ]
     if summary.get("tied_with_winner"):
-        txt += f"; statistically tied or within noise: {', '.join(summary['tied_with_winner'])}"
+        parts.append("; statistically tied or within noise: " + ", ".join(summary["tied_with_winner"]))
     if summary.get("parsimony_differs"):
-        txt += f". One-standard-error rule: {summary['parsimony_pick']} is the simplest model within noise of the winner"
+        parts.append(". One-standard-error rule: %s is the simplest model within noise of the winner" % summary["parsimony_pick"])
+    txt = "".join(parts)
     return {"metric": metric, "baseline": base, "winner": winner, "rows": rows, "past_attempts": past, "attempt_progress": gains,
             "n_attempts": len(hist), "summary": txt + ".", **summary}
 

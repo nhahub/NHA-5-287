@@ -1,27 +1,16 @@
-"""New analysis: set up a complete, validated analysis and watch it run. It keeps running if you leave this page."""
+"""Analyses (landing): a large composer for a NEW analysis (or a follow-up that builds on an earlier one) with the history of analyses in a compact rail beside it.
+A running analysis keeps running if you leave this page."""
 from typing import Any, Dict, Optional
 
-from ... import featurizers, imageprep, jobs, media, workspace
+from ... import featurizers, imageprep, jobs, lineage, media, resume, workspace
 from .. import components as c
-from .. import nav, state
+from .. import context, history, nav, state
+from ..options import METRICS, PROBLEMS, build_spec  # noqa: F401  (re-exported: other modules and tests import them from here)
 from .._st import ss, st
-
-PROBLEMS = {"Decide for me": None, "Predict a category (classification)": "classification", "Predict a number (regression)": "regression", "Forecast over time": "time_series",
-            "Find natural groups (segmentation)": "clustering", "Describe only, no model": "descriptive"}
-METRICS = {"No target": None, "AUC": "roc_auc", "F1": "f1", "Accuracy": "accuracy", "Recall": "recall", "Precision": "precision", "R²": "r2", "RMSE (lower is better)": "rmse", "MAE (lower is better)": "mae"}
 
 
 FRIENDLY = {"Data Engineer": "Data", "Planner": "Plan", "Supervisor": "Plan", "AutoML Agent": "Model search", "Director": "Review", "Sentinel": "Checks", "Scout": "Features",
             "Statistician": "Statistics", "Analyst": "Findings", "Reporter": "Report", "Modeler": "Model", "Critic": "Review", "Explainer": "Explanation", "System": "System"}
-
-
-def build_spec(metric: Optional[str], value: float, second: Optional[str], second_value: float) -> Optional[Dict[str, Any]]:
-    if not metric:
-        return None
-    spec: Dict[str, Any] = {"metric": metric, ("max" if metric in ("rmse", "mae") else "min"): float(value)}
-    if second and second != metric:
-        spec["subject_to"] = {"metric": second, ("max" if second in ("rmse", "mae") else "min"): float(second_value)}
-    return spec
 
 
 def _progress(job_id: str) -> None:
@@ -53,9 +42,13 @@ def _progress(job_id: str) -> None:
                 nav.go("assistant")
         elif snap["status"] == "needs_input":
             st.warning(snap["message"] or "I could not tell what to predict. Choose a target column and start again.")
+            if st.button("Choose a column and retry", type="primary", key=f"fix-{job_id}"):
+                history.retry_dialog({"kind": "job", "id": job_id})
         elif snap["status"] == "failed":
             st.error("The analysis could not be completed.")
             st.caption(snap["error"] or "")
+            if st.button("Retry with changes", key=f"retry-{job_id}"):
+                history.retry_dialog({"kind": "job", "id": job_id})
         elif snap["status"] == "cancelled":
             st.info("Cancelled.")
 
@@ -117,38 +110,59 @@ def _image_options(df, dataset_path) -> Dict[str, Any]:
     return out
 
 
-def render() -> None:
-    state.init()
-    c.page_header("New analysis", "A complete, validated analysis: exploration, a tuned and tested model, and a written report.")
-    if ss.get("job_id"):
-        snap = jobs.get(ss.job_id)
-        live = bool(snap and snap["status"] in ("running", "queued"))
-        runner = st.fragment(run_every=1 if live else None)(_progress)
-        runner(ss.job_id)
-        if live:
-            st.caption("This keeps running if you leave the page. Open Analyses at any time to find it.")
-        if st.button("Start another analysis", key="an-another"):
-            ss.job_id = None
+def _extension_banner(parent_exp: str, path: Optional[str]) -> bool:
+    """The 'building on' panel. Returns True if the person wants the exploration redone instead of reused."""
+    parent = lineage.load_state(parent_exp)
+    with st.container(border=True):
+        c.eyebrow("Building on an earlier analysis")
+        if not parent:
+            st.warning("The analysis to build on could not be found. It may have been deleted.")
+        else:
+            st.markdown(f"**{(parent.get('user_request') or 'Analysis')[:140]}**")
+            plan = parent.get("analysis_plan") or {}
+            st.caption(" · ".join(b for b in [f"{plan.get('problem_type')}" if plan.get("problem_type") else "", f"target {plan['target']}" if plan.get("target") else "", parent.get("best_model_name") or "no model yet"] if b))
+            try:
+                sd = resume.seed(parent_exp, parent.get("dataset_path") or "")
+                done = (["data profile"] if sd["resume"]["profile_reused"] else []) + [resume.LABEL[p] for p in sd["resume"]["carry"]]
+                st.caption(("Reused, not recomputed: " + ", ".join(done) + ". Statistical tests are redone if the target or kind of analysis changes.") if done else "Nothing from it can be reused, so everything is recomputed.")
+                for n in sd["resume"]["notes"]:
+                    st.caption(n)
+            except resume.ResumeError as e:
+                st.warning(str(e))
+        redo = st.checkbox("Redo the exploration instead of reusing it", value=False, key="an-redo", help="Recomputes the statistics, KPIs and trends from scratch. The data profile is still reused when the dataset is unchanged.")
+        if st.button("Start a separate analysis instead", key="an-ext-cancel"):
+            ss.extend_from = None
             st.rerun()
-        if live:
-            return
-        if snap and snap["status"] == "done":
-            return
+    return redo
 
+
+def _composer() -> None:
     datasets = workspace.list_datasets()
     if not datasets:
         c.empty_state("Add a dataset first", "An analysis needs data. Add a table, or documents or images, on the Data page.", "Go to Data", key="an-nodata") and nav.go("data")
         return
+    ext = ss.get("extend_from")
+    parent = lineage.load_state(ext) if ext else None
+    if ext and not parent:
+        ss.extend_from = ext = None                                   # the analysis was deleted meanwhile: fall back to a plain new analysis
     pre = ss.get("prefill") or {}
+    if parent:
+        mine = next((d for d in datasets if str(workspace.dataset_path(d["id"])) == str(parent.get("dataset_path"))), None)
+        if mine:
+            ss.ds_id = mine["id"]
     meta, df = state.active_dataset()
     names = {d["id"]: d["name"] for d in datasets}
     default_id = pre.get("dataset_id") if pre.get("dataset_id") in names else (meta["id"] if meta else list(names)[0])
+    st.markdown("## " + ("Follow-up" if ext else "New analysis"))
+    st.markdown('<p class="nx-sub">' + ("Say what to do next. The earlier results are reused, and only the new work is done." if ext else
+                                         "A complete, validated analysis: exploration, a tuned and tested model, and a written report. Start with a question in your own words.") + "</p>", unsafe_allow_html=True)
+    redo = _extension_banner(ext, str(workspace.dataset_path(meta["id"])) if meta else None) if ext else False
     cols = list(df.columns) if df is not None else []
     img_kw = _image_options(df, workspace.dataset_path(meta["id"])) if meta else {}
     with st.form("new-analysis"):
-        ds_id = st.selectbox("Dataset", list(names), index=list(names).index(default_id), format_func=lambda k: names[k], key="an-ds")
-        request = st.text_area("What do you want to find out?", value=pre.get("objective", ""), height=100, key="an-req",
-                               placeholder="For example: why do customers cancel, and which ones are at risk next month?")
+        ds_id = st.selectbox("Dataset", list(names), index=list(names).index(default_id), format_func=lambda k: names[k], key="an-ds", disabled=bool(ext))
+        request = st.text_area("What do you want to find out?" if not ext else "What should it do next?", value=pre.get("objective", ""), height=170, key="an-req",
+                               placeholder="For example: why do customers cancel, and which ones are at risk next month?" if not ext else "For example: now build a predictive model for the customers who cancelled")
         a, b = st.columns(2)
         target_opts = ["Decide for me"] + cols
         t_idx = target_opts.index(pre["target"]) if pre.get("target") in target_opts else 0
@@ -171,11 +185,12 @@ def render() -> None:
             exclude = st.checkbox("Keep sensitive columns (names, ids, protected attributes) out of the model", value=True, key="an-sens")
             tune = st.checkbox("Search for the best model settings", value=True, key="an-tune")
             share_words = st.checkbox("Share frequent words from text columns to name themes", value=False, key="an-words")
-        go = st.form_submit_button("Start analysis", type="primary")
+        go = st.form_submit_button("Start analysis" if not ext else "Start follow-up", type="primary", use_container_width=True)
     if go:
         if not request.strip():
             st.warning("Describe what you want to find out, even in a few words.")
             return
+        ds_id = meta["id"] if ext and meta else ds_id
         m = workspace.get_dataset(ds_id)
         spec = build_spec(METRICS[metric], value, METRICS[second], second_v)
         kw: Dict[str, Any] = dict(enable_tuning=tune, exclude_sensitive=exclude, allow_llm_text=share_words, time_budget=minutes * 60.0, workers=workers, seed=42, **workspace.dataset_hints(m))
@@ -187,6 +202,35 @@ def render() -> None:
             kw["problem_type"] = PROBLEMS[kind]
         if spec:
             kw["target_spec"] = spec
-        ss.job_id = jobs.submit(workspace.dataset_path(ds_id), request.strip(), ds_id, m["name"], options={"minutes": minutes}, **kw)
+        if ext:
+            kw["resume_from"] = ext
+            if redo:
+                kw["resume_reuse"] = ["profile"]
+        try:
+            ss.job_id = jobs.submit(workspace.dataset_path(ds_id), request.strip(), ds_id, m["name"], options={"minutes": minutes}, **kw)
+        except resume.ResumeError as e:
+            st.error(str(e))
+            return
         ss.prefill = None
+        ss.extend_from = None
         st.rerun()
+
+
+def render() -> None:
+    state.init()
+    context.set_view("analyses", extending=ss.get("extend_from"), job=ss.get("job_id"))
+    main, rail = st.columns([7, 3], gap="large")
+    with rail:
+        history.render_rail()
+    with main:
+        if ss.get("job_id"):
+            snap = jobs.get(ss.job_id)
+            live = bool(snap and snap["status"] in ("running", "queued"))
+            runner = st.fragment(run_every=1 if live else None)(_progress)
+            runner(ss.job_id)
+            if live:
+                st.caption("This keeps running if you leave the page. You can start another analysis below, or find this one in the history.")
+            elif st.button("Dismiss", key="an-another"):
+                ss.job_id = None
+                st.rerun()
+        _composer()

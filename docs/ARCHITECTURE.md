@@ -102,3 +102,10 @@ LangGraph state merges only when a node *finishes*, so parallel branches cannot 
 
 ## 5. What changed in the existing code
 `modeling.py` (`Spec` carries recipes/ideas; recipe-aware preprocessor/builder; shared `make_baseline`), `critic.py` (uses AutoML's fresh-fold verdict: re-validating a pre-fitted ensemble with a clone would be leaky; warns on a kept leak suspect), `tracking.py` (AutoML params/metrics, trial table, decisions, blackboard artifacts), `reporting.py`, `app.py`, `state.py`, `graph.py`, `stages.py`. The v5 `fit` stage and the retry Strategist are replaced by `automl` and its actions.
+
+
+## 6. Building on an earlier analysis (v10)
+`resume.seed()` loads a finished parent and returns (a) state for the new run (the profile and its evidence) and (b) a `resume` record with the reusable explore-phase results held back.
+After planning, `resume.applicable()` decides per phase whether the old result is still true for the new plan (statistics only when target and predictive-or-not are unchanged; trends only for the same
+date column; KPIs always, pinned at framing). `explore` skips exactly those sub-tasks (`_run_subtasks(reused=...)`) and puts the carried results and evidence back. The carried payload is dropped when the run
+is saved. See CHANGES.md (Revision 3) for what is and is not reused.

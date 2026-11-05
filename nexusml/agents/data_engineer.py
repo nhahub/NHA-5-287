@@ -35,6 +35,16 @@ def profile_dataset_node(state) -> Dict[str, Any]:
     }
 
 
+def reuse_profile_node(state) -> Dict[str, Any]:
+    """Follow-up analysis: the profile (and its evidence) came with the initial state. Everything else intake does at the start of a run still happens."""
+    runlog.start(state.get("run_id", "run"), state.get("seed", config.RANDOM_STATE),
+                 {"dataset": str(state.get("dataset_path")), "request": state.get("user_request", "")[:200], "model": config.LLM_MODEL, "resumed_from": state.get("parent_experiment_id")})
+    llm.preflight()
+    p = state["dataset_profile"]
+    return {"warnings": p.get("warnings", []), "current_status": "Dataset profile reused.", "active_agent": AGENT,
+            "agent_log": [log(AGENT, f"Reused the profile of {p['n_rows']:,} rows x {p['n_cols']} columns from analysis {state.get('parent_experiment_id')} (the dataset has not changed).")]}
+
+
 def prepare_data_node(state) -> Dict[str, Any]:
     plan = state["analysis_plan"]
     df = pd.read_csv(state["dataset_path"])

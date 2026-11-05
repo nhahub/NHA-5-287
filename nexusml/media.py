@@ -259,11 +259,10 @@ def extract_text(path: Path) -> Tuple[str, int, str]:
     try:
         if ext in (".txt", ".md"):
             raw = path.read_bytes()
-            for enc in ("utf-8-sig", "utf-16", "cp1256", "latin-1"):
-                try:
-                    return raw.decode(enc), 1, ""
-                except UnicodeDecodeError:
-                    continue
+            if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):                 # UTF-16 only when a byte-order mark says so: without one it "decodes" almost any even-length bytes into gibberish
+                return raw.decode("utf-16"), 1, ""
+            from .multitable import decode_bytes
+            return decode_bytes(raw), 1, ""
         if ext in (".html", ".htm"):
             return _html_text(path.read_bytes()), 1, ""
         if ext == ".docx":

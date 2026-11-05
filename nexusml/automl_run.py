@@ -74,6 +74,10 @@ def run(task: str, splits: Dict[str, Any], strategy: Dict[str, Any], goal: Goal,
     if not sess.trials:
         log(f"Portfolio: {len(sess.families())} model families, {'successive halving (large data)' if sess.big else 'full CV (small data)'}, {sess.n_workers} worker(s).")
         sess.round = 0
+        if sess.plan:
+            log("Model advisor: " + sess.plan["summary"] + ".")
+            sess.decisions.append({"junction": "model_advisor", "round": 0, "source": "data insights", "diagnosis": sess.plan["summary"],
+                                   "decision": {"shortlist": sess.plan["shortlist"], "excluded": sess.plan["excluded"], "insights": sess.plan["insights"]}, "accepted": True})
         sess.portfolio()
         if sess.best() is None:
             errs = sorted({t.error for t in sess.trials if t.status == 'failed' and t.error})[:3]
@@ -142,6 +146,11 @@ def run(task: str, splits: Dict[str, Any], strategy: Dict[str, Any], goal: Goal,
             stop_reason, stop_why = "plateau", "three rounds in a row improved the CV score by less than 0.0005"
             break
 
+    audit = sess.audit_exclusions()
+    if audit:
+        log("Exclusion audit: " + "; ".join(f"{a['family']} {'PROMOTED' if a['promoted'] else 'confirmed out'} (CV {a['cv']} vs {a['incumbent']})" for a in audit))
+        sess.decisions.append({"junction": "model_advisor_audit", "round": sess.round, "source": "verification", "diagnosis": "re-checked every excluded family once",
+                               "decision": audit, "accepted": True})
     # ---------------------------------------------------------------- finalise: ensemble, fresh-fold confirmation, held-out
     out = finalize(sess, sess.ens_method, sess.ens_size)
     best = out["best"]

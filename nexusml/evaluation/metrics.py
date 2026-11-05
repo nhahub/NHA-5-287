@@ -6,10 +6,11 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression, Ridge
-from sklearn.metrics import adjusted_rand_score, r2_score, roc_auc_score
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import adjusted_rand_score, f1_score, r2_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardScaler
 
 from .. import config
 from ..storage import get_registry
@@ -55,12 +56,29 @@ def claims_quality(values) -> Dict[str, Any]:
     return {"claims": n, "unverified": bad, "unverified_share": round(bad / n, 3) if n else 0.0}
 
 
+def _text_cols(X: pd.DataFrame):
+    """Free-text columns: non-numeric, many distinct values, several words per value (the same idea as featurizers.is_text, kept independent so the scorer stays a separate witness)."""
+    out = []
+    for c in X:
+        if pd.api.types.is_numeric_dtype(X[c]) or X[c].nunique() <= 30:
+            continue
+        nn = X[c].dropna().astype(str).head(500)
+        if len(nn) and nn.str.split().map(len).mean() >= 3:
+            out.append(c)
+    return out
+
+
 def _baseline_pipe(X: pd.DataFrame, clf):
+    """Plain, untuned sklearn: median-imputed numbers, one-hot categories, word TF-IDF for text columns."""
+    txt = _text_cols(X)
     num = [c for c in X if pd.api.types.is_numeric_dtype(X[c])]
-    cat = [c for c in X if c not in num and X[c].nunique() <= 30]
-    return Pipeline([("p", ColumnTransformer([("n", Pipeline([("i", SimpleImputer(strategy="median")), ("s", StandardScaler())]), num),
-                                              ("c", Pipeline([("i", SimpleImputer(strategy="most_frequent")), ("o", OneHotEncoder(handle_unknown="ignore", sparse_output=False))]), cat)])),
-                     ("m", clf)])
+    cat = [c for c in X if c not in num and c not in txt and X[c].nunique() <= 30]
+    parts = [("t_" + str(c), Pipeline([("f", FunctionTransformer(lambda v: v.fillna("").astype(str).values.ravel(), validate=False)), ("v", TfidfVectorizer(ngram_range=(1, 2), min_df=2, sublinear_tf=True, max_features=20000))]), [c]) for c in txt]
+    if num:
+        parts.append(("n", Pipeline([("i", SimpleImputer(strategy="median")), ("s", StandardScaler())]), num))
+    if cat:
+        parts.append(("c", Pipeline([("i", SimpleImputer(strategy="most_frequent")), ("o", OneHotEncoder(handle_unknown="ignore", sparse_output=False))]), cat))
+    return Pipeline([("p", ColumnTransformer(parts)), ("m", clf)])
 
 
 def model_quality(case, values, seed: int) -> Dict[str, Any]:
@@ -77,15 +95,20 @@ def model_quality(case, values, seed: int) -> Dict[str, Any]:
     target = case["truth"]["target"]
     drop = set(values["analysis_plan"].get("drop_columns", [])) | {target}
     X = df.drop(columns=[c for c in df.columns if c in drop or c == target])
+    has_text = bool(_text_cols(X))
     if pt == "classification":
         classes = df[target].astype(str).value_counts()
-        y = (df[target].astype(str) == classes.index[-1]).astype(int)
-        mods = [LogisticRegression(max_iter=2000), HistGradientBoostingClassifier(random_state=seed)]
-        score = lambda m, Xt, yt: roc_auc_score(yt, m.predict_proba(Xt)[:, 1])
-        strat = y
+        if pm == "roc_auc":                                                    # binary: AUC of the rarer class
+            y = (df[target].astype(str) == classes.index[-1]).astype(int)
+            score = lambda m, Xt, yt: roc_auc_score(yt, m.predict_proba(Xt)[:, 1])
+        else:                                                                  # multiclass: the SAME metric the system is judged on (macro F1), on all classes
+            y = df[target].astype(str)
+            score = lambda m, Xt, yt: f1_score(yt, m.predict(Xt), average="macro")
+        mods = [LogisticRegression(max_iter=2000)] + ([] if has_text else [HistGradientBoostingClassifier(random_state=seed)])
+        strat = y if y.value_counts().min() >= 2 else None
     else:
         y = df[target].astype(float)
-        mods = [Ridge(), HistGradientBoostingRegressor(random_state=seed)]
+        mods = [Ridge()] + ([] if has_text else [HistGradientBoostingRegressor(random_state=seed)])
         score = lambda m, Xt, yt: r2_score(yt, m.predict(Xt))
         strat = None
     Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=config.TEST_SIZE, random_state=seed, stratify=strat)

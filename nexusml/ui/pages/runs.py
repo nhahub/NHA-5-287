@@ -1,14 +1,11 @@
-"""Analyses: every analysis that has run (or is running), and the full results of each."""
+"""Analyses: the composer and history landing, and the full results of one analysis when it is open."""
 from pathlib import Path
 
-from ... import jobs, runstore
+from ... import lineage, runstore
 from ...storage import get_registry
 from .. import components as c
-from .. import legacy, nav, state
+from .. import context, history, legacy, nav, state
 from .._st import ss, st
-
-TERMINAL_SHOWN = ("running", "queued", "needs_input", "failed")
-
 
 def _metric_text(r) -> str:
     if r.get("heldout") is None:
@@ -17,47 +14,36 @@ def _metric_text(r) -> str:
     return f"{r.get('primary_metric') or 'score'} {r['heldout']:.3f}{ci}"
 
 
-def _open(exp: str) -> None:
-    ss.open_run = ss.view_run = exp
-    st.rerun()
+def _lineage(exp: str) -> None:
+    fam = lineage.family(exp)
+    bits = []
+    if fam["parent"]:
+        p = runstore.get_run(fam["parent"])
+        bits.append(("Built on", fam["parent"], (p or {}).get("request")))
+    elif fam["parent_deleted"]:
+        st.caption("Built on an earlier analysis that has since been deleted. This analysis keeps its own copy of everything it reused.")
+    for kid in fam["children"][:5]:
+        k = runstore.get_run(kid)
+        bits.append(("Follow-up", kid, (k or {}).get("request")))
+    for label, rid, req in bits:
+        a, b = st.columns([6, 1])
+        a.caption(f"{label}: {(req or 'Analysis')[:90]}")
+        if b.button("Open", key=f"lin-{rid}", use_container_width=True):
+            history.open_run(rid)
 
 
-def _list() -> None:
-    c.page_header("Analyses", "Every analysis you have run, and the ones running now.")
-    for j in [j for j in jobs.active() if j["status"] in TERMINAL_SHOWN][:4]:
-        with st.container(border=True):
-            cols = st.columns([5, 2, 1])
-            cols[0].markdown(f"**{j['request'][:80] or 'Analysis'}**")
-            cols[0].caption(f"{j['dataset_name']} · {j['stage_label'] or 'starting'}")
-            cols[1].markdown(c.badge(j["status"].replace("_", " ").capitalize(), c.status_tone(j["status"])), unsafe_allow_html=True)
-            with cols[2]:
-                if st.button("View", key=f"job-{j['id']}", use_container_width=True):
-                    ss.job_id = j["id"]
-                    nav.go("analyze")
-    runs = runstore.list_runs(200)
-    f1, f2 = st.columns([3, 1])
-    q = f1.text_input("Search", placeholder="Search by question, target or model", key="runs-q", label_visibility="collapsed")
-    only = f2.toggle("Passed review only", key="runs-pass")
-    if q.strip():
-        k = q.strip().lower()
-        runs = [r for r in runs if k in " ".join(str(r.get(x) or "") for x in ("request", "target", "best_model", "analysis_type")).lower()]
-    if only:
-        runs = [r for r in runs if r.get("passed")]
-    if not runs:
-        if c.empty_state("No analyses yet", "Start one from New analysis, or ask the assistant to propose one.", "New analysis", key="runs-empty"):
-            nav.go("analyze")
-        return
-    for r in runs[:60]:
-        with st.container(border=True):
-            cols = st.columns([5, 3, 2, 1])
-            cols[0].markdown(f"**{(r['request'] or 'Analysis')[:90]}**")
-            cols[0].caption(f"{Path(r['dataset'] or '').name or '–'} · {c.time_ago(r['created'])}")
-            cols[1].caption(f"{r.get('target') or '–'} · {r.get('best_model') or '–'}")
-            cols[1].caption(_metric_text(r))
-            cols[2].markdown(c.badge("Passed review" if r.get("passed") else "Needs attention", "ok" if r.get("passed") else "warn"), unsafe_allow_html=True)
-            with cols[3]:
-                if st.button("Open", key=f"run-{r['run_id']}", use_container_width=True):
-                    _open(r["run_id"])
+def _notes(exp: str) -> None:
+    notes = runstore.list_notes(exp)
+    with st.expander(f"Notes and concerns ({len(notes)})", expanded=bool(notes)):
+        for n in notes:
+            st.markdown(f"- {n['text']}")
+        if not notes:
+            st.caption("Write down a doubt or a question to come back to. The assistant can see these notes, and you can also tell it a concern directly.")
+        with st.form(f"note-{exp}", clear_on_submit=True):
+            text = st.text_input("Add a note", placeholder="For example: the score seems too high for this kind of data", key=f"note-text-{exp}")
+            if st.form_submit_button("Save note") and text.strip():
+                runstore.add_note(exp, text.strip(), "concern")
+                st.rerun()
 
 
 def _detail(exp: str) -> None:
@@ -72,28 +58,45 @@ def _detail(exp: str) -> None:
         st.error("This analysis could not be found. It may have been removed.")
         return
     ss.open_run = exp
+    context.set_view("analysis", run=exp, request=(values.get("user_request") or "")[:120], target=(values.get("analysis_plan") or {}).get("target"))
     gr = (values.get("automl_report") or {}).get("goal") or {}
     c.page_header((values.get("user_request") or "Analysis")[:110], f"{Path(values.get('dataset_path') or '').name or 'dataset'} · {values.get('best_model_name') or 'no model'}")
     badges = [c.goal_badge(gr.get("status")) if gr.get("status") not in (None, "no_goal") else "", c.badge("Passed review", "ok") if values.get("quality_passed") else c.badge("Needs attention", "warn")]
     st.markdown(" ".join(b for b in badges if b), unsafe_allow_html=True)
-    act = st.columns([2, 2, 4])
+    entry = {"kind": "run", "id": exp, "request": values.get("user_request"), "status": "done"}
+    act = st.columns(5)
     with act[0]:
-        if st.button("Ask the assistant", key="run-ask", use_container_width=True):
-            nav.go("assistant")
+        if st.button("Build on this", key="run-extend", type="primary", use_container_width=True, icon=":material/add_circle:"):
+            history.extend(exp)
     with act[1]:
+        if st.button("Retry with changes", key="run-retry", use_container_width=True, icon=":material/replay:"):
+            history.retry_dialog(entry)
+    with act[2]:
+        if st.button("Ask the assistant", key="run-ask", use_container_width=True, icon=":material/forum:"):
+            nav.go("assistant")
+    with act[3]:
         html_key = values.get("report_html_key")
         p = get_registry().path_of(html_key) if html_key else None
         if p and p.exists():
             st.download_button("Download report", p.read_bytes(), file_name=f"report_{exp}.html", mime="text/html", use_container_width=True, key="run-report")
+    with act[4]:
+        history.delete_menu(entry, kp="run")
+    _lineage(exp)
+    _notes(exp)
     st.write("")
     with legacy.guarded("Results"):
         legacy.result_view(values, f"run{exp[-8:]}")
 
 
 def render() -> None:
+    """The Analyses page: one analysis in full when a run is open, otherwise the composer with the history rail."""
     state.init()
     pending = ss.pop("view_run", None)
     if pending:
         st.query_params["run"] = pending
     exp = st.query_params.get("run")
-    _detail(exp) if exp else _list()
+    if exp:
+        _detail(exp)
+    else:
+        from . import analyze
+        analyze.render()

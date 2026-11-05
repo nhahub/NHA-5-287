@@ -87,7 +87,7 @@ def image_insights(df: pd.DataFrame, col: str, root: Path, label: Optional[str])
         i, hi = valid[a]
         if i in seen:
             continue
-        grp = [i] + [j for j, hj in valid[a + 1:] if bin(hi ^ hj).count("1") <= 3 and j not in seen]
+        grp = [i] + [j for j, hj in valid[a + 1:] if bin(hi ^ hj).count("1") <= 3 and j not in seen and featurizers.confirm_near_duplicate(paths[i], paths[j])]
         if len(grp) > 1:
             near.append(grp)
             seen.update(grp)

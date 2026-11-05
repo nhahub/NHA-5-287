@@ -12,6 +12,8 @@ mlflow>=2.10               # recommended: when installed, MLflow is the store of
 # LLM: Groq via its OpenAI-compatible HTTPS API (stdlib only, no SDK). Web context: Tavily via HTTPS (stdlib only).
 openpyxl>=3.1.0           # Excel (.xlsx) uploads and multi-sheet workbooks
 pypdf>=4.0.0              # PDF text extraction (REQUIRED to read PDFs)
+pdfplumber>=0.11.0        # PDF tables + layout-aware text (default PDF table parser)
+pymupdf>=1.24.0           # optional, faster PDF parser: NEXUSML_PDF_BACKEND=pymupdf
 python-docx>=1.1.0        # Word (.docx); a built-in reader is used if this is missing
 beautifulsoup4>=4.12.0    # HTML documents; a built-in reader is used if this is missing
 odfpy>=1.4.1              # OpenDocument (.odt); a built-in reader is used if this is missing

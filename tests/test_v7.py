@@ -94,7 +94,9 @@ class TestAgent(Base):
 
     def test_bad_tool_call_is_fed_back_and_loop_is_bounded(self):
         r = self.say("x", {"assistant_step": lambda pl: {"action": {"tool": "outliers", "args": {"columns": ["ghost"]}}}})
-        self.assertLessEqual(len(r["steps"]), A.MAX_STEPS); self.assertIn("step limit", " ".join(r["warnings"]))
+        self.assertLessEqual(len(r["steps"]), A.MAX_STEPS); self.assertTrue(r["warnings"])
+        self.assertLess(r["calls"], A.MAX_STEPS)          # a model stuck on one failing call is cut off early instead of being given every round-trip (the old loop used all 6)
+        self.assertEqual(r["stats"]["tool_runs"], 0)
 
     def test_full_analysis_is_only_a_proposal(self):
         r = self.say("do a full analysis and build a model"); self.assertTrue(r["proposal"])

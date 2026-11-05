@@ -1,9 +1,12 @@
-"""Normalise an uploaded table (CSV, Excel, TSV, JSON / JSON-lines, XML, Parquet) to CSV bytes so the rest of the pipeline only ever reads CSV."""
+"""Normalise an uploaded table (CSV, Excel, TSV, JSON / JSON-lines, XML, Parquet, PDF) to CSV bytes so the rest of the pipeline only ever reads CSV."""
 import io
 
 
 def to_csv_bytes(name: str, raw: bytes) -> bytes:
     n = name.lower()
+    if n.endswith(".pdf"):                                      # tables inside the PDF (stitched across pages), else its text blocks
+        from . import pdfparse
+        return pdfparse.to_dataframe(raw).to_csv(index=False).encode("utf-8")
     if n.endswith((".xlsx", ".xlsm", ".xls")):
         import pandas as pd
         try:

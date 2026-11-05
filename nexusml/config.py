@@ -68,18 +68,73 @@ CHART_DPI = 110
 MAX_HIST_COLS = 12
 MAX_CORR_COLS = 18
 
-# LLM: any OpenAI-compatible chat endpoint. Google Gemini is used when GEMINI_API_KEY is set (unless NEXUSML_LLM_PROVIDER says otherwise), else Groq.
+# LLM: any OpenAI-compatible chat endpoint. API KEYS ARE NEVER STORED IN CODE OR IN THE APP: only the NAME of the environment
+# variable that holds each key is listed here. Set the variable in your shell / hosting platform / a git-ignored .env file.
+#   id -> (base_url, key_env_var, default_model, display_name)
 PROVIDERS = {"groq": ("https://api.groq.com/openai/v1", "GROQ_API_KEY", "openai/gpt-oss-120b", "Groq"),
-             "gemini": ("https://generativelanguage.googleapis.com/v1beta/openai", "GEMINI_API_KEY", "gemini-3.1-flash-lite", "Google Gemini")}
+             "gemini": ("https://generativelanguage.googleapis.com/v1beta/openai", "GEMINI_API_KEY", "gemini-3.1-flash-lite", "Google AI Studio (Gemini)"),
+             "openai": ("https://api.openai.com/v1", "OPENAI_API_KEY", "gpt-4o-mini", "OpenAI"),
+             "openrouter": ("https://openrouter.ai/api/v1", "OPENROUTER_API_KEY", "openai/gpt-4o-mini", "OpenRouter"),
+             "together": ("https://api.together.xyz/v1", "TOGETHER_API_KEY", "meta-llama/Llama-3.3-70B-Instruct-Turbo", "Together AI")}
+
+
+def _extra_providers() -> None:
+    """Add providers without touching code: NEXUSML_EXTRA_PROVIDERS='[{"id":"x","name":"X","base_url":"https://.../v1","api_key_env":"X_API_KEY","model":"m"}]'.
+    Only the variable NAME goes in the JSON, never the key itself."""
+    import json
+    raw = os.environ.get("NEXUSML_EXTRA_PROVIDERS", "").strip()
+    if not raw:
+        return
+    try:
+        for e in json.loads(raw):
+            if isinstance(e, dict) and all(k in e for k in ("id", "base_url", "api_key_env", "model")) and str(e["api_key_env"]).replace("_", "").isalnum():
+                PROVIDERS[str(e["id"]).lower()] = (str(e["base_url"]), str(e["api_key_env"]), str(e["model"]), str(e.get("name") or e["id"]))
+    except (ValueError, TypeError):
+        pass
+
+
+_extra_providers()
 _gemini_env = "GEMINI_API_KEY" if os.environ.get("GEMINI_API_KEY") or not os.environ.get("GOOGLE_API_KEY") else "GOOGLE_API_KEY"
-LLM_PROVIDER = os.environ.get("NEXUSML_LLM_PROVIDER", "").lower() or ("gemini" if os.environ.get(_gemini_env) else "groq")
-if LLM_PROVIDER not in PROVIDERS:
-    LLM_PROVIDER = "groq"
-LLM_KEY_ENV = _gemini_env if LLM_PROVIDER == "gemini" else PROVIDERS[LLM_PROVIDER][1]
-LLM_PROVIDER_NAME = PROVIDERS[LLM_PROVIDER][3]
-LLM_MODEL = os.environ.get("NEXUSML_LLM_MODEL", PROVIDERS[LLM_PROVIDER][2])
-LLM_BASE_URL = os.environ.get("NEXUSML_LLM_BASE_URL") or os.environ.get("GROQ_BASE_URL") if LLM_PROVIDER == "groq" else os.environ.get("NEXUSML_LLM_BASE_URL")
-LLM_BASE_URL = LLM_BASE_URL or PROVIDERS[LLM_PROVIDER][0]
+
+
+def key_env_for(provider: str) -> str:
+    """Name of the environment variable that holds this provider's key (Gemini also accepts GOOGLE_API_KEY)."""
+    return _gemini_env if provider == "gemini" else PROVIDERS[provider][1]
+
+
+def provider_configured(provider: str) -> bool:
+    return provider in PROVIDERS and bool(os.environ.get(key_env_for(provider)))
+
+
+def _default_provider() -> str:
+    forced = os.environ.get("NEXUSML_LLM_PROVIDER", "").lower()
+    if forced in PROVIDERS:
+        return forced
+    if os.environ.get(_gemini_env):                         # historical rule: Gemini wins when both Gemini and Groq keys exist
+        return "gemini"
+    return next((pid for pid in PROVIDERS if provider_configured(pid)), "groq")
+
+
+def set_provider(provider: str, model: str = "") -> str:
+    """Switch the active LLM provider at run time (Settings page, CLI). Returns the provider id. Never touches keys."""
+    global LLM_PROVIDER, LLM_KEY_ENV, LLM_PROVIDER_NAME, LLM_MODEL, LLM_BASE_URL
+    provider = (provider or "").lower()
+    if provider not in PROVIDERS:
+        raise ValueError(f"Unknown provider '{provider}'. Choose one of: {', '.join(PROVIDERS)}.")
+    LLM_PROVIDER, LLM_KEY_ENV, LLM_PROVIDER_NAME = provider, key_env_for(provider), PROVIDERS[provider][3]
+    LLM_MODEL = model or os.environ.get("NEXUSML_LLM_MODEL") or PROVIDERS[provider][2]
+    LLM_BASE_URL = os.environ.get("NEXUSML_LLM_BASE_URL") or (os.environ.get("GROQ_BASE_URL") if provider == "groq" else None) or PROVIDERS[provider][0]
+    return provider
+
+
+def provider_status() -> list:
+    """For the Settings page: one row per provider. Reports whether a key is PRESENT in the environment (never its value)."""
+    return [{"id": pid, "name": v[3], "key_env": key_env_for(pid), "configured": provider_configured(pid), "default_model": v[2],
+             "active": pid == LLM_PROVIDER} for pid, v in PROVIDERS.items()]
+
+
+LLM_PROVIDER = LLM_KEY_ENV = LLM_PROVIDER_NAME = LLM_MODEL = LLM_BASE_URL = ""
+set_provider(_default_provider())
 LLM_TIMEOUT = 120
 LLM_REASONING_HEADROOM = 2500   # extra output tokens for reasoning models (thinking tokens count against max_tokens)
 LLM_MAX_RETRIES = 3
@@ -120,6 +175,11 @@ SENSITIVE_PATTERNS = ("gender", "sex", "age", "race", "ethnic", "religion", "mar
 
 # agent collaboration
 MAX_AGENT_REQUESTS = 4            # cap on agent-to-agent requests per run
+
+# class imbalance / decision threshold (see imbalance.py, threshold.py)
+DEFAULT_IMBALANCE = os.environ.get("NEXUSML_IMBALANCE", "").lower()      # "", "smote", "adasyn", "random": force a resampler from the first attempt
+TUNE_THRESHOLD = os.environ.get("NEXUSML_TUNE_THRESHOLD", "1") == "1"   # binary classification: choose the decision threshold out-of-fold
+THRESHOLD_OBJECTIVE = os.environ.get("NEXUSML_THRESHOLD_OBJECTIVE", "f1")
 
 # targets
 TARGET_MAX_TRIALS = 24

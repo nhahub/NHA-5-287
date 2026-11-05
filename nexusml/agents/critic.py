@@ -36,8 +36,9 @@ def audit_models_node(state) -> Dict[str, Any]:
         add("warning", "too_good", f"Held-out {pm} {test} is suspiciously perfect: check for leakage.")
     if state["analysis_plan"]["problem_type"] == "classification":
         ms = summary.get("minority_share", 1)
-        if ms < config.IMBALANCE_SHARE and not state.get("strategy", {}).get("class_weight"):
-            add("warning", "imbalance", f"Minority class is only {ms:.0%} of training rows and no class weighting was used.")
+        _st = state.get("strategy", {})
+        if ms < config.IMBALANCE_SHARE and not _st.get("class_weight") and not _st.get("imbalance"):
+            add("warning", "imbalance", f"Minority class is only {ms:.1%} of training rows and no class weighting or resampling (SMOTE / ADASYN) was used.")
     elif summary.get("target_skew") is not None and abs(summary["target_skew"]) > config.SKEW_THRESHOLD \
             and summary.get("target_min", -1) >= 0 and not state.get("strategy", {}).get("log_target") \
             and state["analysis_plan"]["problem_type"] == "regression":
@@ -52,6 +53,10 @@ def audit_models_node(state) -> Dict[str, Any]:
     still = [x["column"] for x in sr.get("leakage_suspects", []) if x.get("severity") == "high" and x["column"] not in (state.get("quarantined") or [])]
     if still:
         add("warning", "leakage_suspect_kept", f"The sentinel flagged {still} as a possible leak and it is still a model feature: treat the scores with suspicion until a domain expert confirms the column is known at prediction time.")
+    quar = state.get("quarantined") or []
+    medium = [f"{x['column']} (single-column score {x['score']})" for x in sr.get("leakage_suspects", []) if x.get("severity") == "medium" and x["column"] not in quar]
+    if medium:                                                           # medium suspects are never auto-removed (a strong legitimate predictor looks the same), but the person must be told
+        add("warning", "leakage_suspect_possible", f"Strong single-column predictor(s) kept in the model: {', '.join(medium)}. If any of these is only known after the outcome (a refund, a cancellation date, a status), the scores above are inflated: confirm each is available at prediction time, or exclude it and re-run.")
     spec = state.get("target_spec")
     tgt_update: Dict[str, Any] = {}
     ar = state.get("automl_report") or {}
@@ -83,7 +88,7 @@ def audit_models_node(state) -> Dict[str, Any]:
     audit = {"passed": passed, "issues": issues, "gain_cv": round(gain_cv, 4),
              "gain_test": None if gain_test is None else round(gain_test, 4), "best": best["name"]}
     attempt = {"attempt": state.get("retry_count", 0) + 1, "levers": [k for k, v in (state.get("strategy") or {}).items()
-                                                                       if v and k in ("class_weight", "log_target", "delta_target", "extra_models", "regularize")],
+                                                                       if v and k in ("class_weight", "imbalance", "log_target", "delta_target", "extra_models", "regularize")],
                "tuned": bool(tr.get("enabled")), "best": best["name"], "select_score": sel, "heldout": test, "passed": passed}
     return {**tgt_update, "audit": audit, "quality_passed": passed, "attempts": [attempt], "current_status": "Quality audit complete.",
             "active_agent": AGENT,

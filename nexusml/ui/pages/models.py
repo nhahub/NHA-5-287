@@ -4,7 +4,7 @@ import pandas as pd
 from ... import modeling, runstore, workspace
 from ...storage import get_registry
 from .. import components as c
-from .. import legacy, state
+from .. import context, legacy, state
 from .._st import st
 
 
@@ -51,6 +51,7 @@ def _score() -> None:
 
 def render() -> None:
     state.init()
+    context.set_view("models")
     c.page_header("Models", "Compare experiments, manage registered models, and score new data.")
     t_exp, t_score = st.tabs(["Experiments", "Score new data"])
     with t_exp:

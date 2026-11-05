@@ -123,6 +123,8 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Multi-agent Business Analyst")
     ap.add_argument("dataset")
     ap.add_argument("request", nargs="?", default="")
+    ap.add_argument("--provider", choices=sorted(config.PROVIDERS), help="LLM provider (its API key is read from its environment variable, e.g. GROQ_API_KEY / GEMINI_API_KEY)")
+    ap.add_argument("--model", help="model id for the chosen provider")
     ap.add_argument("--target")
     ap.add_argument("--problem-type", "--task", dest="problem_type", choices=catalog.PROBLEM_TYPES + ["forecasting"],
                     help="analytical problem (classification|regression|time_series|clustering|descriptive)")
@@ -156,6 +158,14 @@ def main(argv=None) -> int:
         if a.target_subject_to:
             m, _, v = a.target_subject_to.partition("=")
             target_spec["subject_to"] = {"metric": m, ("max" if m in ("rmse", "mae") else "min"): float(v)}
+    if a.dataset.lower().startswith(("http://", "https://")):          # a link: download it first, then continue exactly as for a local path
+        from . import linkfetch
+        try:
+            a.dataset = linkfetch.materialize(a.dataset, str(__import__("pathlib").Path(config.artifacts_dir()) / "downloads" / str(int(time.time()))))
+        except linkfetch.LinkError as e:
+            print(f"Could not use the link: {e}", file=sys.stderr)
+            return 2
+        print(f"(downloaded: {a.dataset})")
     table_plan = None
     dataset = a.dataset
     media_info = None
@@ -183,7 +193,7 @@ def main(argv=None) -> int:
             print("\nProposed table joins:\n" + multitable.describe(plan))
             return a.approve_joins or input("Approve these joins? [Y/n] ").strip().lower() != "n"
         try:
-            dataset, table_plan = multitable.prepare(paths, approve=approve)
+            dataset, table_plan = multitable.prepare(paths, approve=approve, target=a.target)      # the table holding the target column becomes the main table
             runstore.audit("join_plan_approved", None, {"base": table_plan["base"], "joins": [j["table"] for j in table_plan["joins"]]})
         except multitable.ApprovalRequired as e:
             print(f"Stopped: {e}")
@@ -205,6 +215,8 @@ def main(argv=None) -> int:
             print(f"  - drop {x['column']!r} ({x['issue']}): {x['reason']}" + (f"  [LLM: {x['llm_opinion']}]" if x.get("llm_opinion") else ""))
         return {"approved": input("Approve all? [Y/n] ").strip().lower() != "n"}
 
+    if getattr(a, "provider", None) or getattr(a, "model", None):
+        config.set_provider(a.provider or config.LLM_PROVIDER, a.model or "")
     print(f"(backend: {BACKEND}; LLM: {config.LLM_PROVIDER_NAME} {config.LLM_MODEL})")
     try:
         v = run_to_completion(dataset, a.request, on_event=on_event, on_clarify=on_clarify, on_approval=on_approval,

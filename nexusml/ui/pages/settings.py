@@ -5,7 +5,7 @@ from pathlib import Path
 
 from ... import __version__, config, llm, media, tracking, workspace
 from .. import components as c
-from .. import state
+from .. import context, state
 from .._st import ss, st
 from ..theme import APP_NAME
 
@@ -27,21 +27,51 @@ def _confirm_clear() -> None:
 
 def render() -> None:
     state.init()
+    context.set_view("settings")
     c.page_header("Settings", "Connections, privacy and defaults.")
     t_conn, t_priv, t_data, t_about = st.tabs(["Connections", "Privacy and defaults", "Storage", "About"])
     with t_conn:
         with st.container(border=True):
             c.eyebrow("Language model")
+            rows = config.provider_status()
+            ready = [r for r in rows if r["configured"]]
+            ids = [r["id"] for r in rows]
+            label = {r["id"]: f"{r['name']}  ·  {'key found' if r['configured'] else 'no key'}" for r in rows}
+            pick = st.selectbox("Provider", ids, index=ids.index(config.LLM_PROVIDER), format_func=lambda i: label[i], key="set-provider")
+            row = next(r for r in rows if r["id"] == pick)
+            model = st.text_input("Model", value=config.LLM_MODEL if pick == config.LLM_PROVIDER else row["default_model"], key=f"set-model-{pick}",
+                                  help="Any model id your key can use. Leave the default if unsure.")
+            if pick != config.LLM_PROVIDER or model != config.LLM_MODEL:
+                if row["configured"]:
+                    config.set_provider(pick, model.strip())
+                    workspace.set_pref("llm_provider", pick)
+                    workspace.set_pref("llm_model", model.strip() if model.strip() != row["default_model"] else "")
+                    st.toast(f"Using {row['name']}")
+                else:
+                    st.warning(f"No key found for {row['name']}. Set the `{row['key_env']}` environment variable (or add it to a git-ignored `.env` file) and restart.")
             ok = llm.available()
             st.markdown(c.badge("Connected" if ok else "Not configured", "ok" if ok else "bad"), unsafe_allow_html=True)
-            st.caption(f"{config.LLM_PROVIDER_NAME}, model: {config.LLM_MODEL}")
-            if not ok:
-                st.markdown(f"Set the `{config.LLM_KEY_ENV}` environment variable (or put it in a `.env` file next to the app) and restart. Use `GEMINI_API_KEY` for Google Gemini or `GROQ_API_KEY` for Groq.")
-            elif st.button("Test the connection", key="set-test"):
+            st.caption(f"Active: {config.LLM_PROVIDER_NAME}, model {config.LLM_MODEL}. Keys are read only from environment variables "
+                       f"({', '.join('`' + r['key_env'] + '`' for r in rows[:2])}, ...) and are never stored, shown or logged by this app.")
+            if not ready:
+                st.markdown("No provider key was found. Set `GEMINI_API_KEY` (Gemini) or `GROQ_API_KEY` (Groq) and restart.")
+            elif ok and st.button("Test the connection", key="set-test"):
                 try:
                     llm.preflight()
                     st.success("The language model answered.")
                 except llm.LLMRequired as e:
+                    st.error(str(e))
+        with st.container(border=True):
+            c.eyebrow("Data from links")
+            from ... import linkfetch
+            ok_k = linkfetch.kaggle_configured()
+            st.markdown(c.badge("Kaggle key found" if ok_k else "No Kaggle key", "ok" if ok_k else "bad"), unsafe_allow_html=True)
+            st.caption("Paste a Kaggle, GitHub or direct file link on the Home or Data page and it is downloaded for you (up to "
+                       f"{linkfetch.max_bytes() // 1048576} MB). Kaggle needs `KAGGLE_API_TOKEN` (or `KAGGLE_USERNAME` and `KAGGLE_KEY`) in your environment; it is never stored or shown.")
+            if ok_k and st.button("Test the Kaggle key", key="set-test-kaggle"):
+                try:
+                    st.success(linkfetch.kaggle_check())
+                except linkfetch.LinkError as e:
                     st.error(str(e))
         with st.container(border=True):
             c.eyebrow("Experiment tracking")

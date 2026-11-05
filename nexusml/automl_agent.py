@@ -122,7 +122,9 @@ def digest(sess: Session, rounds: List[Dict[str, Any]], inbox: List[Dict[str, An
         "learning_curve_of_best": lc, "noise_ceiling": sess.ceiling(),
         "messages_from_other_agents": inbox, "your_previous_rounds": rounds[-3:], "rejected_last_time": rejected[-6:],
         "recipes_untried_and_applicable": untried, "recipe_catalog": {k: v for k, v in RECIPES.items() if k in applicable_recipes(sess)},
-        "families_available": sess.families(), "idea_ops": list(IDEA_OPS), "plateau_rounds": plateau_rounds(rounds), "directive_from_reviewer": directive or None,
+        "families_available": sess.families(),
+        "families_left_out_by_advisor": [{"family": e["family"], "why": e["why"]} for e in ((sess.plan or {}).get("excluded") or [])][:8],
+        "idea_ops": list(IDEA_OPS), "plateau_rounds": plateau_rounds(rounds), "directive_from_reviewer": directive or None,
         "action_menu": ACTION_MENU, "max_actions": MAX_ACTIONS,
         "output_schema": {"diagnosis": "2-3 sentences: what limits the score (bias / variance / noise / features / data size), citing numbers from this digest",
                           "actions": [{"type": "one of action_menu", "params": {}, "why": "one sentence"}], "stop": "null, or {\"reason\": \"goal_met|infeasible|plateau|satisfied\", \"why\": \"evidence\"}"}}
@@ -186,7 +188,7 @@ def _stop_allowed(sess: Session, reason: str, rounds: List[Dict[str, Any]]) -> T
 def validate_actions(sess: Session, actions: List[Dict[str, Any]], inbox_all: List[Dict[str, Any]], quarantine_ok: set) -> Tuple[List[Dict[str, Any]], List[str]]:
     ok: List[Dict[str, Any]] = []
     why: List[str] = []
-    fams = {f.lower(): f for f in sess.families()}
+    fams = {f.lower(): f for f in (getattr(sess, "_pool", None) or sess.families())}      # the agent may ask for ANY family, including ones the advisor left out
     seen_eff = {(tuple(e.get("recipe", [])), tuple(e.get("ideas", [])), tuple(e.get("flags", []))) for e in sess.effects}
     app = applicable_recipes(sess)
     for a in actions:

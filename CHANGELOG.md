@@ -1,6 +1,20 @@
 # Changelog
 
+## v5
+- Changed (modeling): the AutoML search no longer runs one fixed zoo on every dataset. `advisor.py` measures the data first (season length and strength, trend, log scale, random-walk-ness for time series; size, feature mix, missing values, imbalance and a linear-vs-boosted probe for tables) and builds a shortlist with a stated reason for every inclusion and exclusion. A verification step then fits each excluded family once and promotes any that beats the incumbent. The AI agent can still request any family. The plan and the audit appear in the decision log.
+- Added (time series): seasonal lags and position / phase features chosen from the data, measured on the training part only; new families `TrendSeasonal` (trend plus season regression), seasonal-change wrappers that let Ridge and boosted trees forecast trending seasonal series, and `Seasonal naive`; the baseline every model must beat now includes "same period last season". The ensemble is only used on a time series when it clearly beats the best single model (its weights were previously tuned and scored on the same windows).
+- Added (neural nets): `MLP` family (scaled target, early stopping, searchable width / depth / regularisation), shortlisted only when the data is large enough, mostly numeric and non-linear.
+- Added (links): paste a Kaggle dataset / competition, GitHub or direct file link on Home / Data, in the assistant chat, or pass it to the CLI; it is downloaded, size-capped, unzipped safely and added. Kaggle keys come only from environment variables. Internal addresses are refused.
+- Benchmarks: `benchmarks/real_data_bench.py`, `make_local_datasets.py`, `compare_results.py` and stored results for v4, v5 and a hand-built reference on 7 real datasets.
+
 ## v0 (NexusML)
+- Fixed (CI): `leaderboard.py` used double quotes inside a double-quoted f-string, a SyntaxError on Python 3.11 (our CI matrix) that made every test module fail to import. Rewritten; new `scripts/check_py311.py` and a fast `lint` CI job catch this class of error in seconds; artifact upload now runs even when the eval check fails.
+- Added: PDF ingestion (`pdfparse.py`): tables (stitched across pages, numbers coerced), paragraphs/headings with running headers/footers removed, pdfplumber / PyMuPDF / pypdf fallback chain. PDFs with tables become datasets on upload.
+- Added: choose the LLM provider in Settings (Groq, Google AI Studio / Gemini, OpenAI, OpenRouter, Together, or your own via `NEXUSML_EXTRA_PROVIDERS`); `--provider/--model` on the CLI. Keys come only from environment variables and are never stored or shown.
+- Added: SMOTE, ADASYN and random oversampling (`imbalance.py`, resampling only inside training folds) as strategist levers, alongside class weights; `NEXUSML_IMBALANCE` forces one.
+- Added: automatic decision-threshold tuning for binary classifiers (`threshold.py`): chosen on out-of-fold training predictions (F1 / F-beta / PR-distance / Youden / cost), adopted only when it clearly helps, carried into the saved model and exported script.
+- Added: agentic data segmentation (`segmentation.py`, assistant tool `segment_analysis`): slice by class, conditions or date range, then EDA, comparison with the rest, modelling and clustering on that slice only. A constant target inside the slice is explained, not crashed on.
+- Added: NLP candidates NB-SVM and word+char TF-IDF; `benchmarks/nlp_bench.py` reproduces the comparison on AG News / IMDb / 20 Newsgroups.
 - Renamed from "ds_agent" / "Meridian": package `nexusml`, environment variables `NEXUSML_*` (was `DS_AGENT_*`).
 - Fixed: the global font rule overrode the icon font, which can turn sidebar icons into plain words. Icons are now excluded.
 - Removed unused imports, the unreferenced `overview.py` and `chatstore.py`, and the per-version notes (history is below).

@@ -5,9 +5,10 @@ from pathlib import Path
 from ... import multitable, workspace
 from ...assistant import agent, tools
 from .. import components as c
+from .. import context
 from .. import state
 from .._st import ss, st
-from .home import UPLOAD_TYPES, add_files
+from .home import UPLOAD_TYPES, add_files, link_box, show_notice, uploader_key
 
 
 def _tool(df, name, key, **args):
@@ -85,13 +86,16 @@ def _combine_panel(datasets) -> None:
 
 def render() -> None:
     state.init()
+    context.set_view("data", dataset=(workspace.get_dataset(ss.get("ds_id")) or {}).get("name"))
     c.page_header("Data", "Browse, profile and check the datasets in your workspace.")
+    show_notice()
     datasets = workspace.list_datasets()
     with st.expander("Add data", expanded=not datasets):
-        files = st.file_uploader("Choose files", type=UPLOAD_TYPES, accept_multiple_files=True, key="data-upload", label_visibility="collapsed")
+        files = st.file_uploader("Choose files", type=UPLOAD_TYPES, accept_multiple_files=True, key=uploader_key("data"), label_visibility="collapsed")
         if st.button("Add to workspace", type="primary", disabled=not files, key="data-add"):
             if add_files(files, "data"):
                 st.rerun()
+        link_box("data")
     if not datasets:
         c.empty_state("No datasets yet", "Add a table above and it will appear here, ready to explore.")
         return
@@ -100,6 +104,7 @@ def render() -> None:
 
     meta, df = state.active_dataset()
     names = {d["id"]: d["name"] for d in datasets}
+    state.sync_pick("data-pick", names)                              # after an upload the picker must show the new dataset, not the one chosen before
     head = st.columns([3, 1, 1])
     with head[0]:
         pick = st.selectbox("Dataset", list(names), index=list(names).index(meta["id"]) if meta else 0, format_func=lambda k: names[k], label_visibility="collapsed", key="data-pick")

@@ -24,6 +24,15 @@ def init() -> None:
     ss.setdefault("_doc_idx", 0)
     ss.setdefault("share_labels", workspace.get_pref("share_labels", True))
     runstore.set_user(ss.user)
+    if not ss.get("_llm_applied"):                       # re-apply the provider the person chose in Settings (a preference, never a key)
+        ss["_llm_applied"] = True
+        try:
+            from .. import config
+            saved = workspace.get_pref("llm_provider", None)
+            if saved in config.PROVIDERS and config.provider_configured(saved):
+                config.set_provider(saved, workspace.get_pref("llm_model", "") or "")
+        except Exception:
+            pass
 
 
 def active_dataset() -> Tuple[Optional[Dict[str, Any]], Optional[pd.DataFrame]]:
@@ -36,9 +45,24 @@ def active_dataset() -> Tuple[Optional[Dict[str, Any]], Optional[pd.DataFrame]]:
     return (meta, workspace.load_df(meta["id"])) if meta else (None, None)
 
 
+def sync_pick(key: str, valid: Any, empty: Any = None) -> None:
+    """Make a dataset picker follow the workspace's selected dataset.
+
+    A picker with a `key` keeps what it last showed, so after an upload (or a pasted link) it would still show the old dataset and the page would then switch back to it.
+    Whenever the selected dataset changed since this picker last looked, point the picker at it. `valid` are the picker's options."""
+    cur = ss.get("ds_id")
+    if cur != ss.get(f"_seen:{key}"):
+        if cur in valid:
+            ss[key] = cur
+        elif cur is None and empty is not None:
+            ss[key] = empty
+    ss[f"_seen:{key}"] = cur
+
+
 def new_chat() -> None:
     ss.conv_id = workspace.new_conversation_id()
     ss.messages = []
+    ss.attachments = []                                              # pictures and documents belong to the conversation they were dropped into
     ss.pending_prompt = None
 
 
@@ -47,6 +71,7 @@ def open_chat(cid: str) -> bool:
     if not c:
         return False
     ss.conv_id, ss.messages = c["id"], c["messages"]
+    ss.attachments = []
     if c.get("dataset_id") and workspace.get_dataset(c["dataset_id"]):
         ss.ds_id = c["dataset_id"]
     return True

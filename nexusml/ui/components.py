@@ -94,6 +94,12 @@ def render_artifact(a: Dict[str, Any], key: str) -> None:
         st.markdown(f"**{a.get('title', 'Result')}**")
         if a.get("figure"):
             plot(a["figure"], f"{key}-fig")
+        elif a.get("image_key"):                                    # a stored picture (a chart of a finished analysis)
+            try:
+                from ..storage import get_registry
+                st.image(str(get_registry().path_of(a["image_key"])), use_container_width=True)
+            except (OSError, ValueError):
+                st.caption("This picture is no longer stored.")
         df = frame(a.get("table"))
         if df is not None and len(df):
             show_table(df, key=f"{key}-tbl", height=min(420, 38 + 35 * len(df)))

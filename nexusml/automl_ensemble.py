@@ -152,6 +152,16 @@ def finalize(sess: Session, method: str = "greedy", size: int = 15, max_members:
         configs[label] = {"kind": "ensemble", "method": ens_info["method"], "members": [cfg_dict(t, float(w)) for t, w in zip(ens_trials, w_)]}
     if not candidates:
         raise RuntimeError("AutoML could not finalise any model: " + "; ".join(f["error"] for f in failed))
+    if task == "time_series" and len(candidates) > 1:       # ensemble weights were tuned on these same windows: demand a clear win over the best single model
+        ens = [c for c in candidates if c["name"].startswith(("Ensemble", "Stacked"))]
+        singles = [c for c in candidates if c not in ens]
+        if ens and singles:
+            b1 = max(singles, key=lambda c: c["select_score"])
+            if ens[0]["select_score"] - b1["select_score"] < max(0.01, b1["cv_std"]):
+                ens_info["dropped"] = f"no clear win over {b1['name']} on a time series (optimistic weights); using the single model"
+                for c in ens:
+                    candidates.remove(c)
+                    models.pop(c["name"], None)
     best = modeling.pick_best(candidates)
     # ---- 4. goal evaluation on the confirmed (fresh-fold) out-of-fold predictions of the winner
     return {"baseline": modeling.make_baseline(task, sess.splits, sess.folds, modeling._scoring(task, k)), "candidates": candidates, "models": models, "best": best, "failed": failed, "ensemble": ens_info,

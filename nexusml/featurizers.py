@@ -309,14 +309,48 @@ def _norm_text(s: str) -> str:
 
 
 def _ahash(path: Path) -> Optional[int]:
+    """Perceptual hash for duplicate detection: 64 greyscale layout bits + 36 colour bits.
+
+    The greyscale part alone is colour-blind: two images with the same layout but different colours (a red circle on pink vs a blue circle
+    on pale blue) hash identically, which flagged distinct images as "near duplicates" and wrongly warned that held-out scores were inflated.
+    The colour part is a 2x2 grid of mean RGB, 8 levels per channel, Gray-coded so that neighbouring levels differ by one bit: re-encoding or
+    small brightness jitter flips at most a bit or two, a different colour flips several."""
     from PIL import Image
     try:
         with Image.open(path) as im:
-            px = np.asarray(im.convert("L").resize((8, 8)), dtype=float)
-        bits = (px > px.mean()).ravel()
-        return int("".join("1" if b else "0" for b in bits), 2)
+            rgb = im.convert("RGB")
+            px = np.asarray(rgb.convert("L").resize((8, 8)), dtype=float)
+            grid = np.asarray(rgb.resize((2, 2), Image.BOX), dtype=int).ravel()
+        h = int("".join("1" if b else "0" for b in (px > px.mean()).ravel()), 2)
+        for v in np.clip(grid // 32, 0, 7):
+            h = (h << 3) | int(v ^ (v >> 1))
+        return h
     except Exception:
         return None
+
+
+_THUMB_CACHE: Dict[str, Any] = {}
+NEAR_DUP_MAX_MAD = 8.0          # mean absolute difference (0-255 scale) between 16x16 thumbnails; re-encoding/resizing stays well below, a different hue does not
+
+
+def _thumb(path: Path) -> Optional[np.ndarray]:
+    key = str(path)
+    if key not in _THUMB_CACHE:
+        from PIL import Image
+        try:
+            with Image.open(path) as im:
+                _THUMB_CACHE[key] = np.asarray(im.convert("RGB").resize((16, 16), Image.BOX), dtype=float)
+        except Exception:
+            _THUMB_CACHE[key] = None
+        if len(_THUMB_CACHE) > 20000:
+            _THUMB_CACHE.clear()
+    return _THUMB_CACHE[key]
+
+
+def confirm_near_duplicate(p1: Path, p2: Path) -> bool:
+    """Second stage of duplicate detection: a hash match is only a candidate. Two images are near-duplicates when their 16x16 colour thumbnails agree."""
+    a, b = _thumb(p1), _thumb(p2)
+    return a is not None and b is not None and float(np.abs(a - b).mean()) <= NEAR_DUP_MAX_MAD
 
 
 def duplicate_report(X_train: pd.DataFrame, X_test: pd.DataFrame, mods: Dict[str, List[str]]) -> Dict[str, Any]:
@@ -340,11 +374,13 @@ def duplicate_report(X_train: pd.DataFrame, X_test: pd.DataFrame, mods: Dict[str
             out = []
             for v in s.dropna().head(3000):
                 p = _resolve(v, IMAGE_ROOT)
-                out.append(_ahash(p) if p else None)
-            return [h for h in out if h is not None]
+                out.append((_ahash(p) if p else None, p))
+            return [(h, p) for h, p in out if h is not None]
         htr, hte = hashes(X_train[c]), hashes(X_test[c])
         if hte:
-            trs = np.array(htr, dtype=object)
-            near = np.mean([any(bin(h ^ t).count("1") <= 2 for t in trs[:3000]) for h in hte[:500]]) if len(trs) else 0.0
-            rep[c] = {"kind": "image", "exact_dup_share": round(float(np.mean([h in set(htr) for h in hte])), 4), "near_dup_share": round(float(near), 4)}
+            hs_tr = {h for h, _ in htr}
+            def is_near(h, p):
+                return any(bin(h ^ t).count("1") <= 2 and confirm_near_duplicate(p, tp) for t, tp in htr[:3000])
+            near = np.mean([is_near(h, p) for h, p in hte[:500]]) if htr else 0.0
+            rep[c] = {"kind": "image", "exact_dup_share": round(float(np.mean([h in hs_tr and any(t == h and confirm_near_duplicate(p, tp) for t, tp in htr) for h, p in hte])), 4), "near_dup_share": round(float(near), 4)}
     return rep
